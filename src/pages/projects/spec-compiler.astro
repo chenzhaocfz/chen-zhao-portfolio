@@ -1,0 +1,334 @@
+---
+// src/pages/projects/spec-compiler.astro
+import '../../styles/global.css';
+
+const title = "Spec-Driven UI Synthesis | Chen Zhao";
+const description = "Comparative analysis of LLM UI generation: Direct vision-to-code synthesis versus a 3-layer deterministic YAML specification pipeline.";
+
+// Embedded spec strings for the viewer
+const layoutYaml = `# ==============================================================================
+# LAYER 1: MULTI-TEMPLATE LAYOUT ARCHITECTURE
+# ==============================================================================
+width: 640
+height: 400
+gap: 0
+
+theme:
+  colors:
+    background: "#000000"
+    border_primary: "#FFFF55"   # EGA Yellow
+    border_secondary: "#FF55FF" # EGA Magenta
+    text_primary: "#FFFFFF"     # EGA White
+    text_accent: "#00AAAA"      # EGA Cyan
+  directives:
+    - "No rounded corners, gradients, CSS drop-shadows, or glowing neon monitors."
+    - "All containers and elements must use rigid 90-degree box corners."
+    - "All text must render using standard monospace/pixelated styling with standard anti-aliasing disabled."
+    - "All borders must be thick, solid, and styled with multi-colored patterns."
+
+templates:
+  title_screen:
+    direction: row
+    regions:
+      dragon_pane: { width: "25%" }
+      menu_pane: { flex_grow: 1, direction: column, justify: center, align: center }
+      tiger_pane: { width: "25%" }
+
+  main_gameplay:
+    direction: row
+    regions:
+      map_pane: { width: "55%" }
+      sidebar:
+        gap: 8
+        padding: 8
+        regions:
+          header:
+            height: 80
+            direction: row
+            regions:
+              info_text: { flex_grow: 3 }
+              portrait_box: { width: 80 }
+          content:
+            regions:
+              stats_view: {}
+              graphic_view: {}
+          action: { height: 120 }
+
+  battlefield:
+    direction: row
+    regions:
+      tactical_grid: { width: "55%" }
+      battle_sidebar:
+        gap: 8
+        padding: 8
+        regions:
+          battle_stats: { height: "50%" }
+          battle_action: { flex_grow: 1 }`;
+
+const elementsYaml = `# ==============================================================================
+# LAYER 2: ELEMENT MANIFEST (Component Catalog & Slot Bindings)
+# ==============================================================================
+dragon_art:
+  type: image
+  slot: title_screen.dragon_pane
+  selector: "img.dragon-sprite"
+
+title_main_menu:
+  type: menu
+  slot: title_screen.menu_pane
+  selector: "ul.main-menu-options"
+  properties:
+    localization: "Traditional Chinese"
+    options: ["1. 啟動新遊戲", "2. 裝入數據", "3. 結束"]
+
+china_map:
+  type: canvas
+  slot: main_gameplay.map_pane
+  selector: "canvas#province-map"
+  properties:
+    visual_model: "Solid regional polygon landmass representing 41 provinces with thin black borders."
+    palette: "White, Magenta, Cyan, and Yellow flat fills only."
+    labeling: "Numeric ID in center using small pixel font."
+
+province_stats_table:
+  type: table
+  slot: main_gameplay.sidebar.content.stats_view
+  selector: "table.stats-grid"
+  properties:
+    localization: "Traditional Chinese"
+    labels: ["人口", "士兵", "在職將領", "在野將領", "黃金", "糧食", "米價", "良駒", "民忠誠度", "地價", "治水度", "城堡"]
+
+battle_hex_map:
+  type: grid
+  slot: battlefield.tactical_grid
+  selector: "canvas#battlefield-map"
+  properties:
+    visual_model: "10x10 grid map of pixel tiles depicting trees, rivers, mountains, and castles."`;
+
+const statesYaml = `# ==============================================================================
+# LAYER 3: COMPREHENSIVE BEHAVIOR STATE ROUTING & DIFFS
+# ==============================================================================
+title_screen_state:
+  template: "title_screen"
+  active_elements: [dragon_art, tiger_art, title_main_menu]
+
+base_gameplay:
+  template: "main_gameplay"
+  active_elements: [china_map, ruler_info_label, governor_portrait]
+
+governor_personnel_screen:
+  extends: base_gameplay
+  active_elements:
+    - active_province_highlight
+    - province_stats_table
+    - personnel_options_menu
+
+battle_combat_phase:
+  template: "battlefield"
+  active_elements: [battle_hex_map, combatant_matchup_panel, battle_command_menu]
+
+captured_disposal_screen:
+  template: "main_gameplay"
+  extends: base_gameplay
+  active_elements:
+    - -ruler_info_label
+    - -governor_portrait
+    - +captured_general_portrait
+    - +captured_general_stats
+    - +disposal_action_menu`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #0b0f19;
+        color: #e2e8f0;
+      }
+      .glass-card {
+        background: rgba(17, 24, 39, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased selection:bg-brand-500 selection:text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-xs font-mono text-brand-400 hover:text-white transition flex items-center gap-2">
+          ← Back to Portfolio
+        </a>
+        <span class="text-xs font-mono text-slate-400">Research & Side Project Showcase</span>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+      
+      <!-- Hero Intro -->
+      <section class="space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          UI Synthesis & Prompt Compiler Architecture
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Spec-Driven UI Synthesis vs. Vision Models
+        </h1>
+        <p class="text-slate-300 max-w-3xl leading-relaxed text-base">
+          A comparative benchmark evaluating frontend code generation. This project contrasts <strong class="text-white">Direct Video-to-Code translation</strong> (using multimodal LLMs over 100k tokens of raw video) against a <strong class="text-white">3-Layer Declarative Specification Pipeline</strong> (~350 lines of YAML compiled into a structured prompt context).
+        </p>
+      </section>
+
+      <!-- LIVE SIDE-BY-SIDE COMPARISON -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-xl font-bold text-white">Live Interactive Comparison</h2>
+            <p class="text-xs text-slate-400">Interact with both generated outputs in real time below.</p>
+          </div>
+          <!-- Toggle view mode on small screens -->
+          <div class="flex gap-2 text-xs font-mono">
+            <span class="px-2 py-1 rounded bg-slate-800 text-slate-300">Target: 16-Color EGA Retro UI</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Example 1: Raw Video -->
+          <div class="glass-card rounded-xl overflow-hidden border-red-500/30 flex flex-col">
+            <div class="p-4 bg-slate-900/80 border-b border-slate-800 flex justify-between items-center">
+              <div>
+                <span class="text-xs font-mono font-bold text-red-400 block">EXAMPLE 1: DIRECT VIDEO TRANSLATION</span>
+                <span class="text-[11px] text-slate-400">Raw Video Data $\rightarrow$ Direct Prompting</span>
+              </div>
+              <a href="/demo-video.html" target="_blank" class="text-[11px] font-mono text-slate-400 hover:text-white underline">Full Screen ↗</a>
+            </div>
+            
+            <div class="h-[480px] bg-black relative">
+              <iframe src="/demo-video.html" class="w-full h-full border-0" title="Raw Video Output"></iframe>
+            </div>
+
+            <div class="p-4 bg-slate-950/60 text-xs text-slate-300 space-y-1 border-t border-slate-800">
+              <span class="text-red-400 font-bold block mb-1">⚠️ Hallucinations & Drift Observed:</span>
+              <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+                <li>Hallucinated modern "sci-fi BIOS" glow, rounded corners (`rounded-lg`), and smooth gradients.</li>
+                <li>Misaligned spatial layouts (portrait box shifted left, map rendered as abstract nodes).</li>
+                <li>Lost Chinese localization; fallback to English abbreviations (`PROV`, `GOV`, `SOL`).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Example 2: Spec-Driven -->
+          <div class="glass-card rounded-xl overflow-hidden border-emerald-500/30 flex flex-col">
+            <div class="p-4 bg-slate-900/80 border-b border-slate-800 flex justify-between items-center">
+              <div>
+                <span class="text-xs font-mono font-bold text-emerald-400 block">EXAMPLE 2: SPEC-DRIVEN GENERATION</span>
+                <span class="text-[11px] text-slate-400">3-Layer YAML Spec $\rightarrow$ Compiled Prompt</span>
+              </div>
+              <a href="/demo-spec.html" target="_blank" class="text-[11px] font-mono text-slate-400 hover:text-white underline">Full Screen ↗</a>
+            </div>
+
+            <div class="h-[480px] bg-black relative">
+              <iframe src="/demo-spec.html" class="w-full h-full border-0" title="Spec-Driven Output"></iframe>
+            </div>
+
+            <div class="p-4 bg-slate-950/60 text-xs text-slate-300 space-y-1 border-t border-slate-800">
+              <span class="text-emerald-400 font-bold block mb-1">✅ Strict Constraint Adherence:</span>
+              <ul class="list-disc list-inside space-y-1 text-slate-400 text-[11px]">
+                <li>Rigid 90° box corners, flat EGA palette fills, and thick multi-colored borders preserved.</li>
+                <li>Fixed 55%/45% layout split with structured sidebar header/content/action slots.</li>
+                <li>Exact Traditional Chinese text localization and 41-province polygon canvas map.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SPECIFICATION VIEWER -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <h2 class="text-xl font-bold text-white">The Underlying Specification (350 Lines Total)</h2>
+          <p class="text-xs text-slate-400 mt-1">The three modular YAML files compiled by <code class="text-brand-400">prompt_compiler.py</code> to enforce deterministic layout and state transitions.</p>
+        </div>
+
+        <div class="glass-card rounded-xl overflow-hidden">
+          <!-- Spec Tabs Header -->
+          <div class="flex border-b border-slate-800 bg-slate-900/80 text-xs font-mono">
+            <button id="tab-btn-layout" class="spec-tab px-4 py-3 font-semibold text-brand-400 border-b-2 border-brand-500 bg-slate-800/50" onclick="switchSpecTab('layout')">
+              1. layout.yaml (Layer 1)
+            </button>
+            <button id="tab-btn-elements" class="spec-tab px-4 py-3 font-semibold text-slate-400 border-b-2 border-transparent hover:text-white" onclick="switchSpecTab('elements')">
+              2. elements.yaml (Layer 2)
+            </button>
+            <button id="tab-btn-states" class="spec-tab px-4 py-3 font-semibold text-slate-400 border-b-2 border-transparent hover:text-white" onclick="switchSpecTab('states')">
+              3. states.yaml (Layer 3)
+            </button>
+          </div>
+
+          <!-- Tab Content Areas -->
+          <div class="p-4 bg-slate-950 font-mono text-xs overflow-x-auto max-h-[380px]">
+            <pre id="spec-content-layout" class="text-slate-300 leading-relaxed"><code>{layoutYaml}</code></pre>
+            <pre id="spec-content-elements" class="text-slate-300 leading-relaxed hidden"><code>{elementsYaml}</code></pre>
+            <pre id="spec-content-states" class="text-slate-300 leading-relaxed hidden"><code>{statesYaml}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESEARCH WRITEUP & FINDINGS -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <h2 class="text-xl font-bold text-white">Research Write-Up & Tradeoff Frontier Analysis</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-300 leading-relaxed">
+          <div class="glass-card p-6 rounded-xl space-y-3">
+            <h3 class="text-white font-bold text-base">Aesthetic & Stylistic Drift in LLMs</h3>
+            <p>
+              In a visual debugging and code generation setting, direct video-to-code synthesis is highly susceptible to hallucinating modern UI tropes. Because general-purpose LLMs are heavily fine-tuned on modern web frameworks, they default to modern utilities (<code class="text-cyan-400">rounded-lg</code>, box shadows, glowing scanlines, CSS gradients) when given abstract visual instructions.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-xl space-y-3">
+            <h3 class="text-white font-bold text-base">The Specification Tradeoff Frontier</h3>
+            <p>
+              By establishing a strict 3-layer constraints pipeline in lightweight YAML, developers create a boundary that the LLM cannot bypass. However, an inherent tradeoff exists: increasing specification detail eventually approaches the complexity of writing raw HTML. The ~350-line specification structure used here achieves the optimal Pareto frontier between specification brevity and output stability.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Client-side Tab Switcher Script -->
+    <script is:inline>
+      function switchSpecTab(tab) {
+        // Hide all contents
+        document.getElementById('spec-content-layout').classList.add('hidden');
+        document.getElementById('spec-content-elements').classList.add('hidden');
+        document.getElementById('spec-content-states').classList.add('hidden');
+
+        // Reset tab styles
+        const tabs = ['layout', 'elements', 'states'];
+        tabs.forEach(t => {
+          const btn = document.getElementById(`tab-btn-${t}`);
+          btn.classList.remove('text-brand-400', 'border-brand-500', 'bg-slate-800/50');
+          btn.classList.add('text-slate-400', 'border-transparent');
+        });
+
+        // Activate selected tab
+        document.getElementById(`spec-content-${tab}`).classList.remove('hidden');
+        const activeBtn = document.getElementById(`tab-btn-${tab}`);
+        activeBtn.classList.add('text-brand-400', 'border-brand-500', 'bg-slate-800/50');
+        activeBtn.classList.remove('text-slate-400', 'border-transparent');
+      }
+    </script>
+  </body>
+</html>

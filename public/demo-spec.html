@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三國志外傳 - High Fidelity Retro Engine</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Retro Style Reset & Rules Override */
+    * {
+      border-radius: 0px !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      image-rendering: pixelated;
+    }
+
+    body {
+      background-color: #121212;
+      font-family: 'MS Gothic', 'Courier New', Courier, monospace;
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: none;
+    }
+
+    /* Pattern Striped Border (Yellow / Magenta Alternating Retro Feel) */
+    .retro-striped-border {
+      border: 6px solid;
+      border-image: repeating-linear-gradient(45deg, #FFFF55, #FFFF55 8px, #FF55FF 8px, #FF55FF 16px) 6;
+    }
+
+    /* Inside panel borders */
+    .retro-border-yellow {
+      border: 2px solid #FFFF55;
+    }
+
+    .retro-border-magenta {
+      border: 2px solid #FF55FF;
+    }
+
+    .retro-border-cyan {
+      border: 2px solid #00AAAA;
+    }
+
+    /* Pixelated blinking animation for province selection */
+    @keyframes retro-blink {
+      0% {
+        border-color: #FF55FF;
+        outline: 2px solid #00AAAA;
+      }
+      50% {
+        border-color: #00AAAA;
+        outline: 2px solid #FF55FF;
+      }
+      100% {
+        border-color: #FF55FF;
+        outline: 2px solid #00AAAA;
+      }
+    }
+
+    .province-highlight {
+      border: 4px double #FF55FF;
+      outline-offset: -4px;
+      animation: retro-blink 0.4s steps(1, end) infinite;
+    }
+
+    /* Scanline effect to mimic CRT monitors */
+    #scanlines {
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.4) 50%
+      ), 
+      linear-gradient(
+        90deg, 
+        rgba(255, 0, 0, 0.06), 
+        rgba(0, 255, 0, 0.02), 
+        rgba(0, 0, 255, 0.06)
+      );
+      background-size: 100% 4px, 6px 100%;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen py-4 select-none">
+
+  <!-- Header Branding -->
+  <div class="text-center mb-3">
+    <h1 class="text-2xl font-bold tracking-widest text-[#FFFF55]">三國志外傳</h1>
+    <p class="text-[10px] text-[#00AAAA] mt-0.5 tracking-wider font-mono">RETRO STRATEGY SYSTEM • SPECIFICATION EMULATION</p>
+  </div>
+
+  <!-- Main System Console Frame -->
+  <div class="relative p-3 bg-black retro-striped-border w-[664px] h-[424px] flex justify-center items-center">
+    <!-- Optional CRT Screen overlay -->
+    <div id="scanlines" class="pointer-events-none absolute inset-0 z-50 opacity-10"></div>
+
+    <!-- Active Screen Area (Strict 640px x 400px viewport container) -->
+    <div class="w-[640px] h-[400px] bg-black relative overflow-hidden flex flex-col justify-between">
+
+      <!-- ========================================== -->
+      <!-- TEMPLATE 1: TITLE SCREEN                   -->
+      <!-- ========================================== -->
+      <div id="template-title-screen" class="w-[640px] h-[400px] flex flex-row hidden relative overflow-hidden bg-black">
+        <!-- dragon_pane (width: 25%) -->
+        <div class="w-[25%] h-full flex flex-col justify-center items-center border-r border-[#FFFF55]/30 p-2">
+          <img id="dragon_art" class="dragon-sprite w-full h-auto object-contain max-h-[360px]" alt="Dragon Art" />
+        </div>
+        
+        <!-- menu_pane -->
+        <div class="flex-1 h-full flex flex-col justify-center items-center p-4 gap-6">
+          <div class="text-center">
+            <h2 class="text-xl font-bold text-[#FFFF55] tracking-widest" style="text-shadow: 2px 2px 0px #FF55FF;">中原逐鹿傳</h2>
+            <div class="text-[9px] text-[#00AAAA] mt-1 font-mono">CHENG DU EMULATION PROJECT</div>
+          </div>
+          
+          <!-- title_main_menu -->
+          <ul id="title_main_menu" class="main-menu-options flex flex-col gap-2 bg-black border-2 border-[#FFFF55] p-3 min-w-[180px] hidden">
+            <li class="text-[#FFFF55] text-center border-b border-[#FFFF55]/20 pb-1 mb-1 text-[10px] font-bold">【 選擇指令 】</li>
+            <li class="text-[#00AAAA] hover:text-white text-xs cursor-pointer px-2 py-1 bg-black hover:bg-[#00AAAA]/10 border border-transparent hover:border-[#00AAAA]" onclick="startNewGame()">1. 啟動新遊戲</li>
+            <li class="text-[#00AAAA] hover:text-white text-xs cursor-pointer px-2 py-1 bg-black hover:bg-[#00AAAA]/10 border border-transparent hover:border-[#00AAAA]">2. 裝入數據</li>
+            <li class="text-[#00AAAA] hover:text-white text-xs cursor-pointer px-2 py-1 bg-black hover:bg-[#00AAAA]/10 border border-transparent hover:border-[#00AAAA]">3. 結束</li>
+          </ul>
+
+          <!-- scenario_selection_menu -->
+          <ul id="scenario_selection_menu" class="scenario-list flex flex-col gap-1 bg-black border-2 border-[#FF55FF] p-2 min-w-[220px] text-[10px] hidden">
+            <li class="text-[#FF55FF] text-center border-b border-[#FF55FF]/20 pb-1 mb-1 font-bold">【 選擇劇本 】</li>
+            <li class="text-white hover:text-[#00AAAA] hover:bg-[#00AAAA]/10 cursor-pointer px-1 py-0.5" onclick="selectScenario(1)">1. 董卓進洛陽 189年</li>
+            <li class="text-white hover:text-[#00AAAA] hover:bg-[#00AAAA]/10 cursor-pointer px-1 py-0.5" onclick="selectScenario(2)">2. 奪權競爭 194年</li>
+            <li class="text-white hover:text-[#00AAAA] hover:bg-[#00AAAA]/10 cursor-pointer px-1 py-0.5" onclick="selectScenario(3)">3. 劉備時期 201年</li>
+            <li class="text-white hover:text-[#00AAAA] hover:bg-[#00AAAA]/10 cursor-pointer px-1 py-0.5" onclick="selectScenario(4)">4. 曹操篡位 208年</li>
+            <li class="text-white hover:text-[#00AAAA] hover:bg-[#00AAAA]/10 cursor-pointer px-1 py-0.5" onclick="selectScenario(5)">5. 三國鼎立 215年</li>
+            <li class="text-white hover:text-[#00AAAA] hover:bg-[#00AAAA]/10 cursor-pointer px-1 py-0.5" onclick="selectScenario(6)">6. 三方競爭 220年</li>
+          </ul>
+        </div>
+
+        <!-- tiger_pane (width: 25%) -->
+        <div class="w-[25%] h-full flex flex-col justify-center items-center border-l border-[#FFFF55]/30 p-2">
+          <img id="tiger_art" class="tiger-sprite w-full h-auto object-contain max-h-[360px]" alt="Tiger Art" />
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TEMPLATE 2: MAIN GAMEPLAY                  -->
+      <!-- ========================================== -->
+      <div id="template-main-gameplay" class="w-[640px] h-[400px] flex flex-row hidden relative overflow-hidden bg-black">
+        <!-- map_pane (width: 55%) -->
+        <div class="w-[55%] h-full flex flex-col relative bg-black border-r-2 border-[#FFFF55]">
+          <!-- china_map (canvas) -->
+          <canvas id="province-map" width="352" height="400" class="w-full h-full block bg-black"></canvas>
+          
+          <!-- active_province_highlight -->
+          <div id="active_province_highlight" class="province-highlight absolute pointer-events-none hidden"></div>
+        </div>
+
+        <!-- sidebar (flex-grow, gap: 8px, padding: 8px) -->
+        <div class="flex-grow h-full flex flex-col gap-[8px] p-[8px] justify-between">
+          <!-- header (height: 80px, flex-row) -->
+          <div class="h-[80px] flex flex-row border-b border-[#FFFF55]/30 pb-1 justify-between items-center">
+            <!-- info_text -->
+            <div class="flex-1 flex flex-col justify-center text-[11px] text-white">
+              <span id="ruler_info_label" class="ruler-info-text text-[#FFFF55] font-bold">
+                荊州-19 諸侯: 劉備(信任度 28)
+              </span>
+            </div>
+            <!-- portrait_box (width: 80px) -->
+            <div class="w-[80px] h-full flex flex-col justify-center items-center border-2 border-[#FFFF55] p-[2px] bg-black">
+              <img id="governor_portrait" class="portrait w-full h-full object-cover" alt="Governor Portrait" />
+            </div>
+          </div>
+
+          <!-- content (flex-grow) -->
+          <div class="flex-grow flex flex-col justify-center relative overflow-hidden border border-[#FFFF55]/20 p-1">
+            <!-- stats_view -->
+            <div id="stats_view" class="flex flex-col h-full justify-center">
+              <!-- province_stats_table -->
+              <table id="province_stats_table" class="stats-grid w-full text-[10px] text-white border-collapse leading-tight hidden">
+                <tbody>
+                  <tr>
+                    <td class="text-[#FF55FF] font-bold w-[30%]">人口</td>
+                    <td class="text-white w-[20%]">42.8萬</td>
+                    <td class="text-[#FF55FF] font-bold w-[30%]">良駒</td>
+                    <td class="text-[#00AAAA]">12匹</td>
+                  </tr>
+                  <tr>
+                    <td class="text-[#FF55FF] font-bold">士兵</td>
+                    <td class="text-[#00AAAA]">18400</td>
+                    <td class="text-[#FF55FF] font-bold">民忠誠度</td>
+                    <td class="text-white">84</td>
+                  </tr>
+                  <tr>
+                    <td class="text-[#FF55FF] font-bold">在職將領</td>
+                    <td class="text-white">8員</td>
+                    <td class="text-[#FF55FF] font-bold">地價</td>
+                    <td class="text-[#00AAAA]">95</td>
+                  </tr>
+                  <tr>
+                    <td class="text-[#FF55FF] font-bold">在野將領</td>
+                    <td class="text-white">2員</td>
+                    <td class="text-[#FF55FF] font-bold">治水度</td>
+                    <td class="text-white">62</td>
+                  </tr>
+                  <tr>
+                    <td class="text-[#FF55FF] font-bold">黃金</td>
+                    <td class="text-[#00AAAA]">1250</td>
+                    <td class="text-[#FF55FF] font-bold">城堡</td>
+                    <td class="text-white">15</td>
+                  </tr>
+                  <tr>
+                    <td class="text-[#FF55FF] font-bold">糧食</td>
+                    <td class="text-[#00AAAA]">34800</td>
+                    <td class="text-[#FF55FF] font-bold">米價</td>
+                    <td class="text-white">1.2</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- officer_list_table (Catalog auxiliary, dual-column) -->
+              <table id="officer_list_table" class="officer-list w-full text-[9px] text-white hidden border-collapse border border-[#FFFF55]/20">
+                <thead>
+                  <tr class="border-b border-[#FFFF55]/30">
+                    <th class="text-[#FFFF55] text-left px-1">番號</th>
+                    <th class="text-[#FFFF55] text-left px-1">武將名</th>
+                    <th class="text-[#FFFF55] text-left px-1">號召</th>
+                    <th class="text-[#FFFF55] text-left px-1 border-l border-[#FFFF55]/30">番號</th>
+                    <th class="text-[#FFFF55] text-left px-1">武將名</th>
+                    <th class="text-[#FFFF55] text-left px-1">號召</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="px-1 text-[#00AAAA]">1.</td><td>劉備</td><td class="text-right">99</td>
+                    <td class="px-1 text-[#00AAAA] border-l border-[#FFFF55]/30">5.</td><td>簡雍</td><td class="text-right">76</td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 text-[#00AAAA]">2.</td><td>孫乾</td><td class="text-right">91</td>
+                    <td class="px-1 text-[#00AAAA] border-l border-[#FFFF55]/30">6.</td><td>周倉</td><td class="text-right">55</td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 text-[#00AAAA]">3.</td><td>糜芳</td><td class="text-right">13</td>
+                    <td class="px-1 text-[#00AAAA] border-l border-[#FFFF55]/30">7.</td><td>諸葛亮</td><td class="text-right">98</td>
+                  </tr>
+                  <tr>
+                    <td class="px-1 text-[#00AAAA]">4.</td><td>糜竺</td><td class="text-right">77</td>
+                    <td class="px-1 text-[#00AAAA] border-l border-[#FFFF55]/30">8.</td><td>雷薄</td><td class="text-right">19</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- captured_general_stats -->
+              <table id="captured_general_stats" class="captured-stats w-full text-[10px] text-white hidden border-collapse">
+                <tbody>
+                  <tr class="border-b border-[#FFFF55]/10 pb-1">
+                    <td class="text-[#FFFF55] font-bold">年齡</td>
+                    <td class="text-white text-right">29</td>
+                    <td class="text-[#FFFF55] font-bold pl-2">士兵</td>
+                    <td class="text-white text-right">5400</td>
+                    <td class="text-[#FFFF55] font-bold pl-2">才智</td>
+                    <td class="text-white text-right">72</td>
+                  </tr>
+                  <tr>
+                    <td class="text-[#FFFF55] font-bold">戰力</td>
+                    <td class="text-white text-right">86</td>
+                    <td class="text-[#FFFF55] font-bold pl-2">號召</td>
+                    <td class="text-white text-right">79</td>
+                    <td colspan="2"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- graphic_view -->
+            <div id="graphic_view" class="flex flex-col h-full justify-center items-center relative">
+              <!-- event_messenger_graphic -->
+              <img id="event_messenger_graphic" class="messenger-sprite max-h-[70px] object-contain hidden" alt="Messenger Sprite" />
+
+              <!-- secret_letter_overlay -->
+              <div id="secret_letter_overlay" class="letter-popup hidden absolute inset-0 bg-[#FFFFBB] text-black border-2 border-black p-2 text-[10px] flex flex-col justify-center items-center font-mono z-20">
+                <span class="font-bold border-b border-black/40 pb-0.5 mb-1 text-[#FF55FF]">【 檢查密信結果 】</span>
+                <p class="text-center text-black leading-relaxed">成宜，如歸順我，願給你這匹好馬。 孔融</p>
+              </div>
+
+              <!-- captured_general_portrait -->
+              <img id="captured_general_portrait" class="captured-portrait w-[64px] h-[64px] object-cover border-2 border-[#FFFF55] hidden" alt="Captured Portrait" />
+            </div>
+          </div>
+
+          <!-- action (height: 120px) -->
+          <div class="h-[120px] border-t border-[#FFFF55]/30 pt-1 flex flex-col justify-center">
+            <!-- personnel_options_menu -->
+            <ul id="personnel_options_menu" class="action-menu flex flex-row flex-wrap gap-2 bg-black justify-around text-[10px] p-1 hidden">
+              <li class="w-[45%] text-[#00AAAA] hover:text-white border border-[#00AAAA] text-center py-1 cursor-pointer" onclick="triggerSecretLetter()">1. 徵召</li>
+              <li class="w-[45%] text-[#00AAAA] hover:text-white border border-[#00AAAA] text-center py-1 cursor-pointer" onclick="showOfficerListToggle()">2. 找尋</li>
+              <li class="w-[45%] text-[#00AAAA] hover:text-white border border-[#00AAAA] text-center py-1 cursor-pointer" onclick="alert('派遣指令已發出')">3. 指派</li>
+              <li class="w-[45%] text-[#00AAAA] hover:text-white border border-[#00AAAA] text-center py-1 cursor-pointer" onclick="alert('裁撤令已發出')">4. 解職</li>
+            </ul>
+
+            <!-- interception_ask_dialog -->
+            <div id="interception_ask_dialog" class="dialog-box-ask text-[10px] text-white bg-black border border-[#FF55FF] p-2 leading-tight hidden">
+              <span>曹操，孔融的部下武安國欲通過我國 檢查密信嗎 (Y/N)?</span>
+              <div class="flex gap-4 mt-1.5 justify-end">
+                <button class="px-2 border border-[#FFFF55] text-[#FFFF55] hover:bg-[#FFFF55]/20 text-[9px]" onclick="chooseCheck(true)">Y (是)</button>
+                <button class="px-2 border border-white text-white hover:bg-white/20 text-[9px]" onclick="chooseCheck(false)">N (否)</button>
+              </div>
+            </div>
+
+            <!-- interception_choice_menu -->
+            <ul id="interception_choice_menu" class="choice-menu flex flex-col gap-1 bg-black text-[10px] border border-[#00AAAA]/40 p-1 hidden">
+              <li class="text-[#00AAAA] hover:text-white cursor-pointer px-1 py-0.5" onclick="chooseOption(1)">1. 允許通過</li>
+              <li class="text-[#00AAAA] hover:text-white cursor-pointer px-1 py-0.5" onclick="chooseOption(2)">2. 奪取密信</li>
+              <li class="text-[#00AAAA] hover:text-white cursor-pointer px-1 py-0.5" onclick="chooseOption(3)">3. 逮捕</li>
+            </ul>
+
+            <!-- disposal_action_menu -->
+            <ul id="disposal_action_menu" class="disposal-choices flex flex-col gap-1 bg-black text-[10px] border border-[#FF55FF]/40 p-1 hidden">
+              <li class="text-[#FFFF55] font-bold border-b border-[#FFFF55]/20 pb-0.5 mb-1">【 處置俘虜將領 】</li>
+              <li class="text-[#00AAAA] hover:text-white cursor-pointer px-1" onclick="disposeCaptured('recruit')">1. 收為部下</li>
+              <li class="text-[#00AAAA] hover:text-white cursor-pointer px-1" onclick="disposeCaptured('release')">2. 放走</li>
+              <li class="text-[#00AAAA] hover:text-white cursor-pointer px-1" onclick="disposeCaptured('execute')">3. 斬首</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TEMPLATE 3: BATTLEFIELD                    -->
+      <!-- ========================================== -->
+      <div id="template-battlefield" class="w-[640px] h-[400px] flex flex-row hidden relative overflow-hidden bg-black">
+        <!-- tactical_grid (width: 55%) -->
+        <div class="w-[55%] h-full flex flex-col border-r-2 border-[#FFFF55]">
+          <!-- battle_hex_map (canvas) -->
+          <canvas id="battlefield-map" width="352" height="400" class="w-full h-full block bg-black"></canvas>
+        </div>
+
+        <!-- battle_sidebar (flex-grow, gap: 8px, padding: 8px) -->
+        <div class="flex-grow h-full flex flex-col gap-[8px] p-[8px] justify-between">
+          <!-- battle_stats (height: 50%) -->
+          <div class="h-[50%] flex flex-col justify-center overflow-hidden border border-[#FFFF55]/20 p-1">
+            <!-- battle_roster_stats -->
+            <table id="battle_roster_stats" class="battle-roster w-full text-[10px] text-white border-collapse hidden">
+              <thead>
+                <tr class="border-b border-[#00AA00]">
+                  <th class="text-[#00AA00] text-left font-bold pb-1 text-[11px]">將領名</th>
+                  <th class="text-[#00AA00] text-right font-bold pb-1 text-[11px]">士兵</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-white/5">
+                  <td class="text-white py-0.5">劉備</td>
+                  <td class="text-white text-right py-0.5">8500</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                  <td class="text-white py-0.5">關羽</td>
+                  <td class="text-white text-right py-0.5">12000</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                  <td class="text-white py-0.5">張飛</td>
+                  <td class="text-white text-right py-0.5">9200</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- combatant_matchup_panel -->
+            <div id="combatant_matchup_panel" class="matchup-card flex flex-col h-full justify-around hidden">
+              <div class="flex flex-row justify-between items-center gap-1">
+                <!-- Attacker Left -->
+                <div class="flex flex-col items-center flex-1">
+                  <span class="text-[9px] text-[#00AAAA] font-bold mb-1">攻: 關羽</span>
+                  <div class="w-[48px] h-[48px] border border-[#00AAAA] p-[1px] bg-black">
+                    <img id="combatant_attacker" class="w-full h-full object-cover" alt="Attacker" />
+                  </div>
+                </div>
+                <!-- VS Emblem -->
+                <div class="text-[11px] font-bold text-red-500 animate-pulse font-mono px-1">VS</div>
+                <!-- Defender Right -->
+                <div class="flex flex-col items-center flex-1">
+                  <span class="text-[9px] text-[#FF55FF] font-bold mb-1">守: 曹仁</span>
+                  <div class="w-[48px] h-[48px] border border-[#FF55FF] p-[1px] bg-black">
+                    <img id="combatant_defender" class="w-full h-full object-cover" alt="Defender" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- HP Soldier Gauges -->
+              <div class="flex flex-col gap-1 text-[8px] mt-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-white">關羽兵: 8500</span>
+                  <div class="w-1/2 bg-gray-900 border border-[#00AAAA] h-1.5">
+                    <div class="bg-[#00AAAA] h-full" style="width: 85%;"></div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-white">曹仁兵: 6000</span>
+                  <div class="w-1/2 bg-gray-900 border border-[#FF55FF] h-1.5">
+                    <div class="bg-[#FF55FF] h-full" style="width: 60%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- battle_action -->
+          <div class="flex-grow flex flex-col justify-center border border-[#FFFF55]/10 p-1">
+            <!-- battle_command_menu -->
+            <ul id="battle_command_menu" class="battle-commands flex flex-col gap-1 bg-black text-[10px] hidden">
+              <li class="text-[#FFFF55] text-center border-b border-[#FFFF55]/20 pb-0.5 mb-0.5 font-bold">【 戰場行動 】</li>
+              <li class="text-white hover:text-[#00AAAA] cursor-pointer px-1 py-0.5 hover:bg-[#00AAAA]/10" onclick="transitionTo('battle_attack_selection')">1. 行軍</li>
+              <li class="text-white hover:text-[#00AAAA] cursor-pointer px-1 py-0.5 hover:bg-[#00AAAA]/10" onclick="transitionTo('battle_attack_selection')">2. 攻擊</li>
+              <li class="text-white hover:text-[#00AAAA] cursor-pointer px-1 py-0.5 hover:bg-[#00AAAA]/10">3. 靜待</li>
+              <li class="text-white hover:text-[#00AAAA] cursor-pointer px-1 py-0.5 hover:bg-[#00AAAA]/10">4. 觀看</li>
+              <li class="text-white hover:text-[#00AAAA] cursor-pointer px-1 py-0.5 hover:bg-[#00AAAA]/10">5. 策略</li>
+              <li class="text-white hover:text-[#00AAAA] cursor-pointer px-1 py-0.5 hover:bg-[#00AAAA]/10">6. 轉進</li>
+            </ul>
+
+            <!-- combat_type_sub_menu -->
+            <ul id="combat_type_sub_menu" class="combat-types flex flex-col gap-1 bg-black text-[10px] hidden">
+              <li class="text-[#FF55FF] text-center border-b border-[#FF55FF]/20 pb-0.5 mb-0.5 font-bold">【 選擇作戰 】</li>
+              <li class="text-white hover:text-[#FF55FF] cursor-pointer px-1 py-0.5 hover:bg-[#FF55FF]/10" onclick="executeSubAttack('正規作戰')">1. 正規作戰</li>
+              <li class="text-white hover:text-[#FF55FF] cursor-pointer px-1 py-0.5 hover:bg-[#FF55FF]/10" onclick="executeSubAttack('圍攻')">2. 圍攻</li>
+              <li class="text-white hover:text-[#FF55FF] cursor-pointer px-1 py-0.5 hover:bg-[#FF55FF]/10" onclick="executeSubAttack('火攻')">3. 火攻</li>
+              <li class="text-white hover:text-[#FF55FF] cursor-pointer px-1 py-0.5 hover:bg-[#FF55FF]/10" onclick="executeSubAttack('肉搏')">4. 肉搏</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Manual Interaction Console (Immersive scenario controller) -->
+  <div class="mt-4 w-[664px] bg-black border-2 border-[#FFFF55] p-3 text-xs font-mono leading-tight">
+    <div class="text-[#FFFF55] font-bold border-b border-[#FFFF55]/30 pb-1 mb-1.5 flex justify-between items-center">
+      <span>🕹️ SCENARIO SIMULATOR DECK</span>
+      <span class="text-[9px] text-gray-500 font-normal">Use buttons below to test transitions organically</span>
+    </div>
+    <div class="grid grid-cols-4 gap-1.5 text-center text-[10px]">
+      <button onclick="transitionTo('title_screen_state')" class="bg-black border border-[#00AAAA] hover:bg-[#00AAAA]/20 text-[#00AAAA] py-1">Title Menu</button>
+      <button onclick="transitionTo('scenario_select_state')" class="bg-black border border-[#FF55FF] hover:bg-[#FF55FF]/20 text-[#FF55FF] py-1">Scenarios</button>
+      <button onclick="transitionTo('base_gameplay')" class="bg-black border border-white hover:bg-white/20 text-white py-1">Base Map</button>
+      <button onclick="transitionTo('governor_personnel_screen')" class="bg-black border border-[#FFFF55] hover:bg-[#FFFF55]/20 text-[#FFFF55] py-1">Personnel</button>
+      <button onclick="transitionTo('battle_deployment_phase')" class="bg-black border border-green-500 hover:bg-green-500/20 text-green-500 py-1">Deployment</button>
+      <button onclick="transitionTo('battle_combat_phase')" class="bg-black border border-red-500 hover:bg-red-500/20 text-red-500 py-1">Combat</button>
+      <button onclick="transitionTo('battle_attack_selection')" class="bg-black border border-[#00AAAA] hover:bg-[#00AAAA]/20 text-[#00AAAA] py-1">Attack Sub</button>
+      <button onclick="transitionTo('captured_disposal_screen')" class="bg-black border border-[#FF55FF] hover:bg-[#FF55FF]/20 text-[#FF55FF] py-1">Disposal</button>
+    </div>
+    <div class="mt-2 pt-1.5 border-t border-[#FFFF55]/20 flex gap-2 justify-center text-[9px]">
+      <button onclick="triggerSecretLetter()" class="border border-amber-500 text-amber-500 px-2 py-0.5 hover:bg-amber-500/10">
+        ✉️ Test Secret Letter Event
+      </button>
+      <button onclick="showOfficerListToggle()" class="border border-teal-500 text-teal-500 px-2 py-0.5 hover:bg-teal-500/10">
+        📋 Toggle Officer List catalog item
+      </button>
+    </div>
+  </div>
+
+  <!-- System Debug Overlay (Required bottom-right dropdown for verification scripts) -->
+  <div class="fixed bottom-3 right-3 bg-[#111111] border border-[#FF55FF] p-2 text-xs z-[100] max-w-[200px] font-mono leading-none">
+    <div class="text-[#FFFF55] text-[10px] font-bold mb-1">SYSTEM STATE:</div>
+    <select id="state-selector" class="w-full bg-black text-[#00AAAA] border border-[#00AAAA] p-0.5 text-[10px] font-mono outline-none cursor-pointer" onchange="transitionTo(this.value)">
+      <option value="title_screen_state">title_screen_state</option>
+      <option value="scenario_select_state">scenario_select_state</option>
+      <option value="base_gameplay">base_gameplay</option>
+      <option value="governor_personnel_screen">governor_personnel_screen</option>
+      <option value="battle_deployment_phase">battle_deployment_phase</option>
+      <option value="battle_combat_phase">battle_combat_phase</option>
+      <option value="battle_attack_selection">battle_attack_selection</option>
+      <option value="captured_disposal_screen">captured_disposal_screen</option>
+    </select>
+  </div>
+
+  <!-- Vanilla State Machine Controller & Graphics Engine -->
+  <script>
+    // Visibility definition mapping for State Controller
+    const stateVisibilityMap = {
+      title_screen_state: {
+        template: 'template-title-screen',
+        visible: [
+          '#dragon_art',
+          '#tiger_art',
+          '#title_main_menu'
+        ]
+      },
+      scenario_select_state: {
+        template: 'template-title-screen',
+        visible: [
+          '#dragon_art',
+          '#tiger_art',
+          '#scenario_selection_menu'
+        ]
+      },
+      base_gameplay: {
+        template: 'template-main-gameplay',
+        visible: [
+          '#province-map',
+          '#ruler_info_label',
+          '#governor_portrait'
+        ]
+      },
+      governor_personnel_screen: {
+        template: 'template-main-gameplay',
+        visible: [
+          '#province-map',
+          '#ruler_info_label',
+          '#governor_portrait',
+          '#active_province_highlight',
+          '#province_stats_table',
+          '#personnel_options_menu'
+        ]
+      },
+      battle_deployment_phase: {
+        template: 'template-battlefield',
+        visible: [
+          '#battlefield-map',
+          '#battle_roster_stats'
+        ]
+      },
+      battle_combat_phase: {
+        template: 'template-battlefield',
+        visible: [
+          '#battlefield-map',
+          '#combatant_matchup_panel',
+          '#battle_command_menu'
+        ]
+      },
+      battle_attack_selection: {
+        template: 'template-battlefield',
+        visible: [
+          '#battlefield-map',
+          '#combatant_matchup_panel',
+          '#combat_type_sub_menu'
+        ]
+      },
+      captured_disposal_screen: {
+        template: 'template-main-gameplay',
+        visible: [
+          '#province-map',
+          '#ruler_info_label',
+          '#governor_portrait',
+          '#disposal_action_menu',
+          '#captured_general_stats',
+          '#captured_general_portrait'
+        ]
+      }
+    };
+
+    // Transition State Function
+    function transitionTo(stateName) {
+      const state = stateVisibilityMap[stateName];
+      if (!state) return;
+
+      // 1. Hide all main templates
+      document.getElementById('template-title-screen').classList.add('hidden');
+      document.getElementById('template-main-gameplay').classList.add('hidden');
+      document.getElementById('template-battlefield').classList.add('hidden');
+
+      // 2. Open targeted parent container
+      const parent = document.getElementById(state.template);
+      if (parent) {
+        parent.classList.remove('hidden');
+      }
+
+      // 3. Define master database list of elements to control
+      const elementsToManage = [
+        '#dragon_art',
+        '#tiger_art',
+        '#title_main_menu',
+        '#scenario_selection_menu',
+        '#province-map',
+        '#active_province_highlight',
+        '#ruler_info_label',
+        '#governor_portrait',
+        '#province_stats_table',
+        '#officer_list_table',
+        '#captured_general_stats',
+        '#event_messenger_graphic',
+        '#secret_letter_overlay',
+        '#captured_general_portrait',
+        '#personnel_options_menu',
+        '#interception_ask_dialog',
+        '#interception_choice_menu',
+        '#disposal_action_menu',
+        '#battlefield-map',
+        '#battle_roster_stats',
+        '#combatant_matchup_panel',
+        '#battle_command_menu',
+        '#combat_type_sub_menu'
+      ];
+
+      // 4. Update display block configurations
+      elementsToManage.forEach(selector => {
+        const el = document.querySelector(selector);
+        if (!el) return;
+
+        const isVisible = state.visible.includes(selector);
+        if (isVisible) {
+          el.classList.remove('hidden');
+          // Preserve proper layouts for lists and tables
+          if (selector.startsWith('table')) {
+            el.style.display = 'table';
+          } else if (selector.startsWith('ul') || selector === '#combatant_matchup_panel') {
+            el.style.display = 'flex';
+          } else {
+            el.style.display = ''; 
+          }
+        } else {
+          el.classList.add('hidden');
+          el.style.display = 'none';
+        }
+      });
+
+      // 5. Trigger Canvas drawings based on visible active templates
+      if (state.template === 'template-main-gameplay') {
+        drawChinaMap();
+      } else if (state.template === 'template-battlefield') {
+        drawBattlefieldMap();
+      }
+
+      // Sync Selector Dropdown
+      const sel = document.getElementById('state-selector');
+      if (sel && sel.value !== stateName) {
+        sel.value = stateName;
+      }
+    }
+
+    // ==========================================
+    // PROCEDURAL PIXEL-ART GRAPHIC DRAWERS
+    // ==========================================
+
+    // Blue Dragon on Column
+    function drawDragon(ctx, w, h) {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, w, h);
+      
+      // Column (Golden hues)
+      ctx.fillStyle = '#D4AF37';
+      ctx.fillRect(Math.floor(w * 0.35), 0, Math.floor(w * 0.3), h);
+      ctx.fillStyle = '#FFFF55';
+      ctx.fillRect(Math.floor(w * 0.4), 0, Math.floor(w * 0.05), h);
+      ctx.fillStyle = '#8B6508';
+      ctx.fillRect(Math.floor(w * 0.55), 0, Math.floor(w * 0.05), h);
+
+      // Dragon coils
+      ctx.fillStyle = '#0000AA';
+      for (let y = 10; y < h - 10; y += 4) {
+        const xOffset = Math.sin(y * 0.08) * (w * 0.22) + (w * 0.5);
+        ctx.fillRect(xOffset - 8, y, 16, 8);
+        ctx.fillStyle = '#00AAAA';
+        ctx.fillRect(xOffset - 4, y + 2, 4, 3);
+        ctx.fillStyle = '#0000AA';
+      }
+
+      // Dragon Head at top
+      const headX = w * 0.5 + Math.sin(15 * 0.08) * (w * 0.22);
+      ctx.fillStyle = '#0000FF';
+      ctx.fillRect(headX - 12, 10, 24, 18);
+      ctx.fillStyle = '#00AAAA';
+      ctx.fillRect(headX - 16, 14, 10, 10);
+      ctx.fillStyle = '#FF55FF'; // Glowing eye
+      ctx.fillRect(headX + 2, 14, 4, 4);
+    }
+
+    // Roaring Orange Tiger with Flames
+    function drawTiger(ctx, w, h) {
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, w, h);
+
+      // Red Flame sparks
+      ctx.fillStyle = '#FF5555';
+      for (let i = 0; i < 15; i++) {
+        ctx.fillRect((i * 7) % w, (i * 19) % h, 6, 6);
+      }
+
+      const cx = w / 2;
+      const cy = h / 2;
+
+      // Orange face shape
+      ctx.fillStyle = '#FF9900';
+      ctx.fillRect(cx - 24, cy - 20, 48, 40);
+
+      // White muzzle and ears
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(cx - 16, cy + 4, 32, 12);
+      ctx.fillRect(cx - 22, cy - 26, 8, 8);
+      ctx.fillRect(cx + 14, cy - 26, 8, 8);
+
+      // Stripes (Black)
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(cx - 12, cy - 14, 24, 3);
+      ctx.fillRect(cx - 4, cy - 11, 8, 6);
+      ctx.fillRect(cx - 24, cy - 2, 10, 3);
+      ctx.fillRect(cx + 14, cy - 2, 10, 3);
+
+      // Green Eyes
+      ctx.fillStyle = '#00AA00';
+      ctx.fillRect(cx - 14, cy - 8, 6, 4);
+      ctx.fillRect(cx + 8, cy - 8, 6, 4);
+
+      // Roaring Mouth
+      ctx.fillStyle = '#FF5555';
+      ctx.fillRect(cx - 10, cy + 6, 20, 10);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(cx - 8, cy + 6, 3, 3);
+      ctx.fillRect(cx + 5, cy + 6, 3, 3);
+    }
+
+    // Governor Portrait: Liu Bei
+    function drawGovernor(ctx, w, h) {
+      ctx.fillStyle = '#000055'; // Dark blue backdrop
+      ctx.fillRect(0, 0, w, h);
+
+      // Gold pattern frame inside image
+      ctx.strokeStyle = '#FFFF55';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(2, 2, w - 4, h - 4);
+
+      // Armor base
+      ctx.fillStyle = '#D4AF37';
+      ctx.fillRect(10, h - 22, w - 20, 22);
+      ctx.fillStyle = '#8B6508';
+      ctx.fillRect(16, h - 22, 6, 12);
+      ctx.fillRect(w - 22, h - 22, 6, 12);
+
+      // Head
+      ctx.fillStyle = '#FFCC99';
+      ctx.fillRect(w/2 - 12, h - 44, 24, 22);
+
+      // Black hair & facial beard
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(w/2 - 14, h - 50, 28, 8);
+      ctx.fillRect(w/2 - 8, h - 24, 16, 6); // Beard
+
+      // Warlord Crown (Red piece)
+      ctx.fillStyle = '#FF5555';
+      ctx.fillRect(w/2 - 6, h - 54, 12, 5);
+
+      // Eyes
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(w/2 - 7, h - 38, 4, 2);
+      ctx.fillRect(w/2 + 3, h - 38, 4, 2);
+    }
+
+    // Captured General Portrait: Zhou Tai (Scarred general)
+    function drawCaptured(ctx, w, h) {
+      ctx.fillStyle = '#222222';
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#FFFF55';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(2, 2, w - 4, h - 4);
+
+      // Plate armor
+      ctx.fillStyle = '#555555';
+      ctx.fillRect(8, h - 22, w - 16, 22);
+      ctx.fillStyle = '#00AAAA'; // Cyan crest trim
+      ctx.fillRect(14, h - 22, 4, 22);
+      ctx.fillRect(w - 18, h - 22, 4, 22);
+
+      // Head (Darker tan tone)
+      ctx.fillStyle = '#D2B48C';
+      ctx.fillRect(w/2 - 12, h - 44, 24, 22);
+
+      // Rugged wild black hair and thick beard
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(w/2 - 15, h - 48, 30, 6);
+      ctx.fillRect(w/2 - 12, h - 24, 24, 8);
+
+      // Red Bandana
+      ctx.fillStyle = '#FF0000';
+      ctx.fillRect(w/2 - 13, h - 46, 26, 4);
+
+      // Fierce Eyes & Scar (Red)
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(w/2 - 7, h - 38, 4, 2);
+      ctx.fillRect(w/2 + 3, h - 38, 4, 2);
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(w/2 - 6, h - 38, 2, 2);
+      ctx.fillRect(w/2 + 4, h - 38, 2, 2);
+
+      ctx.fillStyle = '#FF5555'; // Diagonal face scar
+      ctx.fillRect(w/2 - 8, h - 40, 2, 8);
+    }
+
+    // Event Messenger on Horseback
+    function drawMessenger(ctx, w, h) {
+      ctx.clearRect(0, 0, w, h);
+
+      // Horse body (Brown)
+      ctx.fillStyle = '#8B4513';
+      ctx.fillRect(8, 20, 36, 16); // Torso
+      ctx.fillRect(34, 4, 10, 18);  // Neck
+      ctx.fillRect(38, 0, 10, 8);   // Head
+      ctx.fillRect(10, 36, 4, 12);  // Legs
+      ctx.fillRect(18, 36, 4, 12);
+      ctx.fillRect(28, 36, 4, 12);
+      ctx.fillRect(36, 36, 4, 12);
+      ctx.fillRect(2, 20, 6, 6);    // Tail
+
+      // Saddle (Yellow)
+      ctx.fillStyle = '#FFFF55';
+      ctx.fillRect(16, 18, 16, 3);
+
+      // Rider Messenger (Blue cloth)
+      ctx.fillStyle = '#0000FF';
+      ctx.fillRect(18, 6, 10, 12);
+      ctx.fillStyle = '#FFCC99'; // Skin
+      ctx.fillRect(20, 0, 7, 7);
+      ctx.fillStyle = '#FFFFFF'; // Message hat
+      ctx.fillRect(18, -4, 11, 4);
+    }
+
+    // Battle Attacker: Guan Yu (Green hood, Red skin)
+    function drawGuanYu(ctx, w, h) {
+      ctx.fillStyle = '#004400';
+      ctx.fillRect(0, 0, w, h);
+      
+      ctx.fillStyle = '#AA0000'; // Red complexion
+      ctx.fillRect(w/2 - 10, h - 28, 20, 20);
+
+      ctx.fillStyle = '#00AA00'; // Green Hood
+      ctx.fillRect(w/2 - 12, h - 38, 24, 10);
+      ctx.fillStyle = '#FFFF55';
+      ctx.fillRect(w/2 - 2, h - 36, 4, 4);
+
+      ctx.fillStyle = '#000000'; // Long beard
+      ctx.fillRect(w/2 - 6, h - 14, 12, 14);
+    }
+
+    // Battle Defender: Cao Ren (Iron blue armor)
+    function drawCaoRen(ctx, w, h) {
+      ctx.fillStyle = '#000044';
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.fillStyle = '#FFCC99'; // Pale skin
+      ctx.fillRect(w/2 - 10, h - 28, 20, 18);
+
+      ctx.fillStyle = '#888888'; // Iron Helmet
+      ctx.fillRect(w/2 - 12, h - 36, 24, 9);
+      ctx.fillStyle = '#0000FF'; // Blue Plume
+      ctx.fillRect(w/2 - 4, h - 42, 8, 6);
+
+      ctx.fillStyle = '#000000'; // Mustache
+      ctx.fillRect(w/2 - 7, h - 16, 14, 3);
+    }
+
+    // ==========================================
+    // MAP & GRID CANVAS RENDERING ENGINE
+    // ==========================================
+
+    // China administrative map (41 provinces)
+    function drawChinaMap() {
+      const canvas = document.getElementById('province-map');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Reset
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, w, h);
+
+      const rows = 7;
+      const cols = 6;
+      const pw = Math.floor(w / cols);
+      const ph = Math.floor(h / rows);
+      const colors = ['#FFFFFF', '#FF55FF', '#00AAAA', '#FFFF55'];
+
+      let id = 1;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (id > 41) break;
+
+          // Introduce administrative variance jittering
+          const x = c * pw + (r % 2 === 0 ? 5 : 0);
+          const y = r * ph;
+          const cellW = pw - 2;
+          const cellH = ph - 2;
+
+          const color = colors[(r * cols + c) % colors.length];
+          ctx.fillStyle = color;
+          ctx.fillRect(x, y, cellW, cellH);
+
+          // Black line boundaries
+          ctx.strokeStyle = '#000000';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(x, y, cellW, cellH);
+
+          // Render pixel ID label
+          ctx.fillStyle = '#000000';
+          ctx.font = 'bold 9px monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(id.toString(), x + cellW / 2, y + cellH / 2);
+
+          // Focus on active province 19 (荆州)
+          if (id === 19) {
+            const highlight = document.getElementById('active_province_highlight');
+            if (highlight) {
+              highlight.style.left = x + 'px';
+              highlight.style.top = y + 'px';
+              highlight.style.width = cellW + 'px';
+              highlight.style.height = cellH + 'px';
+            }
+          }
+          id++;
+        }
+      }
+    }
+
+    // 10x10 Tactical Battlefield Terrain Grid Map
+    const terrainMap = [
+      ['M', 'M', 'F', 'G', 'G', 'G', 'R', 'G', 'G', 'C'],
+      ['M', 'F', 'F', 'G', 'G', 'R', 'R', 'G', 'C', 'C'],
+      ['F', 'F', 'G', 'G', 'R', 'R', 'G', 'G', 'G', 'G'],
+      ['G', 'G', 'G', 'R', 'R', 'G', 'G', 'F', 'F', 'G'],
+      ['G', 'G', 'R', 'R', 'G', 'G', 'F', 'F', 'F', 'G'],
+      ['G', 'R', 'R', 'G', 'G', 'M', 'M', 'F', 'G', 'G'],
+      ['R', 'R', 'G', 'G', 'M', 'M', 'M', 'G', 'G', 'G'],
+      ['R', 'G', 'G', 'C', 'M', 'M', 'G', 'G', 'R', 'R'],
+      ['G', 'G', 'C', 'C', 'G', 'G', 'G', 'R', 'R', 'M'],
+      ['G', 'C', 'C', 'G', 'G', 'G', 'R', 'R', 'M', 'M']
+    ];
+
+    function drawBattlefieldMap() {
+      const canvas = document.getElementById('battlefield-map');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      const rows = 10;
+      const cols = 10;
+      const tileW = w / cols;
+      const tileH = h / rows;
+
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, w, h);
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const t = terrainMap[r][c];
+          const x = c * tileW;
+          const y = r * tileH;
+
+          if (t === 'G') {
+            // Grass
+            ctx.fillStyle = '#003300';
+            ctx.fillRect(x, y, tileW, tileH);
+            ctx.fillStyle = '#55FF55';
+            ctx.fillRect(x + 5, y + 6, 2, 3);
+            ctx.fillRect(x + 15, y + 18, 2, 3);
+          } else if (t === 'F') {
+            // Forest floor and tree
+            ctx.fillStyle = '#004400';
+            ctx.fillRect(x, y, tileW, tileH);
+            ctx.fillStyle = '#00AA00';
+            ctx.beginPath();
+            ctx.moveTo(x + tileW / 2, y + 4);
+            ctx.lineTo(x + 4, y + tileH - 8);
+            ctx.lineTo(x + tileW - 4, y + tileH - 8);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = '#8B4513'; // Trunk
+            ctx.fillRect(x + tileW / 2 - 2, y + tileH - 8, 4, 5);
+          } else if (t === 'R') {
+            // River
+            ctx.fillStyle = '#0000AA';
+            ctx.fillRect(x, y, tileW, tileH);
+            ctx.fillStyle = '#00AAAA'; // Ripples
+            ctx.fillRect(x + 4, y + 12, 10, 2);
+            ctx.fillRect(x + 16, y + 24, 12, 2);
+          } else if (t === 'M') {
+            // Mountain
+            ctx.fillStyle = '#222222';
+            ctx.fillRect(x, y, tileW, tileH);
+            ctx.fillStyle = '#888888';
+            ctx.beginPath();
+            ctx.moveTo(x + tileW / 2, y + 5);
+            ctx.lineTo(x + 3, y + tileH - 4);
+            ctx.lineTo(x + tileW - 3, y + tileH - 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = '#FFFFFF'; // Snowcap
+            ctx.beginPath();
+            ctx.moveTo(x + tileW / 2, y + 5);
+            ctx.lineTo(x + tileW / 2 - 5, y + 13);
+            ctx.lineTo(x + tileW / 2 + 5, y + 13);
+            ctx.closePath();
+            ctx.fill();
+          } else if (t === 'C') {
+            // Brick Castle
+            ctx.fillStyle = '#555555';
+            ctx.fillRect(x, y, tileW, tileH);
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(x, y, tileW, 5);
+            ctx.fillRect(x + 3, y, 5, 8);
+            ctx.fillRect(x + 13, y, 5, 8);
+            ctx.fillRect(x + 23, y, 5, 8);
+            // Flag
+            ctx.fillStyle = '#FFFF55';
+            ctx.fillRect(x + tileW / 2, y + 10, 10, 6);
+            ctx.fillStyle = '#FF5555';
+            ctx.fillRect(x + tileW / 2 - 2, y + 8, 2, 12);
+          }
+
+          // Soft grid lines
+          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+          ctx.strokeRect(x, y, tileW, tileH);
+        }
+      }
+
+      // Draw Attacker unit block (Blue)
+      const ax = 3 * tileW + 3;
+      const ay = 4 * tileH + 4;
+      ctx.fillStyle = '#0000FF';
+      ctx.fillRect(ax, ay, tileW - 6, tileH - 8);
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(ax, ay, tileW - 6, tileH - 8);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 8px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('關羽', ax + (tileW - 6)/2, ay + 12);
+      ctx.fillText('8.5K', ax + (tileW - 6)/2, ay + 22);
+
+      // Draw Defender unit block (Red)
+      const dx = 7 * tileW + 3;
+      const dy = 6 * tileH + 4;
+      ctx.fillStyle = '#FF0000';
+      ctx.fillRect(dx, dy, tileW - 6, tileH - 8);
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.strokeRect(dx, dy, tileW - 6, tileH - 8);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText('曹仁', dx + (tileW - 6)/2, dy + 12);
+      ctx.fillText('6.0K', dx + (tileW - 6)/2, dy + 22);
+    }
+
+
+    // ==========================================
+    // ORGANIC IN-GAME SIMULATION COMMAND FLOWS
+    // ==========================================
+
+    function startNewGame() {
+      transitionTo('scenario_select_state');
+    }
+
+    function selectScenario(id) {
+      alert(`已載入 劇本 ${id}`);
+      transitionTo('base_gameplay');
+    }
+
+    // Interception / Secret Letter Scenario Loop
+    function triggerSecretLetter() {
+      transitionTo('base_gameplay');
+      
+      // Hide other tables
+      document.getElementById('province_stats_table').classList.add('hidden');
+      document.getElementById('province_stats_table').style.display = 'none';
+
+      // Show Messenger and Dialog box
+      document.getElementById('event_messenger_graphic').classList.remove('hidden');
+      document.getElementById('event_messenger_graphic').style.display = 'block';
+
+      document.getElementById('interception_ask_dialog').classList.remove('hidden');
+      document.getElementById('interception_ask_dialog').style.display = 'block';
+    }
+
+    function chooseCheck(check) {
+      document.getElementById('interception_ask_dialog').classList.add('hidden');
+      document.getElementById('interception_ask_dialog').style.display = 'none';
+
+      if (check) {
+        document.getElementById('interception_choice_menu').classList.remove('hidden');
+        document.getElementById('interception_choice_menu').style.display = 'flex';
+      } else {
+        document.getElementById('event_messenger_graphic').classList.add('hidden');
+        document.getElementById('event_messenger_graphic').style.display = 'none';
+        alert('武安國安全離開中原境內。');
+      }
+    }
+
+    function chooseOption(index) {
+      document.getElementById('interception_choice_menu').classList.add('hidden');
+      document.getElementById('interception_choice_menu').style.display = 'none';
+
+      if (index === 2) { // Inspect/Seize Secret scroll
+        document.getElementById('secret_letter_overlay').classList.remove('hidden');
+        document.getElementById('secret_letter_overlay').style.display = 'flex';
+
+        // Auto collapse after reading window
+        setTimeout(() => {
+          document.getElementById('secret_letter_overlay').classList.add('hidden');
+          document.getElementById('secret_letter_overlay').style.display = 'none';
+          document.getElementById('event_messenger_graphic').classList.add('hidden');
+          document.getElementById('event_messenger_graphic').style.display = 'none';
+        }, 5000);
+      } else {
+        document.getElementById('event_messenger_graphic').classList.add('hidden');
+        document.getElementById('event_messenger_graphic').style.display = 'none';
+        alert('指令完成。');
+      }
+    }
+
+    // Officer list toggle
+    let officerListOn = false;
+    function showOfficerListToggle() {
+      transitionTo('base_gameplay');
+      const oTable = document.getElementById('officer_list_table');
+      const pTable = document.getElementById('province_stats_table');
+
+      if (!officerListOn) {
+        oTable.classList.remove('hidden');
+        oTable.style.display = 'table';
+        pTable.classList.add('hidden');
+        pTable.style.display = 'none';
+        officerListOn = true;
+      } else {
+        oTable.classList.add('hidden');
+        oTable.style.display = 'none';
+        officerListOn = false;
+      }
+    }
+
+    // Disposal Screen Options
+    function disposeCaptured(action) {
+      if (action === 'recruit') {
+        alert('周泰歸順！已成為我軍偏將軍。');
+      } else if (action === 'release') {
+        alert('周泰默然抱拳離開。');
+      } else {
+        alert('周泰慷慨就義，英魂歸於東吳。');
+      }
+      transitionTo('base_gameplay');
+    }
+
+    // Battle Sub Attack Selection
+    function executeSubAttack(mode) {
+      alert(`已執行戰術指令：${mode}！`);
+      transitionTo('battle_combat_phase');
+    }
+
+
+    // ==========================================
+    // INITIALIZATION BLOCK
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      // Helper function to render a canvas directly into dynamic Data URL
+      const createImgDataUrl = (w, h, drawFn) => {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = w;
+        tempCanvas.height = h;
+        const ctx = tempCanvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        drawFn(ctx, w, h);
+        return tempCanvas.toDataURL();
+      };
+
+      // Generate procedural graphics on load
+      document.getElementById('dragon_art').src = createImgDataUrl(96, 160, drawDragon);
+      document.getElementById('tiger_art').src = createImgDataUrl(96, 160, drawTiger);
+      document.getElementById('governor_portrait').src = createImgDataUrl(80, 80, drawGovernor);
+      document.getElementById('captured_general_portrait').src = createImgDataUrl(80, 80, drawCaptured);
+      document.getElementById('event_messenger_graphic').src = createImgDataUrl(80, 50, drawMessenger);
+      document.getElementById('combatant_attacker').src = createImgDataUrl(48, 48, drawGuanYu);
+      document.getElementById('combatant_defender').src = createImgDataUrl(48, 48, drawCaoRen);
+
+      // Default visual starting state
+      transitionTo('title_screen_state');
+    });
+  </script>
+</body>
+</html>

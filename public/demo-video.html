@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三國志 II - DOS Retro UI Remake</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Retro Font Style -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=VT323&display=swap');
+    
+    body {
+      background-color: #0b0b0f;
+      font-family: 'Courier New', Courier, monospace, "Microsoft JhengHei", sans-serif;
+      image-rendering: pixelated;
+    }
+
+    .retro-border {
+      border: 4px double #ffffff;
+    }
+
+    .retro-border-blue {
+      border: 4px double #5555ff;
+    }
+
+    .retro-border-magenta {
+      border: 4px double #ff55ff;
+    }
+
+    .pixel-text {
+      font-family: 'VT323', monospace, "Microsoft JhengHei";
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden">
+
+  <!-- Retro PC Monitor Container -->
+  <div class="relative w-full max-w-4xl bg-black rounded-lg border-8 border-neutral-700 p-4 shadow-2xl flex flex-col justify-between" style="min-height: 600px;">
+    
+    <!-- Retro Screen Glow Effect -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white/5 pointer-events-none rounded"></div>
+
+    <!-- MAIN GAME SCREEN VIEWPORT -->
+    <div id="game-screen" class="w-full h-full flex flex-col justify-between flex-grow">
+      
+      <!-- ==========================================
+           STATE 1: GAME INTRO & STORY SLIDES
+           ========================================== -->
+      <div id="state-intro" class="hidden flex-col items-center justify-between h-full py-4">
+        <!-- Slide 1: Group/Chaos Scene -->
+        <div id="intro-slide-1" class="intro-slide flex flex-col items-center justify-center space-y-4">
+          <div class="w-72 h-56 bg-blue-900 border-4 border-blue-400 flex items-center justify-center relative overflow-hidden">
+            <!-- Retro Pixel Silhouette Representation of Soldiers -->
+            <svg class="w-full h-full p-2 text-blue-300 fill-current" viewBox="0 0 100 80">
+              <rect x="10" y="40" width="10" height="20" />
+              <rect x="25" y="30" width="12" height="30" />
+              <rect x="45" y="25" width="15" height="40" />
+              <rect x="65" y="35" width="12" height="25" />
+              <rect x="80" y="45" width="10" height="15" />
+              <line x1="15" y1="30" x2="15" y2="40" stroke="currentColor" stroke-width="2"/>
+              <line x1="31" y1="15" x2="31" y2="30" stroke="currentColor" stroke-width="2"/>
+              <line x1="52" y1="5" x2="52" y2="25" stroke="currentColor" stroke-width="2"/>
+              <path d="M 0 60 Q 50 45 100 60 L 100 80 L 0 80 Z" fill="#000055"/>
+            </svg>
+            <span class="absolute top-2 left-2 text-xs bg-black/80 px-1 text-cyan-400">190 AD</span>
+          </div>
+          <p class="text-sm md:text-base text-yellow-400 text-center max-w-xl leading-relaxed px-4">
+            公元二世紀末，正值東漢末年，朝內眾權臣爭搶權利，各懷野心，朝外橫徵暴斂，致使庶民不聊生，人心思亂，盜賊蜂起。
+          </p>
+        </div>
+
+        <!-- Slide 2: Dong Zhuo -->
+        <div id="intro-slide-2" class="intro-slide hidden flex flex-col items-center justify-center space-y-4">
+          <div class="w-72 h-56 bg-purple-950 border-4 border-magenta-500 flex items-center justify-center relative">
+            <svg class="w-32 h-32 text-red-500 fill-current" viewBox="0 0 64 64">
+              <!-- Dong Zhuo Silhouette / Portrait style -->
+              <rect x="16" y="16" width="32" height="32" class="text-purple-800" />
+              <!-- Beard -->
+              <path d="M 16 36 L 48 36 L 40 56 L 24 56 Z" fill="#111" />
+              <!-- Crown/Hat -->
+              <rect x="24" y="8" width="16" height="8" fill="#d4af37" />
+              <!-- Eyes -->
+              <rect x="22" y="24" width="6" height="3" fill="#ff0000" />
+              <rect x="36" y="24" width="6" height="3" fill="#ff0000" />
+            </svg>
+            <span class="absolute top-2 left-2 text-xs bg-black/80 px-1 text-magenta-400">董卓 (Dong Zhuo)</span>
+          </div>
+          <p class="text-sm md:text-base text-purple-300 text-center max-w-xl leading-relaxed px-4">
+            董卓君臨國都洛陽，盡施暴政，為一世奸雄。
+          </p>
+        </div>
+
+        <!-- Slide 3: Three Brothers -->
+        <div id="intro-slide-3" class="intro-slide hidden flex flex-col items-center justify-center space-y-4">
+          <div class="w-72 h-56 bg-emerald-950 border-4 border-green-500 flex items-center justify-center relative">
+            <!-- 3 brothers icons -->
+            <div class="flex space-x-2">
+              <svg class="w-16 h-24 text-green-400 fill-current" viewBox="0 0 32 48">
+                <rect x="4" y="12" width="24" height="24" />
+                <rect x="10" y="4" width="12" height="8" fill="#aaa" />
+                <!-- Guan Yu green theme -->
+                <path d="M 4 28 L 28 28 L 16 44 Z" fill="#004400" />
+              </svg>
+              <svg class="w-16 h-24 text-blue-400 fill-current" viewBox="0 0 32 48">
+                <rect x="4" y="12" width="24" height="24" />
+                <rect x="10" y="4" width="12" height="8" fill="#d4af37" />
+                <!-- Liu Bei Gold/Royal theme -->
+                <path d="M 4 28 L 28 28 L 16 44 Z" fill="#555500" />
+              </svg>
+              <svg class="w-16 h-24 text-orange-400 fill-current" viewBox="0 0 32 48">
+                <rect x="4" y="12" width="24" height="24" />
+                <!-- Zhang Fei violent style -->
+                <path d="M 4 28 L 28 28 L 16 44 Z" fill="#111" />
+              </svg>
+            </div>
+            <span class="absolute top-2 left-2 text-xs bg-black/80 px-1 text-green-400">劉備・關羽・張飛</span>
+          </div>
+          <p class="text-sm md:text-base text-green-300 text-center max-w-xl leading-relaxed px-4">
+            劉備，關羽和張飛為復興漢室而奮戰。
+          </p>
+        </div>
+
+        <!-- Slide 4: Title Calligraphy Screen -->
+        <div id="intro-slide-4" class="intro-slide hidden flex flex-col items-center justify-center space-y-4">
+          <div class="text-center p-8 bg-black retro-border border-white w-full max-w-md">
+            <h1 class="text-5xl md:text-6xl font-bold tracking-widest text-red-500 mb-2 font-serif">三國志Ⅱ</h1>
+            <div class="text-xs text-gray-400">TM & © KOEI Co., Ltd. Remake</div>
+          </div>
+        </div>
+
+        <!-- Slide Controls -->
+        <div class="flex space-x-4 mt-2">
+          <button onclick="prevIntroSlide()" class="px-3 py-1 bg-neutral-800 hover:bg-neutral-700 text-xs border border-white">◀ 上一頁</button>
+          <button onclick="nextIntroSlide()" class="px-3 py-1 bg-neutral-800 hover:bg-neutral-700 text-xs border border-white">下一頁 ▶</button>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           STATE 2: MAIN MENU & SCENARIO SELECTION
+           ========================================== -->
+      <div id="state-menu" class="hidden flex-col items-center justify-between h-full py-4 relative">
+        <div class="flex w-full justify-between items-center px-4">
+          <!-- Left Dragon Asset -->
+          <div class="w-16 h-48 border border-cyan-800 flex items-center justify-center text-cyan-400 text-center text-xs p-1">
+            青龍<br/>[DRAGON]
+          </div>
+          
+          <!-- Middle selection window -->
+          <div id="menu-window-1" class="w-full max-w-md bg-black border-4 border-double border-white p-4">
+            <h2 class="text-center text-xl text-yellow-500 mb-4 tracking-widest">三 國 志 Ⅱ</h2>
+            <ul class="space-y-2 text-sm text-left pl-8">
+              <li class="cursor-pointer hover:text-yellow-400" onclick="selectMenuOption(1)">1. 啟動新遊戲 (New Game)</li>
+              <li class="cursor-pointer hover:text-yellow-400" onclick="selectMenuOption(2)">2. 裝入數據 (Load Game)</li>
+              <li class="text-gray-600">3. 結束 (Quit)</li>
+            </ul>
+            <div class="mt-4 border-t border-gray-800 pt-2 text-xs text-cyan-400">
+              請選擇 (1-3)? <span class="blink">_</span>
+            </div>
+          </div>
+
+          <!-- Middle Scenario selection window (hidden initially) -->
+          <div id="menu-window-2" class="hidden w-full max-w-md bg-black border-4 border-double border-yellow-600 p-4">
+            <h3 class="text-center text-base text-yellow-500 mb-2">請選擇時期 (Select Scenario)</h3>
+            <ul class="grid grid-cols-1 gap-1 text-xs text-left pl-4">
+              <li class="cursor-pointer hover:text-yellow-300" onclick="selectScenario(1)">1. 董卓進洛陽 <span class="text-yellow-600">189年</span></li>
+              <li class="cursor-pointer hover:text-yellow-300" onclick="selectScenario(2)">2. 奪權競爭 <span class="text-yellow-600">194年</span></li>
+              <li class="cursor-pointer hover:text-yellow-300" onclick="selectScenario(3)">3. 劉備時期 <span class="text-yellow-600">201年</span></li>
+              <li class="cursor-pointer hover:text-yellow-300" onclick="selectScenario(4)">4. 曹操篡位 <span class="text-yellow-600">208年</span></li>
+              <li class="cursor-pointer hover:text-yellow-300" onclick="selectScenario(5)">5. 三國鼎立 <span class="text-yellow-600">215年</span></li>
+              <li class="cursor-pointer hover:text-yellow-300" onclick="selectScenario(6)">6. 三方競爭 <span class="text-yellow-600">220年</span></li>
+            </ul>
+            <div class="mt-2 border-t border-gray-800 pt-1 text-xs text-cyan-400">
+              選時期號 (1-6)? <span id="selected-scenario-text">3</span>_
+            </div>
+          </div>
+
+          <!-- Right Tiger Asset -->
+          <div class="w-16 h-48 border border-red-800 flex items-center justify-center text-red-400 text-center text-xs p-1">
+            白虎<br/>[TIGER]
+          </div>
+        </div>
+        
+        <button id="menu-reset-btn" onclick="resetMenu()" class="hidden text-xs text-gray-500 hover:text-white border border-gray-800 px-2 py-1 mt-2">重新選擇 Menu</button>
+      </div>
+
+      <!-- ==========================================
+           STATE 3: GAME SETUP / PLAYER CONFIG
+           ========================================== -->
+      <div id="state-setup" class="hidden h-full flex-col justify-between py-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow items-center">
+          <!-- Small SVG China Map mockup -->
+          <div class="border border-cyan-800 bg-neutral-950 p-2 flex flex-col items-center justify-center h-full">
+            <h4 class="text-xs text-cyan-400 mb-1">【 初始勢力地圖 】</h4>
+            <svg class="w-full max-w-xs h-48 text-gray-600 border border-gray-800 bg-black" viewBox="0 0 100 80">
+              <path d="M 20 20 Q 30 10 50 15 T 90 20 T 80 70 T 40 75 T 10 60 Z" fill="#222" stroke="#555" stroke-width="1"/>
+              <!-- Colored states corresponding to key rulers -->
+              <circle cx="30" cy="30" r="4" fill="#0000ff" /> <text x="28" y="24" fill="#fff" font-size="5">11</text>
+              <circle cx="45" cy="45" r="4" fill="#ff00ff" /> <text x="43" y="39" fill="#fff" font-size="5">19</text>
+              <circle cx="65" cy="50" r="4" fill="#00ff00" /> <text x="63" y="44" fill="#fff" font-size="5">27</text>
+            </svg>
+            <div class="text-[10px] text-gray-500 mt-1">11: 洛陽 (司州) | 19: 新野 (荊州)</div>
+          </div>
+
+          <!-- Setup Config Interface -->
+          <div class="border border-double border-white bg-black p-3 text-xs space-y-3">
+            <div class="text-yellow-500 text-center border-b border-gray-800 pb-1">遊戲初始設定 (Initial Options)</div>
+            
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span>1. 由幾人玩? (Players 0-12)</span>
+                <span class="text-cyan-400">1</span>
+              </div>
+              <div class="flex justify-between items-center bg-neutral-900 p-1">
+                <span>2. 選擇諸侯:</span>
+                <span class="text-yellow-400">劉備 (Liu Bei)</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-[10px] text-gray-400">
+                <span>1. 曹操</span> <span class="text-green-400 font-bold">2. 劉備</span> <span>3. 孫策</span>
+                <span>4. 袁紹</span> <span>5. 袁術</span> <span>6. 馬騰</span>
+              </div>
+              <div class="flex justify-between">
+                <span>3. 遊戲難度 (1.初級 2.中級 3.高級):</span>
+                <span class="text-cyan-400">3 (高級)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>4. 看別國戰爭嗎 (Y/N):</span>
+                <span class="text-cyan-400">N (不看)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>5. 模式 (1.史實 2.虛構):</span>
+                <span class="text-cyan-400">1 (史實)</span>
+              </div>
+            </div>
+
+            <div class="bg-blue-950 p-2 text-center text-yellow-300 font-bold">
+              一切可以嗎? (Y/N) -> Y <br/>
+              <span class="text-white text-[10px] font-normal">遊戲載入中，開始對決...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           STATE 4: MAIN STRATEGIC COMMAND MAP
+           ========================================== -->
+      <div id="state-strategic" class="hidden h-full flex-col justify-between py-1 text-xs">
+        <!-- Top Status Bar -->
+        <div class="bg-blue-900 px-2 py-1 flex justify-between border-b border-blue-400">
+          <div>時期 3: 201年 劉備時期</div>
+          <div class="text-yellow-300">荊州 - 19 郡 (新野)</div>
+          <div>信賴度: 28</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 my-1 flex-grow">
+          <!-- Mini SVG Map representation -->
+          <div class="border border-blue-800 bg-neutral-950 p-1 col-span-1 flex flex-col justify-between">
+            <div class="text-center font-bold text-cyan-400 text-[10px] mb-1">【 中原地圖 】</div>
+            <svg class="w-full h-32 bg-black text-gray-500" viewBox="0 0 100 80">
+              <path d="M 20 20 Q 30 10 50 15 T 90 20 T 80 70 T 40 75 T 10 60 Z" fill="#111" stroke="#333" stroke-width="1"/>
+              <!-- Active Highlight Region 19 -->
+              <circle cx="45" cy="45" r="5" fill="#ff00ff" class="animate-pulse" />
+              <text x="52" y="47" fill="#ff55ff" font-size="6">19郡(荊州)</text>
+              <circle cx="35" cy="35" r="3" fill="#555" />
+              <circle cx="55" cy="38" r="3" fill="#555" />
+            </svg>
+            <div class="text-[9px] text-gray-400 leading-tight">荊州四通八達，北鄰曹操，南近劉表。</div>
+          </div>
+
+          <!-- Region Status Values -->
+          <div class="border border-blue-800 bg-black p-2 col-span-1 grid grid-cols-2 gap-y-1 gap-x-2 text-[10px]">
+            <div class="text-yellow-400 col-span-2 border-b border-gray-800">新野城數值：</div>
+            <div>太守: <span class="text-white">劉備</span></div>
+            <div>軍師: <span class="text-cyan-300">諸葛亮</span></div>
+            <div>人口: <span class="text-white">915,500</span></div>
+            <div>士兵: <span class="text-green-400">20,200</span></div>
+            <div>黃金: <span class="text-yellow-400">3,004</span></div>
+            <div>糧食: <span class="text-amber-500">56,511</span></div>
+            <div>治水度: <span class="text-blue-400">44</span></div>
+            <div>民忠度: <span class="text-yellow-400">68</span></div>
+            <div>土地價值: <span class="text-white">90</span></div>
+            <div>城防度: <span class="text-white">4</span></div>
+          </div>
+
+          <!-- Command Grid (0-19 Selection) -->
+          <div class="border border-blue-800 bg-black p-1 col-span-1 flex flex-col justify-between">
+            <div class="text-center text-yellow-500 text-[10px] mb-1">【 內政外交軍事命令 】</div>
+            <div class="grid grid-cols-2 gap-1 text-[9px]">
+              <button onclick="triggerAdvisor('rest')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">0. 休息</button>
+              <button onclick="triggerAdvisor('move')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">1. 遷移</button>
+              <button onclick="triggerAdvisor('recruit')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">4. 軍事</button>
+              <button onclick="triggerAdvisor('diplomacy')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">6. 外交</button>
+              <button onclick="triggerAdvisor('farm')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">9. 開墾</button>
+              <button onclick="triggerAdvisor('water')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">10. 治水</button>
+              <button onclick="triggerAdvisor('tax')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800">14. 徵稅</button>
+              <button onclick="triggerAdvisor('scout')" class="bg-neutral-900 hover:bg-neutral-800 p-1 text-left border border-gray-800 font-bold text-yellow-400 animate-pulse">5. 人事 (尋才)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Dialog/Event Panel -->
+        <div class="border-2 border-double border-cyan-400 bg-neutral-950 p-2 flex items-start space-x-3">
+          <div class="w-10 h-10 bg-blue-900 border border-cyan-400 flex items-center justify-center text-[8px] text-cyan-300 font-bold shrink-0">
+            諸葛亮<br/>軍師
+          </div>
+          <div class="flex-grow">
+            <div class="text-[10px] text-cyan-400 font-bold">軍師 諸葛亮 獻策：</div>
+            <p id="advisor-speech" class="text-xs text-white italic">"亮已在此聽候主公吩咐。請選擇各項指令開展復興之大業。"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           STATE 5: TACTICAL BATTLE GRID & COMBAT
+           ========================================== -->
+      <div id="state-tactical" class="hidden h-full flex-col justify-between py-1 text-xs">
+        <!-- Battle Header -->
+        <div class="bg-red-900 px-2 py-1 flex justify-between border-b border-red-500 text-[11px]">
+          <div>豫州 - 18 郡 戰役 (野戰)</div>
+          <div class="text-yellow-300 font-bold">攻方: 劉備 (關羽等) VS 守方: 孫權</div>
+          <div>3月 1日</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 my-1 flex-grow">
+          <!-- Combat Map Grid -->
+          <div class="border border-red-900 bg-black p-1 col-span-2 relative flex flex-col items-center justify-center min-h-[180px]">
+            <div class="absolute top-1 left-1 text-[9px] text-gray-500">【 戰地棋盤地形 】</div>
+            
+            <!-- Simple Retro Hex-like Grid mockup -->
+            <div class="grid grid-cols-8 gap-1 w-full max-w-sm">
+              <!-- Row 1 -->
+              <div class="h-6 bg-blue-900/40 border border-blue-900 flex items-center justify-center text-[8px]">水</div>
+              <div class="h-6 bg-blue-900/40 border border-blue-900 flex items-center justify-center text-[8px]">水</div>
+              <div class="h-6 bg-emerald-900/40 border border-emerald-900 flex items-center justify-center text-[8px]">林</div>
+              <div class="h-6 bg-emerald-900/40 border border-emerald-900 flex items-center justify-center text-[8px]">林</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px] text-red-500 font-bold">孫100</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <!-- Row 2 -->
+              <div class="h-6 bg-blue-900/40 border border-blue-900 flex items-center justify-center text-[8px]">水</div>
+              <div class="h-6 bg-emerald-900/40 border border-emerald-900 flex items-center justify-center text-[8px]">林</div>
+              <div class="h-6 bg-amber-950/40 border border-amber-800 flex items-center justify-center text-[8px]">山</div>
+              <div class="h-6 bg-amber-950/40 border border-amber-800 flex items-center justify-center text-[8px]">山</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px] text-green-500 font-bold">關100</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <!-- Row 3 -->
+              <div class="h-6 bg-emerald-900/40 border border-emerald-900 flex items-center justify-center text-[8px]">林</div>
+              <div class="h-6 bg-emerald-900/40 border border-emerald-900 flex items-center justify-center text-[8px]">林</div>
+              <div class="h-6 bg-amber-950/40 border border-amber-800 flex items-center justify-center text-[8px]">山</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px] text-green-500 font-bold">飛100</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+              <div class="h-6 bg-neutral-900 border border-neutral-700 flex items-center justify-center text-[8px]">平</div>
+            </div>
+
+            <!-- Duel Combat Simulation Console overlay -->
+            <div id="duel-box" class="hidden absolute inset-0 bg-black/95 border-2 border-red-500 p-2 flex flex-col justify-between">
+              <div class="text-center text-yellow-500 font-bold text-[10px] animate-pulse">⚔️ 一挑一對決 (WARRIOR DUEL) ⚔️</div>
+              <div class="flex justify-around items-center">
+                <div class="text-center">
+                  <div class="text-red-400">【孫權方】周泰</div>
+                  <div class="text-[9px] text-gray-400">武力: 85</div>
+                  <div class="w-20 bg-gray-800 h-2 mt-1"><div id="hp-zhoutai" class="bg-red-600 h-full w-full"></div></div>
+                </div>
+                <div class="text-yellow-600 text-lg font-bold">VS</div>
+                <div class="text-center">
+                  <div class="text-green-400">【劉備方】張飛</div>
+                  <div class="text-[9px] text-gray-400">武力: 99</div>
+                  <div class="w-20 bg-gray-800 h-2 mt-1"><div id="hp-zhangfei" class="bg-green-600 h-full w-full"></div></div>
+                </div>
+              </div>
+              <div id="duel-log" class="text-[9px] text-center text-white h-12 overflow-y-auto bg-neutral-950 p-1 border border-gray-800">
+                張飛自願提出挑戰！周泰拍馬迎擊！
+              </div>
+              <button onclick="nextDuelTurn()" id="duel-action-btn" class="w-full bg-red-900 text-[10px] py-1 hover:bg-red-800">回合進攻 (Next Round)</button>
+            </div>
+          </div>
+
+          <!-- Combat units / options list -->
+          <div class="border border-red-900 bg-black p-2 col-span-1 flex flex-col justify-between text-[10px]">
+            <div>
+              <div class="text-yellow-500 border-b border-gray-800 mb-1">部隊現狀:</div>
+              <div class="space-y-1 text-[9px]">
+                <div class="flex justify-between"><span>關羽 :</span><span class="text-green-400">10,000</span></div>
+                <div class="flex justify-between"><span>太史慈:</span><span class="text-green-400">10,000</span></div>
+                <div class="flex justify-between"><span>張飛 :</span><span class="text-green-400">10,000</span></div>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-1 space-y-1">
+              <div class="text-yellow-500">戰場策略:</div>
+              <button onclick="startDuelSimulation()" class="w-full bg-orange-950 hover:bg-orange-900 border border-orange-500 text-[9px] py-1 font-bold animate-pulse">
+                1. 啟動單挑 (Request Duel)
+              </button>
+              <div class="grid grid-cols-2 gap-1 text-[8px] text-gray-400 mt-1">
+                <span>1. 正規作戰</span> <span>2. 圍攻</span>
+                <span>3. 火攻</span> <span>4. 肉搏</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combat Commands Panel -->
+        <div class="bg-neutral-900 p-1 border border-red-900 flex justify-around text-[10px]">
+          <span class="text-red-400">選擇戰場指令:</span>
+          <span class="hover:text-white cursor-pointer">1. 行軍</span>
+          <span class="hover:text-white cursor-pointer text-yellow-400 font-bold">2. 攻擊</span>
+          <span class="hover:text-white cursor-pointer">3. 靜待</span>
+          <span class="hover:text-white cursor-pointer">4. 觀看</span>
+          <span class="hover:text-white cursor-pointer">5. 策略</span>
+          <span class="hover:text-white cursor-pointer">6. 轉進</span>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           STATE 6: POST-BATTLE CAPTIVE & ITEM REWARD
+           ========================================== -->
+      <div id="state-post" class="hidden h-full flex-col justify-between py-1 text-xs">
+        <div class="bg-emerald-950 px-2 py-1 flex justify-between border-b border-emerald-500 text-[11px]">
+          <span class="text-yellow-300 font-bold">戰役結束 (Battle Accomplished)</span>
+          <span class="text-green-400 font-bold">劉備得勝! 孫權被全殲了!</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2 flex-grow items-center">
+          <!-- Captured Generals Section -->
+          <div class="border border-double border-emerald-500 bg-black p-3 space-y-2">
+            <h4 class="text-yellow-500 border-b border-gray-800 pb-1 text-center font-bold">捕獲敵將處置 (Captured Officers)</h4>
+            
+            <div class="bg-neutral-900 p-2 border border-gray-800">
+              <p class="text-[10px] text-gray-400">捕獲將領: <span class="text-white font-bold">周泰 (Zhou Tai)</span></p>
+              <p class="text-[9px] text-yellow-600 mt-1">"周泰面有慍色，不願投誠..."</p>
+            </div>
+
+            <div class="flex justify-around pt-2">
+              <button onclick="handlePrisoner('recruit')" class="bg-emerald-900 hover:bg-emerald-800 px-3 py-1 border border-emerald-500 text-xs">1. 收為部下</button>
+              <button onclick="handlePrisoner('release')" class="bg-blue-900 hover:bg-blue-800 px-3 py-1 border border-blue-500 text-xs">2. 釋放</button>
+              <button onclick="handlePrisoner('execute')" class="bg-red-900 hover:bg-red-800 px-3 py-1 border border-red-500 text-xs">3. 斬首</button>
+            </div>
+            
+            <p id="prisoner-result" class="text-center text-[10px] text-green-300 italic min-h-6">請選擇處置方式...</p>
+          </div>
+
+          <!-- Treasure Award / Int Gain -->
+          <div class="border border-double border-yellow-600 bg-black p-3 space-y-2">
+            <h4 class="text-yellow-500 border-b border-gray-800 pb-1 text-center font-bold">戰利品分配 (Treasure Distribution)</h4>
+            
+            <div class="bg-amber-950/20 border border-yellow-800 p-2 text-center text-xs">
+              <p class="text-yellow-300 font-bold">獲得神書: 《太平要術書》</p>
+              <p class="text-[10px] text-gray-400 mt-1">此書可大幅提昇武將才智</p>
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex justify-between text-[10px]">
+                <span>贈給武將:</span>
+                <span class="text-yellow-400 font-bold">趙雲 (Zhao Yun)</span>
+              </div>
+              <div class="flex justify-between text-[10px]">
+                <span>原才智:</span>
+                <span>85</span>
+              </div>
+              <div class="flex justify-between text-[10px] text-green-400 font-bold">
+                <span>贈送後才智:</span>
+                <span>92 (+7)</span>
+              </div>
+            </div>
+
+            <button onclick="simulateTreasureAward()" class="w-full bg-yellow-600 hover:bg-yellow-500 text-black font-bold text-xs py-1.5 mt-2 rounded">
+              給予趙雲並提升能力
+            </button>
+            
+            <p id="treasure-result" class="text-center text-[10px] text-yellow-300 italic min-h-6"></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Retro Bottom Console / Bezel Controls -->
+    <div class="mt-4 border-t-2 border-neutral-800 pt-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+        <span class="text-[10px] text-neutral-400 tracking-wider">RETRO DOS SYSTEM ACTIVE</span>
+      </div>
+
+      <!-- STATE SWITCHER SELECTOR (At the bottom-right of the retro frame) -->
+      <div class="flex items-center space-x-2 bg-neutral-900 p-1.5 rounded border border-neutral-700">
+        <label for="state-selector" class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">UI State Selector:</label>
+        <select id="state-selector" onchange="switchState(this.value)" class="bg-black text-white text-xs border border-neutral-700 px-2 py-1 rounded focus:outline-none focus:border-cyan-400">
+          <option value="intro">1. Game Intro & Slides</option>
+          <option value="menu">2. Menu & Option Select</option>
+          <option value="setup">3. Game Setup Interface</option>
+          <option value="strategic">4. Strategic Command Map</option>
+          <option value="tactical">5. Tactical Battle Board</option>
+          <option value="post">6. Post-Battle Rewards</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ==========================================
+    // RETRO AUDIO GENERATOR (Web Audio API)
+    // ==========================================
+    let audioCtx = null;
+
+    function playRetroSound(frequency, duration, type = 'square') {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        
+        osc.type = type;
+        osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+        
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime); // keep volume retro/low
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.warn("Audio Context blocked or not supported yet.");
+      }
+    }
+
+    function playSelectBeep() {
+      playRetroSound(800, 0.1, 'square');
+    }
+
+    function playSuccessChime() {
+      setTimeout(() => playRetroSound(523, 0.08, 'square'), 0);
+      setTimeout(() => playRetroSound(659, 0.08, 'square'), 80);
+      setTimeout(() => playRetroSound(784, 0.15, 'square'), 160);
+    }
+
+    function playHitBeep() {
+      playRetroSound(220, 0.15, 'triangle');
+    }
+
+    // ==========================================
+    // UI STATE MANAGEMENT
+    // ==========================================
+    const states = ['intro', 'menu', 'setup', 'strategic', 'tactical', 'post'];
+
+    function switchState(stateName) {
+      states.forEach(s => {
+        document.getElementById(`state-${s}`).classList.add('hidden');
+      });
+      document.getElementById(`state-${stateName}`).classList.remove('hidden');
+      document.getElementById('state-selector').value = stateName;
+      
+      playSelectBeep();
+
+      // Hook initializations per state
+      if (stateName === 'intro') {
+        currentSlide = 1;
+        showSlide(1);
+      } else if (stateName === 'menu') {
+        resetMenu();
+      } else if (stateName === 'tactical') {
+        resetDuel();
+      }
+    }
+
+    // ==========================================
+    // STATE 1: INTRO SEQUENCE
+    // ==========================================
+    let currentSlide = 1;
+    const totalSlides = 4;
+
+    function showSlide(slideNum) {
+      for(let i=1; i<=totalSlides; i++) {
+        document.getElementById(`intro-slide-${i}`).classList.add('hidden');
+      }
+      document.getElementById(`intro-slide-${slideNum}`).classList.remove('hidden');
+    }
+
+    function nextIntroSlide() {
+      currentSlide = currentSlide < totalSlides ? currentSlide + 1 : 1;
+      showSlide(currentSlide);
+      playSelectBeep();
+    }
+
+    function prevIntroSlide() {
+      currentSlide = currentSlide > 1 ? currentSlide - 1 : totalSlides;
+      showSlide(currentSlide);
+      playSelectBeep();
+    }
+
+    // ==========================================
+    // STATE 2: MENU & OPTIONS
+    // ==========================================
+    function selectMenuOption(option) {
+      if (option === 1) {
+        // Go to Scenario Window
+        document.getElementById('menu-window-1').classList.add('hidden');
+        document.getElementById('menu-window-2').classList.remove('hidden');
+        document.getElementById('menu-reset-btn').classList.remove('hidden');
+        playSuccessChime();
+      } else if (option === 2) {
+        alert("無數據存檔！");
+        playHitBeep();
+      }
+    }
+
+    function selectScenario(scenarioNum) {
+      document.getElementById('selected-scenario-text').innerText = scenarioNum;
+      playSuccessChime();
+      setTimeout(() => {
+        // Automatically switch to Setup State for seamless demo experience
+        switchState('setup');
+      }, 800);
+    }
+
+    function resetMenu() {
+      document.getElementById('menu-window-1').classList.remove('hidden');
+      document.getElementById('menu-window-2').classList.add('hidden');
+      document.getElementById('menu-reset-btn').classList.add('hidden');
+    }
+
+    // ==========================================
+    // STATE 4: STRATEGIC DIALOGUES
+    // ==========================================
+    function triggerAdvisor(action) {
+      const speech = document.getElementById('advisor-speech');
+      playSelectBeep();
+      switch(action) {
+        case 'rest':
+          speech.innerText = '"主公，休生養息亦是良策。我軍將士會在此月恢復元氣。"';
+          break;
+        case 'move':
+          speech.innerText = '"遷移前需備好足夠糧食。遷往何郡，請主公明示。"';
+          break;
+        case 'recruit':
+          speech.innerText = '"募兵一事事關重大，每十金可招募若干壯士。需確保治水與民忠不降。"';
+          break;
+        case 'diplomacy':
+          speech.innerText = '"曹操勢大，主公可派人與孫權聯合，共抗曹賊。"';
+          break;
+        case 'farm':
+          speech.innerText = '"土地肥沃，開墾可增加明年之征稅收，乃立國之本。"';
+          break;
+        case 'water':
+          speech.innerText = '"加強治水，可防備夏秋水災，保衛新野城池家園。"';
+          break;
+        case 'tax':
+          speech.innerText = '"頻繁徵稅雖能救急，但民忠度會驟然下降，請主公三思！"';
+          break;
+        case 'scout':
+          speech.innerText = '"新野城附近人才輩出，聽聞徐庶就在城郊，亮可前去為您引薦。"';
+          break;
+      }
+    }
+
+    // ==========================================
+    // STATE 5: DUEL SIMULATOR
+    // ==========================================
+    let duelActive = false;
+    let hpZhoutai = 100;
+    let hpZhangfei = 100;
+    let duelRound = 1;
+
+    function resetDuel() {
+      duelActive = false;
+      hpZhoutai = 100;
+      hpZhangfei = 100;
+      duelRound = 1;
+      document.getElementById('hp-zhoutai').style.width = '100%';
+      document.getElementById('hp-zhangfei').style.width = '100%';
+      document.getElementById('duel-box').classList.add('hidden');
+      document.getElementById('duel-log').innerText = "張飛自願提出挑戰！周泰拍馬迎擊！";
+      document.getElementById('duel-action-btn').innerText = "回合進攻 (Next Round)";
+      document.getElementById('duel-action-btn').disabled = false;
+    }
+
+    function startDuelSimulation() {
+      resetDuel();
+      document.getElementById('duel-box').classList.remove('transparent');
+      document.getElementById('duel-box').classList.remove('hidden');
+      playSuccessChime();
+    }
+
+    function nextDuelTurn() {
+      if (hpZhoutai <= 0 || hpZhangfei <= 0) {
+        resetDuel();
+        return;
+      }
+
+      duelRound++;
+      // Simple random fight mechanics favoring Zhang Fei
+      let damageToZhoutai = Math.floor(Math.random() * 25) + 15;
+      let damageToZhangfei = Math.floor(Math.random() * 15) + 5;
+
+      hpZhoutai = Math.max(0, hpZhoutai - damageToZhoutai);
+      hpZhangfei = Math.max(0, hpZhangfei - damageToZhangfei);
+
+      document.getElementById('hp-zhoutai').style.width = `${hpZhoutai}%`;
+      document.getElementById('hp-zhangfei').style.width = `${hpZhangfei}%`;
+
+      playHitBeep();
+
+      const log = document.getElementById('duel-log');
+      if (hpZhoutai <= 0) {
+        log.innerHTML = `第 ${duelRound} 輪：張飛使出丈八蛇矛致命一擊！<br/><span class="text-green-400 font-bold">周泰落馬被擒！張飛得勝！</span>`;
+        document.getElementById('duel-action-btn').innerText = "戰役勝利！(Close Window)";
+        playSuccessChime();
+      } else if (hpZhangfei <= 0) {
+        log.innerHTML = `第 ${duelRound} 輪：周泰使出狂暴一擊戰勝張飛！(罕見)`;
+        document.getElementById('duel-action-btn').innerText = "戰役失敗 (Close Window)";
+      } else {
+        log.innerHTML = `第 ${duelRound} 輪：張飛擊中周泰 (-${damageToZhoutai} HP)！周泰揮刀反擊 (-${damageToZhangfei} HP)！`;
+      }
+    }
+
+    // ==========================================
+    // STATE 6: POST BATTLE PROCESSES
+    // ==========================================
+    function handlePrisoner(action) {
+      const result = document.getElementById('prisoner-result');
+      if (action === 'recruit') {
+        result.innerHTML = `<span class="text-green-400">招募成功！周泰敬仰主公仁德，決定歸順！</span>`;
+        playSuccessChime();
+      } else if (action === 'release') {
+        result.innerHTML = `<span class="text-blue-300">主公大度放走周泰，周泰默默抱拳離去。</span>`;
+        playSelectBeep();
+      } else if (action === 'execute') {
+        result.innerHTML = `<span class="text-red-500">周泰誓死不降，已被推下斬首。</span>`;
+        playHitBeep();
+      }
+    }
+
+    function simulateTreasureAward() {
+      const res = document.getElementById('treasure-result');
+      res.innerText = "正在賞賜... 趙雲拜謝領書！";
+      playSuccessChime();
+      setTimeout(() => {
+        res.innerHTML = `<span class="text-yellow-400 font-bold">《太平要術書》已被趙雲裝備！才智永久提升至 92！</span>`;
+      }, 1000);
+    }
+
+    // Boot initialize
+    switchState('intro');
+  </script>
+</body>
+</html>

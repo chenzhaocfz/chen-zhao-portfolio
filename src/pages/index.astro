@@ -1,0 +1,376 @@
+---
+// src/pages/index.astro
+import '../styles/global.css';
+
+const title = "Chen Zhao | Quant Developer & CS Researcher";
+const description = "Personal portfolio of Chen Zhao — Computer Science & Financial Engineering graduate specializing in Cloud Computing, AI Reasoning Faithfulness, and Quantitative Systems.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #0b0f19;
+        color: #e2e8f0;
+      }
+      .glass-card {
+        background: rgba(17, 24, 39, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glass-card:hover {
+        border-color: rgba(99, 102, 241, 0.3);
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased selection:bg-brand-500 selection:text-white">
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="font-mono text-lg font-bold text-white tracking-tight">
+          Chen Zhao<span class="text-brand-500">.</span>
+        </a>
+        <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-400">
+          <a href="#about" class="hover:text-white transition">About</a>
+          <a href="#research" class="hover:text-brand-500 transition">Research</a>
+          <a href="#projects" class="hover:text-white transition">Projects</a>
+          <a href="#experience" class="hover:text-white transition">Experience</a>
+          <a href="#skills" class="hover:text-white transition">Skills</a>
+          <a href="#education" class="hover:text-white transition">Education</a>
+        </nav>
+        <a 
+          href="mailto:chen.zhao.cfz@gmail.com" 
+          class="px-4 py-2 text-xs font-semibold rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition shadow-lg shadow-brand-500/20"
+        >
+          Contact
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-20">
+      
+      <!-- Section 1: Hero -->
+      <section id="about" class="pt-4 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
+          <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+          Honours CS @ Sheridan College | Cloud Computing Specialization
+        </div>
+        
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+          Quant Developer & <br />
+          <span class="bg-gradient-to-r from-brand-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+            AI Safety Researcher
+          </span>
+        </h1>
+        
+        <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
+          Experienced Developer with a strong background in <strong class="text-slate-200">Financial Engineering</strong>, 
+          <strong class="text-slate-200">Quantitative Analysis</strong>, and <strong class="text-slate-200">Full-Stack Web Engineering</strong>. 
+          Currently researching modular deep learning architectures for verifiable reasoning in LLMs.
+        </p>
+
+        <!-- Social Links & Contact Badges -->
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a 
+            href="https://linkedin.com/in/chen-zhao-cfz/" 
+            target="_blank" 
+            class="px-4 py-2.5 rounded-lg glass-card text-sm font-medium hover:text-white flex items-center gap-2 transition"
+          >
+            <svg class="w-4 h-4 text-brand-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            LinkedIn
+          </a>
+          <a 
+            href="mailto:chen.zhao.cfz@gmail.com" 
+            class="px-4 py-2.5 rounded-lg glass-card text-sm font-medium hover:text-white flex items-center gap-2 transition"
+          >
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            chen.zhao.cfz@gmail.com
+          </a>
+          <div class="px-4 py-2.5 rounded-lg glass-card text-xs font-mono text-slate-400 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Toronto / Oakville, ON
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: DETAILED SIDE-BY-SIDE RESPONSIVE GRID (Thesis & Projects) -->
+      <!-- Desktop/Widescreen: 2 Columns | Mobile Phones: 1 Column -->
+      <section id="research" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Research & Projects</h2>
+          <div class="h-px bg-slate-800 flex-1"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          <!-- Column 1: Featured Thesis Research (Expanded Depth) -->
+          <div id="thesis" class="glass-card p-6 md:p-8 rounded-2xl border-brand-500/30 flex flex-col justify-between relative overflow-hidden space-y-6">
+            <div class="space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="px-3 py-1 rounded-md text-xs font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  Bachelor's Thesis (2025–2026)
+                </span>
+                <span class="text-xs font-mono text-slate-400">Sheridan CS Thesis</span>
+              </div>
+
+              <div>
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-1">
+                  Sequential Dual-LoRA vs. Monolithic Distillation
+                </h3>
+                <p class="text-xs font-mono text-brand-400">
+                  A Comparative Study of Reasoning Faithfulness in GSM8K
+                </p>
+              </div>
+
+              <p class="text-slate-300 text-xs leading-relaxed">
+                Addressing <strong class="text-white">Reasoning Unfaithfulness</strong> in Large Language Models. In standard monolithic architectures (e.g., DeepSeek-R1-Distill), reasoning and answering parameters are deeply entangled. Models frequently generate sound logic but bypass it during output generation—creating deceptive audit trails that violate strict regulatory frameworks like the <strong class="text-white">EU AI Act</strong>, <strong class="text-white">SOX Sec. 404</strong>, and <strong class="text-white">HHS mandates</strong>.
+              </p>
+
+              <p class="text-slate-300 text-xs leading-relaxed">
+                This thesis proposes a <strong class="text-white">Sequential Dual-LoRA Architecture</strong> on Qwen-3-8B that physically decouples the "Thinking" and "Answering" inference phases. By utilizing runtime adapter hot-swapping in vLLM and clearing Key-Value (KV) cache memory, the solver adapter is forced to rely strictly on the explicit text trace generated by the thinker.
+              </p>
+
+              <div class="space-y-2 pt-2">
+                <h4 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">Experimental Design Highlights:</h4>
+                <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside leading-relaxed">
+                  <li><strong class="text-slate-300">Oracle Distillation:</strong> 5,000 synthetic reasoning traces generated using DeepSeek-V3.2 API on GSM8K.</li>
+                  <li><strong class="text-slate-300">Adversarial Trap Test:</strong> Saboteur logical injections (e.g. 7×8=54) on known-correct intersections evaluated via McNemar's Test.</li>
+                  <li><strong class="text-slate-300">Hardware Constraints:</strong> 100% trained and served on a single consumer RTX 4070 (12GB VRAM) using Unsloth 4-bit QLoRA.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800/80 flex flex-wrap gap-1.5 font-mono text-[11px]">
+              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">Qwen-3-8B</span>
+              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">DeepSeek-V3.2</span>
+              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">Unsloth QLoRA</span>
+              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">vLLM Hot-Swap</span>
+              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">SciPy McNemar</span>
+            </div>
+          </div>
+
+          <!-- Column 2: Spec-Driven UI Project (Expanded Depth) -->
+          <div id="projects" class="glass-card p-6 md:p-8 rounded-2xl border-amber-500/30 hover:border-amber-500/60 transition flex flex-col justify-between relative overflow-hidden group space-y-6">
+            <div class="space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="px-3 py-1 rounded-md text-xs font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  Side Project & LLM Benchmark
+                </span>
+                <span class="text-xs font-mono text-slate-400">Declarative Compiler</span>
+              </div>
+
+              <div>
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-1 group-hover:text-amber-400 transition">
+                  Spec-Driven UI Synthesis vs. Vision Models
+                </h3>
+                <p class="text-xs font-mono text-amber-400">
+                  3-Layer YAML Specification & Prompt Compiler Pipeline
+                </p>
+              </div>
+
+              <p class="text-slate-300 text-xs leading-relaxed">
+                Evaluating frontend code generation capabilities. When multimodal vision models (e.g. GPT-4o) are asked to recreate 16-color retro EGA game UIs directly from raw video data, they suffer from severe <strong class="text-white">stylistic drift</strong>—hallucinating modern web defaults like rounded corners (<code class="text-amber-300">rounded-lg</code>), smooth CSS gradients, glowing scanlines, and broken spatial layouts.
+              </p>
+
+              <p class="text-slate-300 text-xs leading-relaxed">
+                This project introduces a <strong class="text-white">Three-Layer Specification Pipeline</strong> (<code class="text-amber-300">layout.yaml</code>, <code class="text-amber-300">elements.yaml</code>, <code class="text-amber-300">states.yaml</code>) compiled by a custom Python compiler into deterministic LLM prompt constraints. It forces strict layout blueprints, component slot manifests, and active-element diff state transitions.
+              </p>
+
+              <div class="space-y-2 pt-2">
+                <h4 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">Benchmark & Technical Findings:</h4>
+                <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside leading-relaxed">
+                  <li><strong class="text-slate-300">EGA Canvas Engine:</strong> Renders a 41-province polygon canvas map, a 10x10 tactical hex grid, and procedural pixel-art.</li>
+                  <li><strong class="text-slate-300">State Controller:</strong> Supports 8 active visual states with seamless diff routing (<code class="text-amber-300">+</code>/ <code class="text-amber-300">-</code> toggles).</li>
+                  <li><strong class="text-slate-300">Pareto Frontier:</strong> Proves that ~350 lines of modular YAML establishes the optimal tradeoff boundary between spec verbosity and visual stability.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4">
+              <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">YAML Spec</span>
+                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">Prompt Compiler</span>
+                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">EGA Canvas</span>
+              </div>
+              
+              <a 
+                href="/projects/spec-compiler" 
+                class="px-4 py-2.5 text-xs font-mono font-bold rounded-lg bg-amber-500 hover:bg-amber-400 text-black transition flex items-center gap-2"
+              >
+                View Case Study & Demo →
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section 3: Work Experience -->
+      <section id="experience" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Work Experience</h2>
+          <div class="h-px bg-slate-800 flex-1"></div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Job 1 -->
+          <div class="glass-card p-6 rounded-xl space-y-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+              <div>
+                <h3 class="text-lg font-bold text-white">C# Quant Developer</h3>
+                <p class="text-sm text-brand-400 font-medium">EQ Consulting Inc • Toronto, ON</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">Feb 2022 – Dec 2023</span>
+            </div>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2 leading-relaxed">
+              <li>Engineered and refined comprehensive financial models in C# and C++ for Equity, FX, and Commodity products, delivering precise pricing and risk analysis.</li>
+              <li>Developed sophisticated user interfaces for traders using Excel and VSTO, ensuring efficient access to quantitative models and facilitating decision making.</li>
+              <li>Innovated Risk and Profit & Loss (P&L) visualization tools providing actionable insights supporting client trading strategies.</li>
+              <li>Automated portfolio data aggregation processes through VBA scripts, significantly reducing manual data handling.</li>
+            </ul>
+          </div>
+
+          <!-- Job 2 -->
+          <div class="glass-card p-6 rounded-xl space-y-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+              <div>
+                <h3 class="text-lg font-bold text-white">Information Services Technical Support Lead</h3>
+                <p class="text-sm text-brand-400 font-medium">North York General Hospital • Toronto, ON</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">2020 – 2021</span>
+            </div>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2 leading-relaxed">
+              <li>Developed internal web tools using Angular, Node.js, and MySQL to track and manage shift slots for hospital staff.</li>
+              <li>Led technical support at vaccination centers, overseeing hardware/software configuration and proactively resolving issues.</li>
+              <li>Authored Python scripts to automate administrative processes, saving operational time and ensuring data accuracy.</li>
+            </ul>
+          </div>
+
+          <!-- Job 3 -->
+          <div class="glass-card p-6 rounded-xl space-y-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+              <div>
+                <h3 class="text-lg font-bold text-white">Analyst, Financial Engineer</h3>
+                <p class="text-sm text-brand-400 font-medium">Scotiabank • Toronto, ON</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">Apr 2019 – Sep 2019</span>
+            </div>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2 leading-relaxed">
+              <li>Implemented financial modeling calculations into core C/C++ libraries and proprietary programs in consultation with market traders.</li>
+              <li>Developed interface layers between end-user products and core models connecting C++ with VBA in Excel.</li>
+              <li>Wrote data sanitation and repair scripts in Python and Bash to optimize batch jobs.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Skills Matrix (2-col desktop grid, 1-col mobile) -->
+      <section id="skills" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Technical Skills</h2>
+          <div class="h-px bg-slate-800 flex-1"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="glass-card p-5 rounded-xl">
+            <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Languages</h3>
+            <div class="flex flex-wrap gap-2">
+              {['C#', 'C/C++', 'Python', 'Java', 'VBA', 'Bash', 'SQL'].map((skill) => (
+                <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl">
+            <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">AI / ML & Quant Frameworks</h3>
+            <div class="flex flex-wrap gap-2">
+              {['PyTorch', 'Unsloth (QLoRA)', 'vLLM', 'PEFT', 'Financial Modeling', 'Risk Analysis'].map((skill) => (
+                <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl">
+            <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Web & Databases</h3>
+            <div class="flex flex-wrap gap-2">
+              {['Angular', 'Node.js', 'Astro', 'HTML/CSS/JS', 'MySQL', 'MongoDB', 'SQL Server'].map((skill) => (
+                <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl">
+            <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Tools & Infrastructure</h3>
+            <div class="flex flex-wrap gap-2">
+              {['AWS (Solutions Architect)', 'Git', 'VPS Admin', 'Visual Studio', 'Linux Environment'].map((skill) => (
+                <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Education & Certifications (2-col desktop grid, 1-col mobile) -->
+      <section id="education" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Education & Certifications</h2>
+          <div class="h-px bg-slate-800 flex-1"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Education Column -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider">Education</h3>
+            
+            <div class="glass-card p-5 rounded-xl space-y-1">
+              <span class="text-xs font-mono text-brand-400">Expected Graduation 2026</span>
+              <h4 class="font-bold text-white">Honours Bachelor of Computer Science</h4>
+              <p class="text-sm text-slate-300">Sheridan College • Oakville, ON</p>
+              <p class="text-xs text-slate-400 pt-1">Specialization: Cloud Computing</p>
+            </div>
+
+            <div class="glass-card p-5 rounded-xl space-y-1">
+              <span class="text-xs font-mono text-slate-400">2019 – 2021</span>
+              <h4 class="font-bold text-white">Economics, Minor in CS & Statistics</h4>
+              <p class="text-sm text-slate-300">University of Toronto • Toronto, ON</p>
+            </div>
+          </div>
+
+          <!-- Certifications Column -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider">Certifications</h3>
+
+            <div class="glass-card p-5 rounded-xl flex items-start gap-4">
+              <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono text-xs font-bold">AWS</div>
+              <div>
+                <h4 class="font-bold text-white text-sm">AWS Certified Solutions Architect – Associate</h4>
+                <p class="text-xs text-slate-400">Issued 2025</p>
+              </div>
+            </div>
+
+            <div class="glass-card p-5 rounded-xl flex items-start gap-4">
+              <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono text-xs font-bold">MDB</div>
+              <div>
+                <h4 class="font-bold text-white text-sm">MongoDB Certified Professional Developer Associate</h4>
+                <p class="text-xs text-slate-400">Issued 2021</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-8 mt-20 text-center text-xs font-mono text-slate-500">
+      <p>© {new Date().getFullYear()} Chen Zhao. Built with Astro & Cloudflare Pages.</p>
+    </footer>
+  </body>
+</html>
