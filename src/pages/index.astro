@@ -2,8 +2,16 @@
 // src/pages/index.astro
 import '../styles/global.css';
 
-const title = "Chen Zhao | CS Researcher & Software Developer";
-const description = "Personal portfolio of Chen Zhao — Computer Science graduate specializing in AI Alignment, Reasoning Faithfulness, Cloud Computing, and Software Engineering.";
+const mode = import.meta.env.PORTFOLIO_TYPE || 'creative';
+const isAcademic = mode === 'academic';
+
+const title = isAcademic 
+  ? "Chen Zhao | CS Systems & AI Alignment Researcher"
+  : "Chen Zhao | Creative Computing & Systems Developer";
+
+const description = isAcademic
+  ? "Computer Science portfolio of Chen Zhao — Specialized in AI Alignment, Reasoning Faithfulness, and Distributed Systems."
+  : "Creative computing portfolio of Chen Zhao — Physical computing, human-robot interaction, retro game design, and systems engineering.";
 ---
 
 <!DOCTYPE html>
@@ -32,7 +40,8 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
     </style>
   </head>
   <body class="font-sans antialiased selection:bg-brand-500 selection:text-white">
-    <!-- Header / Navbar -->
+    
+    <!-- Navbar -->
     <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
       <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
         <a href="#" class="font-mono text-lg font-bold text-white tracking-tight">
@@ -40,8 +49,8 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
         </a>
         <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-400">
           <a href="#about" class="hover:text-white transition">About</a>
-          <a href="#research" class="hover:text-brand-500 transition">Research</a>
-          <a href="#projects" class="hover:text-white transition">Projects</a>
+          <a href="#featured" class="hover:text-emerald-400 transition">{isAcademic ? "Thesis" : "Featured Project"}</a>
+          <a href="#projects" class="hover:text-cyan-400 transition">Projects</a>
           <a href="#experience" class="hover:text-white transition">Experience</a>
           <a href="#skills" class="hover:text-white transition">Skills</a>
           <a href="#education" class="hover:text-white transition">Education</a>
@@ -57,162 +66,505 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
 
     <main class="max-w-6xl mx-auto px-6 py-12 space-y-20">
       
-      <!-- Section 1: Hero -->
-      <section id="about" class="pt-4 space-y-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
-          <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
-          Honours CS @ Sheridan College | Cloud Computing Specialization
-        </div>
-        
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
-          Software Developer & <br />
-          <span class="bg-gradient-to-r from-brand-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-            AI Safety Researcher
-          </span>
-        </h1>
-        
-        <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
-          Software Developer with a research focus in <strong class="text-slate-200">AI Safety & Alignment</strong>, 
-          <strong class="text-slate-200">Cloud Systems</strong>, and <strong class="text-slate-200">Full-Stack Development</strong>. 
-          Currently investigating modular deep learning architectures for verifiable reasoning in LLMs.
-        </p>
+      <!-- Section 1: Hero Section -->
+      <section id="about" class="pt-4">
+        <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-10">
+          
+          <div class="space-y-6 flex-1 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
+              <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+              Sheridan College CS • Cloud Computing Specialization
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+              Software Developer & <br />
+              <span class="bg-gradient-to-r from-brand-500 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                {isAcademic ? "AI Safety Researcher" : "Creative Systems Builder"}
+              </span>
+            </h1>
+            
+            <p class="text-base md:text-lg text-slate-400 max-w-xl leading-relaxed mx-auto md:mx-0">
+              {isAcademic ? (
+                <>Hi, I'm Chen. I research reasoning faithfulness and mechanistic interpretability in Large Language Models. Beyond AI theory, I build autonomous physical computing systems and declarative specification compilers.</>
+              ) : (
+                <>Hi, I'm Chen. I build physical computing installations, retro game engines, and playful interactive software. Grounded in my research on AI reasoning and specification compilers, I turn autonomous systems into tangible human experiences.</>
+              )}
+            </p>
 
-        <!-- Social Links & Contact Badges -->
-        <div class="flex flex-wrap gap-4 pt-2">
-          <a 
-            href="https://linkedin.com/in/chen-zhao-cfz/" 
-            target="_blank" 
-            class="px-4 py-2.5 rounded-lg glass-card text-sm font-medium hover:text-white flex items-center gap-2 transition"
-          >
-            <svg class="w-4 h-4 text-brand-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-            LinkedIn
-          </a>
-          <a 
-            href="mailto:chen.zhao.cfz@gmail.com" 
-            class="px-4 py-2.5 rounded-lg glass-card text-sm font-medium hover:text-white flex items-center gap-2 transition"
-          >
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            chen.zhao.cfz@gmail.com
-          </a>
-          <div class="px-4 py-2.5 rounded-lg glass-card text-xs font-mono text-slate-400 flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Toronto / Oakville, ON
+            <div class="flex flex-wrap gap-3 justify-center md:justify-start pt-1">
+              <a 
+                href="https://github.com/chenzhaocfz"
+                target="_blank" 
+                class="px-4 py-2 rounded-lg glass-card text-xs font-medium hover:text-white flex items-center gap-2 transition"
+              >
+                <svg class="w-3.5 h-3.5 text-slate-300" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                GitHub
+              </a>
+              <a 
+                href="https://linkedin.com/in/chen-zhao-cfz/" 
+                target="_blank" 
+                class="px-4 py-2 rounded-lg glass-card text-xs font-medium hover:text-white flex items-center gap-2 transition"
+              >
+                <svg class="w-3.5 h-3.5 text-brand-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                LinkedIn
+              </a>
+              <a 
+                href="mailto:chen.zhao.cfz@gmail.com" 
+                class="px-4 py-2 rounded-lg glass-card text-xs font-medium hover:text-white flex items-center gap-2 transition"
+              >
+                <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Email
+              </a>
+              <div class="px-4 py-2 rounded-lg glass-card text-xs font-mono text-slate-400 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Toronto, ON
+              </div>
+            </div>
           </div>
+
+          <div class="relative group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-brand-500 to-cyan-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+            <div class="relative w-44 h-44 md:w-56 md:h-56 rounded-2xl overflow-hidden glass-card border-2 border-slate-700 bg-slate-900 flex items-center justify-center">
+              <img 
+                src="/avatar.jpg" 
+                alt="Chen Zhao" 
+                class="w-full h-full object-cover"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80';"
+              />
+            </div>
+          </div>
+
         </div>
       </section>
 
-      <!-- Section 2: DETAILED SIDE-BY-SIDE RESPONSIVE GRID (Thesis & Projects) -->
-      <!-- Desktop/Widescreen: 2 Columns | Mobile Phones: 1 Column -->
-      <section id="research" class="space-y-6">
+      <!-- Section 2: FEATURED HERO CENTERPIECE -->
+      <section id="featured" class="space-y-6">
         <div class="flex items-center gap-3">
-          <h2 class="text-2xl font-bold text-white tracking-tight">Research & Projects</h2>
+          <h2 class="text-2xl font-bold text-white tracking-tight">
+            {isAcademic ? "Flagship Thesis Research" : "Featured Project & Hardware Installation"}
+          </h2>
           <div class="h-px bg-slate-800 flex-1"></div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          <!-- Column 1: Featured Thesis Research -->
-          <div id="thesis" class="glass-card p-6 md:p-8 rounded-2xl border-brand-500/30 flex flex-col justify-between relative overflow-hidden space-y-6">
-            <div class="space-y-4">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <span class="px-3 py-1 rounded-md text-xs font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                  Bachelor's Thesis (2025–2026)
-                </span>
-                <span class="text-xs font-mono text-slate-400">Sheridan CS Thesis</span>
-              </div>
-
-              <div>
-                <h3 class="text-xl md:text-2xl font-bold text-white mb-1">
-                  Sequential Dual-LoRA vs. Monolithic Distillation
-                </h3>
-                <p class="text-xs font-mono text-brand-400">
-                  A Comparative Study of Reasoning Faithfulness in GSM8K
-                </p>
-              </div>
-
-              <p class="text-slate-300 text-xs leading-relaxed">
-                Addressing <strong class="text-white">Reasoning Unfaithfulness</strong> in Large Language Models. In standard monolithic architectures (e.g., DeepSeek-R1-Distill), reasoning and answering parameters are deeply entangled. Models frequently generate sound logic but bypass it during output generation—creating deceptive audit trails that violate strict regulatory frameworks like the <strong class="text-white">EU AI Act</strong>, <strong class="text-white">SOX Sec. 404</strong>, and <strong class="text-white">HHS mandates</strong>.
-              </p>
-
-              <p class="text-slate-300 text-xs leading-relaxed">
-                This thesis proposes a <strong class="text-white">Sequential Dual-LoRA Architecture</strong> on Qwen-3-8B that physically decouples the "Thinking" and "Answering" inference phases. By utilizing runtime adapter hot-swapping in vLLM and clearing Key-Value (KV) cache memory, the solver adapter is forced to rely strictly on the explicit text trace generated by the thinker.
-              </p>
-
-              <div class="space-y-2 pt-2">
-                <h4 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">Experimental Design Highlights:</h4>
-                <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside leading-relaxed">
-                  <li><strong class="text-slate-300">Oracle Distillation:</strong> 5,000 synthetic reasoning traces generated using DeepSeek-V3.2 API on GSM8K.</li>
-                  <li><strong class="text-slate-300">Adversarial Trap Test:</strong> Saboteur logical injections (e.g. 7×8=54) on known-correct intersections evaluated via McNemar's Test.</li>
-                  <li><strong class="text-slate-300">Hardware Constraints:</strong> 100% trained and served on a single consumer RTX 4070 (12GB VRAM) using Unsloth 4-bit QLoRA.</li>
-                </ul>
-              </div>
+        {isAcademic ? (
+          <div class="glass-card p-6 md:p-8 rounded-2xl border-brand-500/30 space-y-6 relative overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-3 py-1 rounded-md text-xs font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                Bachelor's Thesis Proposal (2025–2026) • Sheridan CS
+              </span>
+              <span class="text-xs font-mono text-slate-400">Supervisors: Dr. Ghassem Tofighi</span>
             </div>
 
-            <div class="pt-4 border-t border-slate-800/80 flex flex-wrap gap-1.5 font-mono text-[11px]">
-              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">Qwen-3-8B</span>
-              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">DeepSeek-V3.2</span>
-              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">Unsloth QLoRA</span>
-              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">vLLM Hot-Swap</span>
-              <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">SciPy McNemar</span>
-            </div>
-          </div>
-
-          <!-- Column 2: Spec-Driven UI Project -->
-          <div id="projects" class="glass-card p-6 md:p-8 rounded-2xl border-amber-500/30 hover:border-amber-500/60 transition flex flex-col justify-between relative overflow-hidden group space-y-6">
-            <div class="space-y-4">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <span class="px-3 py-1 rounded-md text-xs font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                  Side Project & LLM Benchmark
-                </span>
-                <span class="text-xs font-mono text-slate-400">Declarative Compiler</span>
-              </div>
-
-              <div>
-                <h3 class="text-xl md:text-2xl font-bold text-white mb-1 group-hover:text-amber-400 transition">
-                  Spec-Driven UI Synthesis vs. Vision Models
-                </h3>
-                <p class="text-xs font-mono text-amber-400">
-                  3-Layer YAML Specification & Prompt Compiler Pipeline
-                </p>
-              </div>
-
-              <p class="text-slate-300 text-xs leading-relaxed">
-                Evaluating frontend code generation capabilities. When multimodal vision models (e.g. GPT-4o) are asked to recreate 16-color retro EGA game UIs directly from raw video data, they suffer from severe <strong class="text-white">stylistic drift</strong>—hallucinating modern web defaults like rounded corners (<code class="text-amber-300">rounded-lg</code>), smooth CSS gradients, glowing scanlines, and broken spatial layouts.
+            <div class="space-y-2">
+              <h3 class="text-2xl md:text-3xl font-bold text-white">
+                Sequential Dual-LoRA vs. Monolithic Distillation
+              </h3>
+              <p class="text-sm font-mono text-brand-400">
+                Enforcing Causal Reasoning Faithfulness via Discrete Intermediate Representations
               </p>
-
-              <p class="text-slate-300 text-xs leading-relaxed">
-                This project introduces a <strong class="text-white">Three-Layer Specification Pipeline</strong> (<code class="text-amber-300">layout.yaml</code>, <code class="text-amber-300">elements.yaml</code>, <code class="text-amber-300">states.yaml</code>) compiled by a custom Python compiler into deterministic LLM prompt constraints. It forces strict layout blueprints, component slot manifests, and active-element diff state transitions.
-              </p>
-
-              <div class="space-y-2 pt-2">
-                <h4 class="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">Benchmark & Technical Findings:</h4>
-                <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside leading-relaxed">
-                  <li><strong class="text-slate-300">EGA Canvas Engine:</strong> Renders a 41-province polygon canvas map, a 10x10 tactical hex grid, and procedural pixel-art.</li>
-                  <li><strong class="text-slate-300">State Controller:</strong> Supports 8 active visual states with seamless diff routing (<code class="text-amber-300">+</code>/ <code class="text-amber-300">-</code> toggles).</li>
-                  <li><strong class="text-slate-300">Pareto Frontier:</strong> Proves that ~350 lines of modular YAML establishes the optimal tradeoff boundary between spec verbosity and visual stability.</li>
-                </ul>
-              </div>
             </div>
 
-            <div class="pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-4">
-              <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">YAML Spec</span>
-                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">Prompt Compiler</span>
-                <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">EGA Canvas</span>
+            <p class="text-slate-300 text-sm leading-relaxed max-w-4xl">
+              In standard monolithic architectures, reasoning generation and answer readout share an entangled parameter space and continuous hidden activations, allowing models to bypass explicit logic and emit answers derived from latent parametric shortcuts (<strong class="text-red-400">readout unfaithfulness</strong>). This research proposes a <strong class="text-white">Sequential Dual-LoRA Architecture</strong> that physically decouples thinking from solving, establishing the reasoning trace as an inspectable, discrete Intermediate Representation (IR) that enforces a strict causal bottleneck.
+            </p>
+
+            <div class="bg-slate-950/90 p-4 md:p-6 rounded-xl border border-slate-800 space-y-3">
+              <div class="flex flex-wrap justify-between items-center text-xs font-mono border-b border-slate-800 pb-2">
+                <span class="text-slate-300 font-bold">PIPELINE COMPARISON: CONTINUOUS ACTIVATIONS VS. DISCRETE IR BOTTLENECK</span>
+                <span class="text-cyan-400">Runtime Swapped on Single RTX 4070 (12GB)</span>
               </div>
-              
+
+              <svg class="w-full h-auto font-mono select-none" viewBox="0 0 860 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <marker id="arr-slate" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" /></marker>
+                  <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ef4444" /></marker>
+                  <marker id="arr-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" /></marker>
+                  <marker id="arr-indigo" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#818cf8" /></marker>
+                </defs>
+
+                <rect x="15" y="15" width="830" height="150" rx="10" fill="#0f172a" stroke="#334155" stroke-dasharray="3 3"/>
+                <text x="35" y="38" fill="#f87171" font-size="11" font-weight="bold">BASELINE: MONOLITHIC ARCHITECTURE (Shared Continuous Activations)</text>
+                <text x="825" y="38" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="end">❌ READOUT UNFAITHFULNESS</text>
+
+                <rect x="35" y="72" width="80" height="52" rx="6" fill="#1e293b" stroke="#475569"/>
+                <text x="75" y="96" fill="#e2e8f0" font-size="10" text-anchor="middle" font-weight="bold">Input Q</text>
+                <text x="75" y="110" fill="#94a3b8" font-size="8" text-anchor="middle">Math Benchmark</text>
+
+                <path d="M 115 98 H 155" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-slate)"/>
+
+                <rect x="155" y="62" width="220" height="72" rx="8" fill="#1e1b4b" stroke="#475569" stroke-width="1.5"/>
+                <text x="265" y="86" fill="#cbd5e1" font-size="11" font-weight="bold" text-anchor="middle">Qwen-3-8B Monolithic</text>
+                <text x="265" y="103" fill="#f87171" font-size="9" text-anchor="middle">Entangled Latent Space</text>
+                <text x="265" y="118" fill="#64748b" font-size="8" text-anchor="middle">(Shared Weights & KV Cache)</text>
+
+                <path d="M 375 98 H 425" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-slate)"/>
+
+                <rect x="425" y="72" width="140" height="52" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+                <text x="495" y="96" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Generated CoT</text>
+                <text x="495" y="110" fill="#94a3b8" font-size="8" text-anchor="middle">Superficial Trace</text>
+
+                <path d="M 565 98 H 675" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-slate)"/>
+
+                <rect x="675" y="72" width="150" height="52" rx="6" fill="#450a0a" stroke="#ef4444"/>
+                <text x="750" y="95" fill="#fca5a5" font-size="10" font-weight="bold" text-anchor="middle">Answer Readout</text>
+                <text x="750" y="111" fill="#ef4444" font-size="8" text-anchor="middle">Parametric Hallucination</text>
+
+                <path d="M 330 62 Q 520 38 695 72" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#arr-red)"/>
+                <rect x="440" y="44" width="175" height="18" rx="4" fill="#7f1d1d" stroke="#ef4444" stroke-width="0.8"/>
+                <text x="527" y="56" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Latent Shortcut (Bypasses CoT)</text>
+
+                <rect x="15" y="180" width="830" height="165" rx="10" fill="#031f1a" stroke="#059669" stroke-width="1.5"/>
+                <text x="35" y="202" fill="#34d399" font-size="11" font-weight="bold">PROPOSED: SEQUENTIAL DUAL-LORA (Discrete Intermediate Representation)</text>
+                <text x="825" y="202" fill="#10b981" font-size="10" font-weight="bold" text-anchor="end">✅ STRICT CAUSAL BOTTLENECK</text>
+
+                <rect x="35" y="238" width="80" height="56" rx="6" fill="#1e293b" stroke="#475569"/>
+                <text x="75" y="263" fill="#e2e8f0" font-size="10" text-anchor="middle" font-weight="bold">Input Q</text>
+                <text x="75" y="277" fill="#94a3b8" font-size="8" text-anchor="middle">Math Benchmark</text>
+
+                <path d="M 115 266 H 155" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr-slate)"/>
+
+                <rect x="155" y="226" width="180" height="80" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
+                <rect x="165" y="235" width="75" height="16" rx="3" fill="#312e81"/>
+                <text x="202" y="246" fill="#a5b4fc" font-size="8" font-weight="bold" text-anchor="middle">PHASE 1: LOGIC</text>
+                <text x="245" y="268" fill="#e0e7ff" font-size="11" font-weight="bold" text-anchor="middle">Thinker Adapter</text>
+                <text x="245" y="284" fill="#818cf8" font-size="8" text-anchor="middle">Base Qwen-3-8B (QLoRA r=16)</text>
+                <text x="245" y="297" fill="#94a3b8" font-size="7" text-anchor="middle">Emits Discrete Reasoning Trace</text>
+
+                <path d="M 335 266 H 370" stroke="#818cf8" stroke-width="1.5" marker-end="url(#arr-indigo)"/>
+
+                <rect x="370" y="238" width="110" height="56" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+                <text x="425" y="262" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Discrete IR</text>
+                <text x="425" y="276" fill="#e2e8f0" font-size="8" text-anchor="middle">Inspectable CoT</text>
+                <text x="425" y="288" fill="#94a3b8" font-size="7" text-anchor="middle">(Token Stream)</text>
+
+                <path d="M 480 266 H 500" stroke="#38bdf8" stroke-width="1.5"/>
+                <line x1="512" y1="218" x2="512" y2="308" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3"/>
+                <circle cx="512" cy="266" r="11" fill="#082f49" stroke="#38bdf8" stroke-width="1.5"/>
+                <text x="512" y="270" fill="#38bdf8" font-size="8" font-weight="bold" text-anchor="middle">⚡</text>
+                
+                <rect x="460" y="315" width="104" height="18" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1"/>
+                <text x="512" y="327" fill="#7dd3fc" font-size="8" font-weight="bold" text-anchor="middle">KV Cache Cleared</text>
+
+                <path d="M 523 266 H 545" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-slate)"/>
+
+                <rect x="545" y="226" width="180" height="80" rx="8" fill="#064e3b" stroke="#10b981" stroke-width="2"/>
+                <rect x="555" y="235" width="85" height="16" rx="3" fill="#065f46"/>
+                <text x="597" y="246" fill="#6ee7b7" font-size="8" font-weight="bold" text-anchor="middle">PHASE 2: READOUT</text>
+                <text x="635" y="268" fill="#ecfdf5" font-size="11" font-weight="bold" text-anchor="middle">Solver Adapter</text>
+                <text x="635" y="284" fill="#34d399" font-size="8" text-anchor="middle">Base Qwen-3-8B (QLoRA r=16)</text>
+                <text x="635" y="297" fill="#94a3b8" font-size="7" text-anchor="middle">Input: [Question] + [Explicit IR]</text>
+
+                <path d="M 725 266 H 750" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald)"/>
+
+                <rect x="750" y="238" width="85" height="56" rx="6" fill="#064e3b" stroke="#34d399"/>
+                <text x="792" y="264" fill="#a7f3d0" font-size="10" font-weight="bold" text-anchor="middle">Causal</text>
+                <text x="792" y="279" fill="#34d399" font-size="9" font-weight="bold" text-anchor="middle">Answer</text>
+              </svg>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-800">
+              <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-400">
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">DeepSeek-V3.2 Oracle</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">Unsloth QLoRA</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">vLLM Hot-Swap</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">McNemar's Test</span>
+              </div>
+
               <a 
-                href="/projects/spec-compiler" 
-                class="px-4 py-2.5 text-xs font-mono font-bold rounded-lg bg-amber-500 hover:bg-amber-400 text-black transition flex items-center gap-2"
+                href="/thesis" 
+                class="px-4 py-2 text-xs font-mono font-bold rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition flex items-center gap-2 shadow-lg shadow-brand-500/20"
               >
-                View Case Study & Demo →
+                <span>Read Full Deep-Dive Thesis Proposal →</span>
               </a>
             </div>
           </div>
+        ) : (
+          <div class="glass-card p-6 md:p-8 rounded-2xl border-emerald-500/30 space-y-8 relative overflow-hidden">
+            
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-3 py-1 rounded-md text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                🏆 Winner: Best Hardware Project — BearHacks 2026
+              </span>
+              <span class="text-xs font-mono text-slate-400">Physical Computing • Edge AI • Human-Robot Interaction</span>
+            </div>
+
+            <div class="space-y-2">
+              <h3 class="text-2xl md:text-4xl font-extrabold text-white tracking-tight">
+                EchoBin — Autonomous Sassy Waste-Sorting Installation
+              </h3>
+              <p class="text-sm font-mono text-emerald-400">
+                Physical Edge Hardware Intervening at the Point of Disposal via Behavioral Nudges
+              </p>
+            </div>
+
+            <p class="text-slate-300 text-sm md:text-base leading-relaxed max-w-4xl">
+              Improper waste sorting is one of the easiest environmental problems to solve, yet municipal guidelines remain widely confusing. EchoBin is an autonomous physical computing installation built to intervene directly before mistakes happen. By pairing real-time computer vision with conversational speech synthesis, it inspects items on approach and uses humor and playful friction to actively educate users.
+            </p>
+
+            <!-- PHOTO GALLERY -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <div class="h-80 rounded-xl overflow-hidden border-2 border-slate-700 bg-black relative group">
+                  <img 
+                    src="/echobin-exterior.jpg" 
+                    alt="EchoBin Exterior View with Ultrasonic Sensor Eyes and Camera" 
+                    class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500"
+                    onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80';"
+                  />
+                  <div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                    <span class="text-xs font-mono font-bold text-emerald-400 block">EXTERIOR SENSOR FACE</span>
+                    <span class="text-[11px] font-mono text-slate-300">HC-SR04 proximity sensor mounted as "eyes" beneath wide-angle USB camera</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="h-80 rounded-xl overflow-hidden border-2 border-slate-700 bg-black relative group">
+                  <img 
+                    src="/echobin-internals.jpg" 
+                    alt="EchoBin Internal Chassis showing Raspberry Pi, GPIO Wiring, and Cable Management" 
+                    class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500"
+                    onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80';"
+                  />
+                  <div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                    <span class="text-xs font-mono font-bold text-cyan-400 block">CHASSIS & INTERNAL HARNESS</span>
+                    <span class="text-[11px] font-mono text-slate-300">Service door opened: Raspberry Pi 4, GPIO breadboard wiring harness, and stepper drive</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROCESS & DESIGN CHOICES DEEP DIVE -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              
+              <div class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+                <h4 class="text-sm font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                  <span>💡</span> The Design "Why": Friction Over Signage
+                </h4>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Most sustainability campaigns rely on static informational posters that people ignore during routine disposal. For international students and newcomers, navigating distinct municipal streams (landfill vs. organics vs. co-mingled recycling) creates decision fatigue.
+                </p>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  We designed EchoBin to introduce <strong class="text-slate-200">physical and conversational friction</strong>. By locking the lid and verbally calling out mistakes with a sassy persona, the bin forces conscious re-evaluation. Humor was chosen deliberately: it disarms defensiveness and makes environmental correction an entertaining social moment rather than a sterile reprimand.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
+                <h4 class="text-sm font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                  <span>⚡</span> The Engineering "Process": Pipeline Concurrency
+                </h4>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Migrating from laptop mockups to a headless Raspberry Pi introduced severe interaction latency. Our initial prototype processed steps synchronously in a linear blocking waterfall:
+                </p>
+                <div class="p-2 rounded bg-slate-900 border border-slate-800 font-mono text-[10px] text-rose-400">
+                  Audio Listen → Vision Inference → Text Generation → Audio Playback (>4s lag)
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  This delay destroyed the conversational rhythm. We resolved this by refactoring into a <strong class="text-slate-200">multi-threaded, queue-based architecture</strong>. Audio listening, Gemma vision classification, and ElevenLabs speech generation run concurrently in non-blocking worker threads, maintaining conversational continuity and state retention across multi-turn user arguments.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Meta Badges & Devpost Link -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-800">
+              <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-400">
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">Raspberry Pi 4</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">Gemma Vision Multimodal</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">ElevenLabs Voice AI</span>
+                <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800">Asynchronous Worker Queue</span>
+              </div>
+
+              <a 
+                href="https://devpost.com/software/echobin" 
+                target="_blank" 
+                class="px-4 py-2 text-xs font-mono font-bold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black transition flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+              >
+                <span>Read Full Project on Devpost →</span>
+              </a>
+            </div>
+
+          </div>
+        )}
+      </section>
+
+      <!-- Section 3: SUPPORTING 2-PROJECT GRID -->
+      <section id="projects" class="space-y-6">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-white tracking-tight">
+            {isAcademic ? "Systems & Engineering Projects" : "More Featured Projects"}
+          </h2>
+          <div class="h-px bg-slate-800 flex-1"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          {isAcademic ? (
+            <>
+              <!-- ACADEMIC CARD 1: ECHOBIN (Technical / Concurrency Angle) -->
+              <div class="glass-card p-6 rounded-2xl border-emerald-500/30 hover:border-emerald-500/60 transition flex flex-col justify-between space-y-4 group">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      🏆 Best Hardware (BearHacks 2026)
+                    </span>
+                    <span class="text-[11px] font-mono text-slate-400">Edge Robotics & Vision</span>
+                  </div>
+                  
+                  <h3 class="text-xl font-bold text-white group-hover:text-emerald-400 transition">
+                    EchoBin — Autonomous Edge Vision & Robotic Sorting
+                  </h3>
+                  
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    An embedded computing installation integrating a Raspberry Pi 4, ultrasonic proximity sensors, stepper motors, OpenCV, and Google Gemma vision AI to automate physical classification on edge hardware.
+                  </p>
+
+                  <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+                    <span class="text-emerald-400 font-bold block">Pipeline Concurrency:</span>
+                    Multi-threaded Python pipeline using asynchronous worker queues to eliminate I/O blocking between image inference, motor control, and text-to-speech synthesis.
+                  </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-slate-400">
+                    <span class="px-2 py-0.5 rounded bg-slate-800">Raspberry Pi</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">Edge AI</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">OpenCV</span>
+                  </div>
+                  <a 
+                    href="https://devpost.com/software/echobin" 
+                    target="_blank" 
+                    class="text-xs font-mono font-bold text-emerald-400 hover:text-emerald-300 transition"
+                  >
+                    Devpost →
+                  </a>
+                </div>
+              </div>
+
+              <!-- ACADEMIC CARD 2: SPEC COMPILER (Formal Specification Angle) -->
+              <div class="glass-card p-6 rounded-2xl border-amber-500/30 hover:border-amber-500/60 transition flex flex-col justify-between space-y-4 group">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                      Formal Specification & Compiler
+                    </span>
+                    <span class="text-[11px] font-mono text-slate-400">Deterministic UI Synthesis</span>
+                  </div>
+                  
+                  <h3 class="text-xl font-bold text-white group-hover:text-amber-400 transition">
+                    Spec-Driven Declarative UI Synthesis vs. Multimodal LLMs
+                  </h3>
+                  
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    A 3-layer declarative specification pipeline (`layout.yaml`, `elements.yaml`, `states.yaml`) compiled into prompt constraints, proving that ~350 lines of structured YAML eliminates visual drift and hallucinatory CSS defaults in LLMs.
+                  </p>
+
+                  <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+                    <span class="text-amber-400 font-bold block">Compiler Architecture:</span>
+                    Implements slot-mapping verification, multi-template state diffing (+/-), and an empirical benchmark comparing raw video prompting tokens against compiled YAML.
+                  </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-slate-400">
+                    <span class="px-2 py-0.5 rounded bg-slate-800">YAML Spec</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">Compiler</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">Canvas</span>
+                  </div>
+                  <a 
+                    href="/projects/spec-compiler" 
+                    class="text-xs font-mono font-bold text-amber-400 hover:text-amber-300 transition"
+                  >
+                    Case Study & Demo →
+                  </a>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <!-- CREATIVE CARD 1: THESIS (Sequential Dual-LoRA) -->
+              <div class="glass-card p-6 rounded-2xl border-brand-500/30 hover:border-brand-500/60 transition flex flex-col justify-between space-y-4 group">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                      Bachelor's CS Thesis
+                    </span>
+                    <span class="text-[11px] font-mono text-slate-400">AI Alignment</span>
+                  </div>
+                  
+                  <h3 class="text-xl font-bold text-white group-hover:text-brand-400 transition">
+                    Sequential Dual-LoRA vs. Monolithic Distillation
+                  </h3>
+                  
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Addressing reasoning unfaithfulness where LLMs cheat their own visible logic. Uses runtime adapter hot-swapping on Qwen-3-8B to physically decouple thinking from answering.
+                  </p>
+
+                  <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+                    <span class="text-brand-400 font-bold block">Scientific Contribution:</span>
+                    Proves that wiping the KV-cache between stages forces the model's output to condition strictly on explicit reasoning tokens.
+                  </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-slate-400">
+                    <span class="px-2 py-0.5 rounded bg-slate-800">PyTorch</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">vLLM</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">QLoRA</span>
+                  </div>
+                  <a 
+                    href="/thesis" 
+                    class="text-xs font-mono font-bold text-brand-400 hover:text-brand-300 transition"
+                  >
+                    Read Thesis →
+                  </a>
+                </div>
+              </div>
+
+              <!-- CREATIVE CARD 2: SPEC-DRIVEN RETRO GAME ENGINE -->
+              <div class="glass-card p-6 rounded-2xl border-amber-500/30 hover:border-amber-500/60 transition flex flex-col justify-between space-y-4 group">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="px-2.5 py-1 rounded-md text-[11px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                      Game Engine & Compiler Pipeline
+                    </span>
+                    <span class="text-[11px] font-mono text-slate-400">16-Color EGA Strategy</span>
+                  </div>
+                  
+                  <h3 class="text-xl font-bold text-white group-hover:text-amber-400 transition">
+                    三國志外傳 — Spec-Driven Retro Game Synthesis
+                  </h3>
+                  
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    A creative-technical hybrid compiling a 3-layer declarative specification (`layout`, `elements`, `states`) into prompt constraints to eliminate vision-model hallucinations in retro game generation.
+                  </p>
+
+                  <div class="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-400 space-y-1">
+                    <span class="text-amber-400 font-bold block">Engine Features:</span>
+                    Renders a 41-province polygon canvas map, a 10×10 tactical battlefield hex grid, and an 8-state transition machine in an authentic 640×400 EGA color palette.
+                  </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-slate-400">
+                    <span class="px-2 py-0.5 rounded bg-slate-800">YAML Spec</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">HTML5 Canvas</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-800">State Machine</span>
+                  </div>
+                  <a 
+                    href="/projects/spec-compiler" 
+                    class="text-xs font-mono font-bold text-amber-400 hover:text-amber-300 transition"
+                  >
+                    Case Study & Demo →
+                  </a>
+                </div>
+              </div>
+            </>
+          )}
 
         </div>
       </section>
 
-      <!-- Section 3: Work Experience -->
+      <!-- Section 4: Work Experience -->
       <section id="experience" class="space-y-6">
         <div class="flex items-center gap-3">
           <h2 class="text-2xl font-bold text-white tracking-tight">Work Experience</h2>
@@ -220,24 +572,22 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
         </div>
 
         <div class="space-y-6">
-          <!-- Job 1 -->
           <div class="glass-card p-6 rounded-xl space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
               <div>
-                <h3 class="text-lg font-bold text-white">C# Quant Developer</h3>
+                <h3 class="text-lg font-bold text-white">C# Developer</h3>
                 <p class="text-sm text-brand-400 font-medium">EQ Consulting Inc • Toronto, ON</p>
               </div>
               <span class="text-xs font-mono text-slate-400">Feb 2022 – Dec 2023</span>
             </div>
             <ul class="list-disc list-inside text-sm text-slate-300 space-y-2 leading-relaxed">
-              <li>Engineered and refined comprehensive financial models in C# and C++ for Equity, FX, and Commodity products, delivering precise pricing and risk analysis.</li>
-              <li>Developed sophisticated user interfaces for traders using Excel and VSTO, ensuring efficient access to quantitative models and facilitating decision making.</li>
-              <li>Innovated Risk and Profit & Loss (P&L) visualization tools providing actionable insights supporting client trading strategies.</li>
-              <li>Automated portfolio data aggregation processes through VBA scripts, significantly reducing manual data handling.</li>
+              <li>Engineered comprehensive financial models in C# and C++ for Equity, FX, and Commodity products, delivering pricing and risk analytics.</li>
+              <li>Developed user interfaces for traders using Excel and VSTO, facilitating access to quantitative models and decision making.</li>
+              <li>Innovated Risk and Profit & Loss (P&L) visualization tools providing actionable data analysis for trading strategies.</li>
+              <li>Automated portfolio data aggregation processes through scripts, reducing manual data handling.</li>
             </ul>
           </div>
 
-          <!-- Job 2 -->
           <div class="glass-card p-6 rounded-xl space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
               <div>
@@ -253,11 +603,10 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
             </ul>
           </div>
 
-          <!-- Job 3 -->
           <div class="glass-card p-6 rounded-xl space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
               <div>
-                <h3 class="text-lg font-bold text-white">Analyst, Financial Engineer</h3>
+                <h3 class="text-lg font-bold text-white">Financial Engineer Analyst</h3>
                 <p class="text-sm text-brand-400 font-medium">Scotiabank • Toronto, ON</p>
               </div>
               <span class="text-xs font-mono text-slate-400">Apr 2019 – Sep 2019</span>
@@ -271,7 +620,7 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
         </div>
       </section>
 
-      <!-- Section 4: Skills Matrix -->
+      <!-- Section 5: Technical Skills -->
       <section id="skills" class="space-y-6">
         <div class="flex items-center gap-3">
           <h2 class="text-2xl font-bold text-white tracking-tight">Technical Skills</h2>
@@ -282,7 +631,7 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
           <div class="glass-card p-5 rounded-xl">
             <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Languages</h3>
             <div class="flex flex-wrap gap-2">
-              {['C#', 'C/C++', 'Python', 'Java', 'VBA', 'Bash', 'SQL'].map((skill) => (
+              {['Java', 'Python', 'C#', 'C/C++', 'VBA', 'Bash', 'SQL'].map((skill) => (
                 <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
               ))}
             </div>
@@ -291,7 +640,7 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
           <div class="glass-card p-5 rounded-xl">
             <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">AI / ML & Systems Frameworks</h3>
             <div class="flex flex-wrap gap-2">
-              {['PyTorch', 'Unsloth (QLoRA)', 'vLLM', 'PEFT', 'Financial Modeling', 'Risk Analysis'].map((skill) => (
+              {['PyTorch', 'Unsloth (QLoRA)', 'vLLM', 'Raspberry Pi', 'OpenCV', 'Game Engines & Canvas', 'ElevenLabs API'].map((skill) => (
                 <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
               ))}
             </div>
@@ -300,16 +649,16 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
           <div class="glass-card p-5 rounded-xl">
             <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Web & Databases</h3>
             <div class="flex flex-wrap gap-2">
-              {['Angular', 'Node.js', 'Astro', 'HTML/CSS/JS', 'MySQL', 'MongoDB', 'SQL Server'].map((skill) => (
+              {['Astro', 'HTML5 Canvas', 'Node.js', 'Angular', 'MySQL', 'MongoDB', 'SQL Server'].map((skill) => (
                 <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
               ))}
             </div>
           </div>
 
           <div class="glass-card p-5 rounded-xl">
-            <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Tools & Infrastructure</h3>
+            <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">Cloud & Platforms</h3>
             <div class="flex flex-wrap gap-2">
-              {['AWS (Solutions Architect)', 'Git', 'VPS Admin', 'Visual Studio', 'Linux Environment'].map((skill) => (
+              {['AWS (Solutions Architect)', 'Cloudflare Pages', 'Git', 'Linux Environment', 'Visual Studio'].map((skill) => (
                 <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
               ))}
             </div>
@@ -317,7 +666,7 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
         </div>
       </section>
 
-      <!-- Section 5: Education & Certifications -->
+      <!-- Section 6: Education & Honors -->
       <section id="education" class="space-y-6">
         <div class="flex items-center gap-3">
           <h2 class="text-2xl font-bold text-white tracking-tight">Education & Certifications</h2>
@@ -325,7 +674,6 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Education Column -->
           <div class="space-y-4">
             <h3 class="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider">Education</h3>
             
@@ -335,12 +683,18 @@ const description = "Personal portfolio of Chen Zhao — Computer Science gradua
               <p class="text-sm text-slate-300">Sheridan College • Oakville, ON</p>
               <p class="text-xs text-slate-400 pt-1">Specialization: Cloud Computing</p>
             </div>
-
           </div>
 
-          <!-- Certifications Column -->
           <div class="space-y-4">
-            <h3 class="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider">Certifications</h3>
+            <h3 class="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider">Certifications & Honors</h3>
+
+            <div class="glass-card p-5 rounded-xl flex items-start gap-4">
+              <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono text-xs font-bold">WIN</div>
+              <div>
+                <h4 class="font-bold text-white text-sm">Best Hardware Project — BearHacks 2026</h4>
+                <p class="text-xs text-slate-400">Awarded for EchoBin Robotic Waste Installation</p>
+              </div>
+            </div>
 
             <div class="glass-card p-5 rounded-xl flex items-start gap-4">
               <div class="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono text-xs font-bold">AWS</div>
