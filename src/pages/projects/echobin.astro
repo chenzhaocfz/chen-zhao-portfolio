@@ -252,16 +252,16 @@ const youtubeVideoId = "9hRGt3oDyFk";
         </div>
       </section>
 
-      <!-- Section 3: SYSTEM ARCHITECTURE & SVG GRAPHICS -->
+      <!-- Section 3: SYSTEM ARCHITECTURE & SVG PIPELINE COMPARISON -->
       <section class="space-y-6">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
           <div>
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <span class="text-emerald-400">03.</span> System Architecture & Concurrency
             </h2>
-            <p class="text-xs text-slate-400">Hardware data-flow topology and asynchronous latency optimization.</p>
+            <p class="text-xs text-slate-400">Hardware data-flow topology and conversational latency masking.</p>
           </div>
-          <span class="text-xs font-mono text-cyan-400">Python 3.11 • RPi.GPIO • OpenCV</span>
+          <span class="text-xs font-mono text-cyan-400">Python 3.11 • Non-Blocking Async • ElevenLabs</span>
         </div>
 
         <!-- GRAPHIC 1: HARDWARE DATA-FLOW TOPOLOGY -->
@@ -322,56 +322,131 @@ const youtubeVideoId = "9hRGt3oDyFk";
           </svg>
         </div>
 
-        <!-- GRAPHIC 2: CONCURRENCY LATENCY BOTTLENECK -->
-        <div class="glass-card p-5 rounded-2xl border-slate-800 space-y-3">
-          <span class="text-xs font-mono font-bold text-slate-300 block">TOPOLOGY 2: ELIMINATING THE 4-SECOND LATENCY BOTTLENECK</span>
+        <!-- GRAPHIC 2: UPDATED CONCURRENCY & LATENCY COMPARISON -->
+        <div class="glass-card p-5 rounded-2xl border-slate-800 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-mono font-bold text-slate-300 block">TOPOLOGY 2: CONVERSATIONAL LATENCY MASKING VS. BLOCKING WATERFALL</span>
+            <span class="text-[11px] font-mono text-emerald-400">Pipelined Overlap Eliminates Dead Air</span>
+          </div>
           
-          <svg class="w-full h-auto font-mono select-none" viewBox="0 0 840 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-full h-auto font-mono select-none" viewBox="0 0 880 360" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ef4444" /></marker>
               <marker id="arr-emerald-2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" /></marker>
+              <marker id="arr-cyan-2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06b6d4" /></marker>
             </defs>
 
-            <!-- TRACK 1: LINEAR WATERFALL -->
-            <rect x="20" y="15" width="800" height="75" rx="8" fill="#1f1215" stroke="#7f1d1d" stroke-dasharray="2 2"/>
-            <text x="35" y="34" fill="#f87171" font-size="10" font-weight="bold">INITIAL NAIVE PIPELINE (Linear Waterfall)</text>
-            <text x="805" y="34" fill="#ef4444" font-size="9" font-weight="bold" text-anchor="end">⚠️ &gt;4.2s DELAY (Unacceptable)</text>
+            <!-- TRACK 1: SLOW (Sequential Waterfall) -->
+            <rect x="15" y="15" width="850" height="120" rx="8" fill="#1a1114" stroke="#7f1d1d" stroke-dasharray="2 2"/>
+            <text x="30" y="34" fill="#f87171" font-size="10" font-weight="bold">SLOW: SEQUENTIAL BLOCKING WATERFALL (Cumulative Dead Air &gt; 4.5s)</text>
+            <text x="845" y="34" fill="#ef4444" font-size="9" font-weight="bold" text-anchor="end">❌ AWKWARD PAUSES — USER WALKS AWAY</text>
 
-            <rect x="35" y="45" width="130" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
-            <text x="100" y="63" fill="#fecaca" font-size="8" text-anchor="middle">1. Audio Record (1.2s)</text>
-            <path d="M 165 60 H 195" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+            <!-- Sequence nodes -->
+            <g transform="translate(0, 48)">
+              <!-- Step 1 -->
+              <rect x="25" y="0" width="85" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="67" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Sensor Detect</text>
+              <text x="67" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Distance trigger</text>
 
-            <rect x="195" y="45" width="160" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
-            <text x="275" y="63" fill="#fecaca" font-size="8" text-anchor="middle">2. Gemma Vision (1.5s)</text>
-            <path d="M 355 60 H 385" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+              <path d="M 110 17 H 125" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
 
-            <rect x="385" y="45" width="160" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
-            <text x="465" y="63" fill="#fecaca" font-size="8" text-anchor="middle">3. ElevenLabs TTS (0.9s)</text>
-            <path d="M 545 60 H 575" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+              <!-- Step 2 -->
+              <rect x="125" y="0" width="105" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="177" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Request Initial TTS</text>
+              <text x="177" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Wait for ElevenLabs</text>
 
-            <rect x="575" y="45" width="140" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
-            <text x="645" y="63" fill="#fecaca" font-size="8" text-anchor="middle">4. Motor Actuation (0.6s)</text>
+              <path d="M 230 17 H 245" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
 
-            <!-- TRACK 2: ASYNC QUEUE -->
-            <rect x="20" y="105" width="800" height="90" rx="8" fill="#03211a" stroke="#059669" stroke-width="1.5"/>
-            <text x="35" y="125" fill="#34d399" font-size="10" font-weight="bold">OPTIMIZED PIPELINE (Multi-Threaded Queue Streaming)</text>
-            <text x="805" y="125" fill="#10b981" font-size="9" font-weight="bold" text-anchor="end">✅ &lt;800ms RESPONSE (Real-Time)</text>
+              <!-- Step 3 -->
+              <rect x="245" y="0" width="115" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="302" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Capture & Send</text>
+              <text x="302" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Frame sent to Gemma</text>
 
-            <rect x="35" y="140" width="160" height="38" rx="4" fill="#064e3b" stroke="#10b981"/>
-            <text x="115" y="157" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Worker 1: Sensor Polling</text>
-            <text x="115" y="170" fill="#a7f3d0" font-size="7" text-anchor="middle">Continuous GPIO Debounce</text>
+              <path d="M 360 17 H 375" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
 
-            <path d="M 195 159 H 235" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+              <!-- Step 4 -->
+              <rect x="375" y="0" width="110" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="430" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Gemma Responds</text>
+              <text x="430" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Receives text class</text>
 
-            <rect x="235" y="140" width="230" height="38" rx="4" fill="#064e3b" stroke="#10b981"/>
-            <text x="350" y="157" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Worker 2: Concurrent Vision & LLM</text>
-            <text x="350" y="170" fill="#a7f3d0" font-size="7" text-anchor="middle">Async Frame Processing + State Cache</text>
+              <path d="M 485 17 H 500" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
 
-            <path d="M 465 159 H 505" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+              <!-- Step 5 -->
+              <rect x="500" y="0" width="110" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="555" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Send Eval to TTS</text>
+              <text x="555" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Wait for speech gen</text>
 
-            <rect x="505" y="140" width="220" height="38" rx="4" fill="#064e3b" stroke="#10b981"/>
-            <text x="615" y="157" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Worker 3: Chunked Audio Stream</text>
-            <text x="615" y="170" fill="#a7f3d0" font-size="7" text-anchor="middle">Plays First Chunk in &lt;300ms</text>
+              <path d="M 610 17 H 625" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+              <!-- Step 6 -->
+              <rect x="625" y="0" width="115" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="682" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Play Eval Voice</text>
+              <text x="682" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Speaker output</text>
+
+              <path d="M 740 17 H 755" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+              <!-- Step 7 -->
+              <rect x="755" y="0" width="95" height="34" rx="4" fill="#2d1519" stroke="#991b1b"/>
+              <text x="802" y="15" fill="#fecaca" font-size="8" font-weight="bold" text-anchor="middle">Move Motor</text>
+              <text x="802" y="26" fill="#fca5a5" font-size="7" text-anchor="middle">Lid acts late</text>
+            </g>
+
+            <rect x="25" y="92" width="825" height="24" rx="4" fill="#0f090b" stroke="#450a0a"/>
+            <text x="437" y="108" fill="#f87171" font-size="8" font-weight="bold" text-anchor="middle">TOTAL BLOCKING TIME: ~4.5 SECONDS OF AWKWARD DEAD AIR BEFORE ANY INTERACTION</text>
+
+            <!-- TRACK 2: FAST (Parallelized & Overlapped) -->
+            <rect x="15" y="150" width="850" height="195" rx="8" fill="#031b15" stroke="#059669" stroke-width="1.5"/>
+            <text x="30" y="170" fill="#34d399" font-size="10" font-weight="bold">FAST: PIPELINED OVERLAP & CONVERSATIONAL LATENCY MASKING</text>
+            <text x="845" y="170" fill="#10b981" font-size="9" font-weight="bold" text-anchor="end">✅ ZERO DEAD AIR — IMMEDIATE SASSY BANTER</text>
+
+            <!-- Step 1: Trigger -->
+            <rect x="25" y="200" width="100" height="60" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+            <text x="75" y="224" fill="#ecfdf5" font-size="9" font-weight="bold" text-anchor="middle">Sensor Finds</text>
+            <text x="75" y="238" fill="#a7f3d0" font-size="9" font-weight="bold" text-anchor="middle">Object</text>
+            <text x="75" y="251" fill="#6ee7b7" font-size="7" text-anchor="middle">(10-40cm Range)</text>
+
+            <!-- Fork Arrows -->
+            <path d="M 125 218 Q 145 200 165 200" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+            <path d="M 125 242 Q 145 260 165 260" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-cyan-2)"/>
+
+            <!-- Fork Branch A: Audio Icebreaker -->
+            <rect x="165" y="184" width="170" height="34" rx="4" fill="#0f291e" stroke="#10b981"/>
+            <text x="250" y="198" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Request Initial TTS</text>
+            <text x="250" y="209" fill="#a7f3d0" font-size="7" text-anchor="middle">ElevenLabs stream starts</text>
+
+            <!-- Fork Branch B: Vision Pipeline -->
+            <rect x="165" y="244" width="170" height="34" rx="4" fill="#082f49" stroke="#0284c7"/>
+            <text x="250" y="258" fill="#e0f2fe" font-size="8" font-weight="bold" text-anchor="middle">Capture & Send to Gemma</text>
+            <text x="250" y="269" fill="#7dd3fc" font-size="7" text-anchor="middle">Frame processed in parallel</text>
+
+            <!-- Merge Stage: Gemma text arrives + Initial TTS Plays -->
+            <path d="M 335 201 H 365" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+            <path d="M 335 261 H 365" stroke="#06b6d4" stroke-width="1.5" marker-end="url(#arr-cyan-2)"/>
+
+            <rect x="365" y="184" width="235" height="94" rx="6" fill="#022c22" stroke="#10b981" stroke-width="1.5"/>
+            <text x="482" y="200" fill="#34d399" font-size="9" font-weight="bold" text-anchor="middle">CONCURRENT HANDOFF & LATENCY MASKING</text>
+            
+            <rect x="375" y="208" width="215" height="24" rx="3" fill="#064e3b" stroke="#34d399"/>
+            <text x="482" y="223" fill="#ecfdf5" font-size="7.5" font-weight="bold" text-anchor="middle">🔊 Plays Initial TTS (Masks wait with sassy quip!)</text>
+
+            <rect x="375" y="236" width="215" height="18" rx="3" fill="#082f49" stroke="#38bdf8"/>
+            <text x="482" y="248" fill="#bae6fd" font-size="7" text-anchor="middle">⚡ Gemma text ready + Dispatches async TTS</text>
+
+            <rect x="375" y="256" width="215" height="18" rx="3" fill="#1e1b4b" stroke="#818cf8"/>
+            <text x="482" y="268" fill="#c7d2fe" font-size="7" text-anchor="middle">⚙️ Moves motor immediately based on class</text>
+
+            <!-- Final Chained Audio Delivery -->
+            <path d="M 600 231 H 635" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+
+            <rect x="635" y="195" width="215" height="72" rx="6" fill="#064e3b" stroke="#34d399" stroke-width="2"/>
+            <text x="742" y="215" fill="#ecfdf5" font-size="9" font-weight="bold" text-anchor="middle">SEAMLESS RESOLUTION</text>
+            <text x="742" y="232" fill="#a7f3d0" font-size="8" font-weight="bold" text-anchor="middle">Play Eval TTS from ElevenLabs</text>
+            <text x="742" y="246" fill="#6ee7b7" font-size="7" text-anchor="middle">Streams right as icebreaker ends</text>
+            <text x="742" y="258" fill="#e2e8f0" font-size="7" text-anchor="middle">(Zero perceptible wait time!)</text>
+
+            <!-- Bottom summary pill -->
+            <rect x="25" y="300" width="825" height="26" rx="4" fill="#021f18" stroke="#047857"/>
+            <text x="437" y="316" fill="#6ee7b7" font-size="8" font-weight="bold" text-anchor="middle">RESULT: Human hears instant banter while vision processes → Motor acts concurrently → Final evaluation streams with zero dead air</text>
           </svg>
         </div>
       </section>
