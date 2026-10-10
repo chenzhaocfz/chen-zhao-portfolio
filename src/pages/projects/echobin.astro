@@ -1,0 +1,416 @@
+---
+// src/pages/projects/echobin.astro
+import '../../styles/global.css';
+
+const title = "EchoBin — Autonomous Waste-Sorting Installation | Chen Zhao";
+const description = "Best Hardware Winner at BearHacks 2026. Autonomous physical edge installation combining Raspberry Pi 4, Gemma Vision, and ElevenLabs.";
+
+// Replace with your actual YouTube Video ID (e.g., 'dQw4w9WgXcQ' or your unlisted hackathon demo ID)
+const youtubeVideoId = "9hRGt3oDyFk";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #0b0f19;
+        color: #e2e8f0;
+      }
+      .glass-card {
+        background: rgba(17, 24, 39, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glass-card:hover {
+        border-color: rgba(16, 185, 129, 0.3);
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased selection:bg-emerald-500 selection:text-black">
+    
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-xs font-mono text-emerald-400 hover:text-white transition flex items-center gap-2">
+          ← Back to Portfolio
+        </a>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-xs font-mono text-slate-400">BearHacks 2026 • Best Hardware Winner</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+      
+      <!-- Hero Header -->
+      <section class="space-y-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-3 py-1 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+            🏆 Winner: Best Hardware Project — BearHacks 2026
+          </span>
+          <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            Physical Edge Computing
+          </span>
+          <span class="px-3 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
+            Human-Robot Interaction
+          </span>
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+          EchoBin: Autonomous Sassy Waste-Sorting
+        </h1>
+        
+        <p class="text-slate-300 text-sm md:text-base max-w-3xl leading-relaxed">
+          An interactive physical installation that stops mis-sorting before it happens. Built with a Raspberry Pi 4, computer vision, and speech synthesis, EchoBin inspects items on approach and uses behavioral friction, witty voice feedback, and a motorized lid-lock to educate users.
+        </p>
+
+        <!-- Metrics Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">PIPELINE LATENCY</span>
+            <span class="text-emerald-400 font-bold text-sm">&lt; 800 ms</span>
+          </div>
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">TRIGGER RANGE</span>
+            <span class="text-cyan-400 font-bold text-sm">10 – 40 cm</span>
+          </div>
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">VISION STACK</span>
+            <span class="text-white font-bold text-sm">Gemma Multimodal</span>
+          </div>
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">SPEECH ENGINE</span>
+            <span class="text-brand-400 font-bold text-sm">ElevenLabs Voice</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: YOUTUBE EMBED & 3-IMAGE GALLERY -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span class="text-emerald-400">01.</span> Installation Video & Hardware Showcase
+          </h2>
+          <span class="text-xs font-mono text-slate-500">Live Hackathon Prototype</span>
+        </div>
+
+        <!-- YouTube Video Embed -->
+        <div class="glass-card p-2 rounded-2xl border-emerald-500/20 overflow-hidden">
+          <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black">
+            <iframe 
+              class="w-full h-full"
+              src={`https://www.youtube-nocookie.com/embed/${youtubeVideoId}`}
+              title="EchoBin Live Hardware Demo" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        <!-- 3 Photos Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Photo 1 -->
+          <div class="glass-card rounded-xl overflow-hidden group border-slate-800">
+            <div class="h-52 bg-slate-900 relative overflow-hidden">
+              <img 
+                src="/echobin-exterior.jpg" 
+                alt="EchoBin Exterior View" 
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80';"
+              />
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-emerald-400 font-bold">EXTERIOR FACE</span>
+            </div>
+            <div class="p-3 text-[11px] font-mono text-slate-400">
+              HC-SR04 ultrasonic eyes & wide-angle camera aperture.
+            </div>
+          </div>
+
+          <!-- Photo 2 -->
+          <div class="glass-card rounded-xl overflow-hidden group border-slate-800">
+            <div class="h-52 bg-slate-900 relative overflow-hidden">
+              <img 
+                src="/echobin-internals.jpg" 
+                alt="EchoBin Internal Chassis" 
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80';"
+              />
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-cyan-400 font-bold">INTERNAL HARNESS</span>
+            </div>
+            <div class="p-3 text-[11px] font-mono text-slate-400">
+              Raspberry Pi 4, ULN2003 stepper driver, and breadboard wiring.
+            </div>
+          </div>
+
+          <!-- Photo 3 -->
+          <div class="glass-card rounded-xl overflow-hidden group border-slate-800">
+            <div class="h-52 bg-slate-900 relative overflow-hidden">
+              <img 
+                src="/echobin-action.jpg" 
+                alt="EchoBin in Action" 
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&auto=format&fit=crop&q=80';"
+              />
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-brand-400 font-bold">LIVE EVALUATION</span>
+            </div>
+            <div class="p-3 text-[11px] font-mono text-slate-400">
+              Real-time user testing and conversational pushback on the floor.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: JUDGE & REVIEWER CRUCIBLE (LIFTED DIRECTLY UNDER MEDIA) -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="text-emerald-400">02.</span> Results & Judge Q&A Defense
+            </h2>
+            <p class="text-xs text-slate-400">Critical productization questions and engineering defenses from the hackathon evaluation.</p>
+          </div>
+          <span class="px-2.5 py-1 rounded text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+            Best Hardware Defense
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Q1: Market Fit -->
+          <div class="glass-card p-5 rounded-xl border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10">01. PRODUCT MARKET FIT</span>
+              <span class="text-[10px] font-mono text-slate-500">Commercialization</span>
+            </div>
+            <h3 class="text-sm font-bold text-white">"Who would buy this? Consumers won't pay for smart cans."</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              <strong>Defense:</strong> EchoBin is an institutional B2B solution, not a direct-to-consumer appliance. The real commercial return is preventing municipal contamination penalties:
+            </p>
+            <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+              <li><strong class="text-slate-200">Condo Garbage Chutes:</strong> Buildings face $5,000+ municipal contamination fines when chutes dump unrinsed garbage into recycling compactors.</li>
+              <li><strong class="text-slate-200">Campuses & Food Courts:</strong> Eliminates human post-sorting costs in high-traffic cafeterias with rotating student populations.</li>
+            </ul>
+          </div>
+
+          <!-- Q2: Composite Items -->
+          <div class="glass-card p-5 rounded-xl border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-cyan-400 px-2 py-0.5 rounded bg-cyan-500/10">02. COMPOSITE WASTE</span>
+              <span class="text-[10px] font-mono text-slate-500">Classification Edge Cases</span>
+            </div>
+            <h3 class="text-sm font-bold text-white">"What about mixed items like a coffee cup + plastic lid?"</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              <strong>Defense:</strong> Rather than forcing a single label (e.g. "Trash"), Gemma’s prompt decomposes composite assemblies into discrete instructions:
+            </p>
+            <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+              <li>Identifies subcomponents: lid (plastic #6), sleeve (paper), and liquid residue.</li>
+              <li>Lid remains locked while audio instructs the user: <em>"Pop off the lid for blue bin, and empty the liquid first!"</em></li>
+            </ul>
+          </div>
+
+          <!-- Q3: Speed & Privacy -->
+          <div class="glass-card p-5 rounded-xl border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-amber-400 px-2 py-0.5 rounded bg-amber-500/10">03. SPEED & PRIVACY</span>
+              <span class="text-[10px] font-mono text-slate-500">Public Throughput</span>
+            </div>
+            <h3 class="text-sm font-bold text-white">"Will this cause lines during lunch rushes? What about privacy?"</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              <strong>Defense:</strong> Solved through hardware-level optical zoning and adaptive throughput modes:
+            </p>
+            <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+              <li><strong class="text-slate-200">Privacy:</strong> Camera is fixed downwards at a 45° angle at the disposal tray. Zero facial capture, zero biometric storage, all RAM ephemeral.</li>
+              <li><strong class="text-slate-200">Rush-Hour Mode:</strong> High-frequency detection switches the bin to fast audio chimes (&lt;300ms gate), reserving conversational banter for ambiguous items.</li>
+            </ul>
+          </div>
+
+          <!-- Q4: Durability & Mess -->
+          <div class="glass-card p-5 rounded-xl border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-brand-400 px-2 py-0.5 rounded bg-brand-500/10">04. PHYSICAL DURABILITY</span>
+              <span class="text-[10px] font-mono text-slate-500">Hardware Life</span>
+            </div>
+            <h3 class="text-sm font-bold text-white">"Trash bins are dirty. How do optics and motors survive?"</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              <strong>Defense:</strong> The chassis completely isolates electronics from the waste containment volume:
+            </p>
+            <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+              <li>Optics sit behind a recessed, hydrophobic acrylic shield mounted above the drop zone.</li>
+              <li>The stepper motor resides in an isolated rear service compartment, driving the lid via an offset arm away from splashes.</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section 3: SYSTEM ARCHITECTURE & SVG GRAPHICS -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <span class="text-emerald-400">03.</span> System Architecture & Concurrency
+            </h2>
+            <p class="text-xs text-slate-400">Hardware data-flow topology and asynchronous latency optimization.</p>
+          </div>
+          <span class="text-xs font-mono text-cyan-400">Python 3.11 • RPi.GPIO • OpenCV</span>
+        </div>
+
+        <!-- GRAPHIC 1: HARDWARE DATA-FLOW TOPOLOGY -->
+        <div class="glass-card p-5 rounded-2xl border-slate-800 space-y-3">
+          <span class="text-xs font-mono font-bold text-slate-300 block">TOPOLOGY 1: PHYSICAL HARDWARE INTERFACE</span>
+          
+          <svg class="w-full h-auto font-mono select-none" viewBox="0 0 840 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" /></marker>
+              <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#06b6d4" /></marker>
+            </defs>
+
+            <!-- INPUTS -->
+            <rect x="20" y="20" width="160" height="140" rx="8" fill="#0f172a" stroke="#334155" stroke-dasharray="3 3"/>
+            <text x="100" y="42" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle">EDGE SENSORS</text>
+            
+            <rect x="35" y="55" width="130" height="28" rx="4" fill="#1e293b" stroke="#475569"/>
+            <text x="100" y="73" fill="#38bdf8" font-size="9" text-anchor="middle">HC-SR04 Proximity</text>
+
+            <rect x="35" y="90" width="130" height="28" rx="4" fill="#1e293b" stroke="#475569"/>
+            <text x="100" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">USB 1080p Camera</text>
+
+            <rect x="35" y="125" width="130" height="25" rx="4" fill="#1e293b" stroke="#475569"/>
+            <text x="100" y="141" fill="#38bdf8" font-size="9" text-anchor="middle">USB Condenser Mic</text>
+
+            <!-- CONNECTOR 1 -->
+            <path d="M 180 90 H 230" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald)"/>
+
+            <!-- CORE COMPUTE (RPI) -->
+            <rect x="230" y="20" width="370" height="140" rx="8" fill="#03211a" stroke="#059669" stroke-width="1.5"/>
+            <text x="415" y="42" fill="#34d399" font-size="11" font-weight="bold" text-anchor="middle">RASPBERRY PI 4 CORE CONTROLLER</text>
+            
+            <rect x="250" y="60" width="155" height="42" rx="4" fill="#064e3b" stroke="#10b981"/>
+            <text x="327" y="78" fill="#ecfdf5" font-size="9" font-weight="bold" text-anchor="middle">Gemma Vision Worker</text>
+            <text x="327" y="92" fill="#a7f3d0" font-size="8" text-anchor="middle">Frame Diff & Object Class</text>
+
+            <rect x="425" y="60" width="155" height="42" rx="4" fill="#082f49" stroke="#0284c7"/>
+            <text x="502" y="78" fill="#e0f2fe" font-size="9" font-weight="bold" text-anchor="middle">Voice Reasoning Worker</text>
+            <text x="502" y="92" fill="#7dd3fc" font-size="8" text-anchor="middle">ElevenLabs Stream Chunks</text>
+
+            <rect x="250" y="112" width="330" height="35" rx="4" fill="#111827" stroke="#374151"/>
+            <text x="415" y="133" fill="#cbd5e1" font-size="9" font-weight="bold" text-anchor="middle">Asynchronous Event Queue (Non-Blocking Coordinator)</text>
+
+            <!-- CONNECTOR 2 -->
+            <path d="M 600 90 H 650" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr-cyan)"/>
+
+            <!-- ACTUATORS -->
+            <rect x="650" y="20" width="170" height="140" rx="8" fill="#0f172a" stroke="#334155" stroke-dasharray="3 3"/>
+            <text x="735" y="42" fill="#94a3b8" font-size="10" font-weight="bold" text-anchor="middle">ACTUATORS & OUTPUT</text>
+
+            <rect x="665" y="60" width="140" height="36" rx="4" fill="#1e1b4b" stroke="#6366f1"/>
+            <text x="735" y="78" fill="#e0e7ff" font-size="9" font-weight="bold" text-anchor="middle">ULN2003 Driver</text>
+            <text x="735" y="90" fill="#a5b4fc" font-size="8" text-anchor="middle">Stepper Mechanical Lid</text>
+
+            <rect x="665" y="106" width="140" height="36" rx="4" fill="#1e1b4b" stroke="#6366f1"/>
+            <text x="735" y="124" fill="#e0e7ff" font-size="9" font-weight="bold" text-anchor="middle">Audio Output</text>
+            <text x="735" y="136" fill="#a5b4fc" font-size="8" text-anchor="middle">Sassy TTS Speaker</text>
+          </svg>
+        </div>
+
+        <!-- GRAPHIC 2: CONCURRENCY LATENCY BOTTLENECK -->
+        <div class="glass-card p-5 rounded-2xl border-slate-800 space-y-3">
+          <span class="text-xs font-mono font-bold text-slate-300 block">TOPOLOGY 2: ELIMINATING THE 4-SECOND LATENCY BOTTLENECK</span>
+          
+          <svg class="w-full h-auto font-mono select-none" viewBox="0 0 840 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ef4444" /></marker>
+              <marker id="arr-emerald-2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10b981" /></marker>
+            </defs>
+
+            <!-- TRACK 1: LINEAR WATERFALL -->
+            <rect x="20" y="15" width="800" height="75" rx="8" fill="#1f1215" stroke="#7f1d1d" stroke-dasharray="2 2"/>
+            <text x="35" y="34" fill="#f87171" font-size="10" font-weight="bold">INITIAL NAIVE PIPELINE (Linear Waterfall)</text>
+            <text x="805" y="34" fill="#ef4444" font-size="9" font-weight="bold" text-anchor="end">⚠️ &gt;4.2s DELAY (Unacceptable)</text>
+
+            <rect x="35" y="45" width="130" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
+            <text x="100" y="63" fill="#fecaca" font-size="8" text-anchor="middle">1. Audio Record (1.2s)</text>
+            <path d="M 165 60 H 195" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+            <rect x="195" y="45" width="160" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
+            <text x="275" y="63" fill="#fecaca" font-size="8" text-anchor="middle">2. Gemma Vision (1.5s)</text>
+            <path d="M 355 60 H 385" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+            <rect x="385" y="45" width="160" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
+            <text x="465" y="63" fill="#fecaca" font-size="8" text-anchor="middle">3. ElevenLabs TTS (0.9s)</text>
+            <path d="M 545 60 H 575" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arr-red)"/>
+
+            <rect x="575" y="45" width="140" height="30" rx="4" fill="#3f1d24" stroke="#991b1b"/>
+            <text x="645" y="63" fill="#fecaca" font-size="8" text-anchor="middle">4. Motor Actuation (0.6s)</text>
+
+            <!-- TRACK 2: ASYNC QUEUE -->
+            <rect x="20" y="105" width="800" height="90" rx="8" fill="#03211a" stroke="#059669" stroke-width="1.5"/>
+            <text x="35" y="125" fill="#34d399" font-size="10" font-weight="bold">OPTIMIZED PIPELINE (Multi-Threaded Queue Streaming)</text>
+            <text x="805" y="125" fill="#10b981" font-size="9" font-weight="bold" text-anchor="end">✅ &lt;800ms RESPONSE (Real-Time)</text>
+
+            <rect x="35" y="140" width="160" height="38" rx="4" fill="#064e3b" stroke="#10b981"/>
+            <text x="115" y="157" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Worker 1: Sensor Polling</text>
+            <text x="115" y="170" fill="#a7f3d0" font-size="7" text-anchor="middle">Continuous GPIO Debounce</text>
+
+            <path d="M 195 159 H 235" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+
+            <rect x="235" y="140" width="230" height="38" rx="4" fill="#064e3b" stroke="#10b981"/>
+            <text x="350" y="157" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Worker 2: Concurrent Vision & LLM</text>
+            <text x="350" y="170" fill="#a7f3d0" font-size="7" text-anchor="middle">Async Frame Processing + State Cache</text>
+
+            <path d="M 465 159 H 505" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-2)"/>
+
+            <rect x="505" y="140" width="220" height="38" rx="4" fill="#064e3b" stroke="#10b981"/>
+            <text x="615" y="157" fill="#ecfdf5" font-size="8" font-weight="bold" text-anchor="middle">Worker 3: Chunked Audio Stream</text>
+            <text x="615" y="170" fill="#a7f3d0" font-size="7" text-anchor="middle">Plays First Chunk in &lt;300ms</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Section 4: LESSONS & WHAT'S NEXT -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span class="text-emerald-400">04.</span> Retrospective & Roadmap
+          </h2>
+          <span class="text-xs font-mono text-slate-500">Post-Hackathon Next Steps</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono text-slate-300">
+          <div class="glass-card p-5 rounded-xl border-slate-800 space-y-2">
+            <span class="text-emerald-400 font-bold block text-sm">Key Engineering Learnings</span>
+            <ul class="space-y-1.5 list-disc list-inside text-slate-400">
+              <li>Laptop-to-Pi migration exposes CPU and I/O bottlenecks that demand asynchronous architectures.</li>
+              <li>Humor and playful friction disarm user resistance far more effectively than passive signage.</li>
+              <li>Hardware debouncing on ultrasonic pins is mandatory in drafty or crowded exhibition halls.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl border-slate-800 space-y-2">
+            <span class="text-cyan-400 font-bold block text-sm">Roadmap to Production</span>
+            <ul class="space-y-1.5 list-disc list-inside text-slate-400">
+              <li><strong class="text-white">Municipal Rulepacks:</strong> Dynamic JSON config switches between City of Toronto vs. Peel rules.</li>
+              <li><strong class="text-white">Tri-Stream Gate:</strong> Upgrade single lid to a 3-way motorized diverter (Garbage / Recycling / Organics).</li>
+              <li><strong class="text-white">Chute Retrofit Kit:</strong> Pilot magnetic retrofit sensor kits for university residence garbage chutes.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-8 mt-20 text-center text-xs font-mono text-slate-500">
+      <p>© {new Date().getFullYear()} Chen Zhao • BearHacks 2026 Winner</p>
+    </footer>
+  </body>
+</html>
