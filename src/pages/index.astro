@@ -573,13 +573,32 @@ const description = isAcademic
       </section>
 
       <!-- Section 4: Work Experience -->
+      <!-- Sheridan / StereoLOGIC OCI Research Role -->
       <section id="experience" class="space-y-6">
         <div class="flex items-center gap-3">
           <h2 class="text-2xl font-bold text-white tracking-tight">Work Experience</h2>
           <div class="h-px bg-slate-800 flex-1"></div>
         </div>
-
         <div class="space-y-6">
+          <div class="glass-card p-6 rounded-xl space-y-3 border-l-4 border-l-brand-500">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+              <div>
+                <h3 class="text-lg font-bold text-white">AI Research Assistant</h3>
+                <p class="text-sm text-brand-400 font-medium">Sheridan College (CAAI) × StereoLOGIC • Oakville, ON</p>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 self-start md:self-center">
+                Sep 2026 – Present
+              </span>
+            </div>
+            <ul class="list-disc list-inside text-sm text-slate-300 space-y-2 leading-relaxed">
+                            <li>Appointed under an Ontario Centres of Innovation (OCI) grant on the <em>Agentic Digital Twin for Business Process Optimization</em> project, reporting to PI Prof. Nick Sajadi and CAAI leadership to translate raw enterprise desktop telemetry into autonomous task-mining representations.</li>
+              <li>Engineered multimodal screen recognition pipelines and micro-action classification algorithms, capturing visual UI hierarchies alongside granular user interactions (keystrokes, navigation, clicks) to reconstruct noise-free, end-to-end process-mining execution logs.</li>
+              <li>Applied Supervised Fine-Tuning (SFT) and parameter-efficient LoRA adapters on open-source LLMs to optimize downstream inference pipelines, significantly reducing token latency and hardware overhead while boosting structured reasoning and process abstraction accuracy.</li>
+              <li>Constructed automated testing, validation, and progress-tracking suites alongside StereoLOGIC's engineering team, benchmarking recognition precision against real-world production task datasets to systematically surface operational inefficiencies and cost-saving opportunities.</li>
+            </ul>
+          </div>
+
+          <!-- EQ Consulting (Unchanged) -->
           <div class="glass-card p-6 rounded-xl space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
               <div>
@@ -596,6 +615,7 @@ const description = isAcademic
             </ul>
           </div>
 
+          <!-- North York General Hospital (Unchanged) -->
           <div class="glass-card p-6 rounded-xl space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
               <div>
@@ -611,6 +631,7 @@ const description = isAcademic
             </ul>
           </div>
 
+          <!-- Expanded Scotiabank Role -->
           <div class="glass-card p-6 rounded-xl space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
               <div>
@@ -620,14 +641,14 @@ const description = isAcademic
               <span class="text-xs font-mono text-slate-400">Apr 2019 – Sep 2019</span>
             </div>
             <ul class="list-disc list-inside text-sm text-slate-300 space-y-2 leading-relaxed">
-              <li>Implemented financial modeling calculations into core C/C++ libraries and proprietary programs in consultation with market traders.</li>
-              <li>Developed interface layers between end-user products and core models connecting C++ with VBA in Excel.</li>
-              <li>Wrote data sanitation and repair scripts in Python and Bash to optimize batch jobs.</li>
+             <li>Developed connector layers bridging core C++ Black-Scholes and Monte Carlo pricing libraries to Excel VBA, executing automated regression test suites to safeguard mission-critical valuation routines against integration bugs and breaking changes merged from active repository branches.</li>
+              <li>Collaborated directly with day traders and quantitative market makers to compute and deliver real-time sensitivity analytics (Greeks: Delta, Gamma, Vega, Theta), empowering rapid risk rebalancing and automated exposure hedging during high-volatility market-open windows.</li>
+              <li>Designed interactive Excel trading dashboards and parameter sheets driven by underlying C++ valuation models, allowing front-office traders to conduct instantaneous scenario stress-testing and dynamic portfolio re-pricing directly from their workstations.</li>
+              <li>Authored automated Python and Bash data sanitation and repair pipelines to clean raw tick-level exchange feeds and historical order books, guaranteeing uninterrupted data integrity across batch overnight risk jobs and algorithmic backtesting infrastructure.</li>
             </ul>
           </div>
         </div>
       </section>
-
       <!-- Section 5: Technical Skills -->
       <section id="skills" class="space-y-6">
         <div class="flex items-center gap-3">
@@ -648,7 +669,7 @@ const description = isAcademic
           <div class="glass-card p-5 rounded-xl">
             <h3 class="text-sm font-mono font-bold text-brand-400 mb-3 uppercase tracking-wider">AI / ML & Systems Frameworks</h3>
             <div class="flex flex-wrap gap-2">
-              {['PyTorch', 'Unsloth (QLoRA)', 'vLLM', 'Raspberry Pi', 'OpenCV', 'Game Engines & Canvas', 'ElevenLabs API'].map((skill) => (
+              {['PyTorch', 'Unsloth (QLoRA)', 'vLLM', 'OpenCV', 'Computer Vision (OCR/Detection)', 'Raspberry Pi', 'Game Engines & Canvas', 'ElevenLabs API'].map((skill) => (
                 <span class="px-3 py-1 rounded-md text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700">{skill}</span>
               ))}
             </div>
