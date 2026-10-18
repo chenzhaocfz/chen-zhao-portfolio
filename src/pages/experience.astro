@@ -1,0 +1,408 @@
+---
+// src/pages/experience.astro
+import '../styles/global.css';
+
+const title = "Chen Zhao | Career Journey & Engineering Profile";
+const description = "The technical biography, professional chapters, and industry background of Chen Zhao — spanning financial engineering, healthcare infrastructure, and agentic process AI.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #0b0f19;
+        color: #e2e8f0;
+      }
+      .glass-card {
+        background: rgba(17, 24, 39, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glass-card:hover {
+        border-color: rgba(99, 102, 241, 0.3);
+      }
+      .chapter-line {
+        background: linear-gradient(180deg, #6366f1 0%, #06b6d4 50%, #10b981 100%);
+      }
+    </style>
+  </head>
+  <body class="font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800">
+      <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-xs font-mono text-cyan-400 hover:text-white transition flex items-center gap-2">
+          ← Back to Portfolio
+        </a>
+        <div class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-xs font-mono text-slate-400">Toronto, ON • Open to Collaboration</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-16">
+
+      <!-- Hero Header & Narrative Intro -->
+      <section class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
+          Career Profile & Engineering Biography
+        </div>
+
+        <div class="space-y-3">
+          <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Engineering from the Trading Floor <br />
+            <span class="bg-gradient-to-r from-brand-500 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+              to the AI Research Frontier
+            </span>
+          </h1>
+          <p class="text-slate-400 text-sm md:text-base leading-relaxed max-w-3xl">
+            My path into computer science hasn't followed a typical pipeline. I began in mathematical finance calculating instantaneous sensitivities on trading desks, stepped up to build critical dispatch software for frontline hospital staff during COVID-19, and returned to Sheridan College to specialize in Cloud Computing and AI Alignment.
+          </p>
+        </div>
+
+        <!-- Quick Summary Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">CURRENT FOCUS</span>
+            <span class="text-brand-400 font-bold text-sm">Agentic Process AI</span>
+          </div>
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">CORE LANGUAGES</span>
+            <span class="text-cyan-400 font-bold text-sm">Python • C# • C++</span>
+          </div>
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">DEGREE & SPEC</span>
+            <span class="text-white font-bold text-sm">Honours CS (Cloud)</span>
+          </div>
+          <div class="glass-card p-3 rounded-lg border-slate-800">
+            <span class="text-slate-500 block text-[10px]">HARDWARE & VISION</span>
+            <span class="text-emerald-400 font-bold text-sm">BearHacks 1st Place</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Career Chapters (Narrative Work Experience) -->
+      <section class="space-y-8">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <span class="text-brand-400 font-mono">01.</span> Career Chapters & Professional Roles
+          </h2>
+          <span class="text-xs font-mono text-slate-500 ml-auto">Chronological Breakdown</span>
+        </div>
+
+        <div class="relative pl-6 md:pl-8 space-y-10 before:content-[''] before:absolute before:left-2 md:before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-800">
+
+          <!-- CHAPTER 4: Sheridan CAAI x StereoLOGIC -->
+          <div class="relative space-y-3">
+            <div class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-brand-500 flex items-center justify-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+            </div>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-wider text-brand-400 block font-bold">Chapter 04 • The Research Frontier</span>
+                <h3 class="text-lg md:text-xl font-bold text-white">AI Research Assistant</h3>
+                <p class="text-xs md:text-sm text-cyan-400 font-mono">Centre for Applied AI (CAAI) × StereoLOGIC • Oakville, ON</p>
+              </div>
+              <span class="px-2.5 py-1 rounded text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20 font-semibold">
+                Sep 2026 – Present
+              </span>
+            </div>
+
+            <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+              Operating on an Ontario Centres of Innovation (OCI) grant on the <em>Agentic Digital Twin for Business Process Optimization</em> project under Prof. Nick Sajadi. We are bridging the gap between passive corporate telemetry and autonomous process mining by teaching small, localized models to understand human work.
+            </p>
+
+            <div class="glass-card p-4 rounded-xl border-slate-800/80 space-y-2 text-xs text-slate-400 leading-relaxed">
+              <div class="text-slate-200 font-medium font-mono text-[11px] flex items-center gap-2">
+                <span class="text-brand-400">⚡</span> Core Contributions & Technical Architecture:
+              </div>
+              <ul class="list-disc list-inside space-y-1.5 pl-1">
+                <li><strong class="text-slate-300">Multimodal Screen Perception:</strong> Developed vision parsing pipelines that decompose high-resolution desktop screen recordings into structured interaction trees, correlating keystroke streams, coordinate clicks, and active UI widgets.</li>
+                <li><strong class="text-slate-300">Adapter Optimization (LoRA/SFT):</strong> Fine-tuned open-source LLMs using Unsloth and custom LoRA adapters to turn granular micro-actions into synthetic BPMN (Business Process Model and Notation) logs with zero cloud data egress.</li>
+                <li><strong class="text-slate-300">Production Benchmarking:</strong> Engineered automated evaluation harnesses with StereoLOGIC engineers to grade workflow reconstruction accuracy against real enterprise enterprise software logs.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- CHAPTER 3: EQ Consulting -->
+          <div class="relative space-y-3">
+            <div class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-cyan-500 flex items-center justify-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            </div>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400 block font-bold">Chapter 03 • Quantitative Systems</span>
+                <h3 class="text-lg md:text-xl font-bold text-white">C# Quantitative & Systems Developer</h3>
+                <p class="text-xs md:text-sm text-cyan-400 font-mono">EQ Consulting Inc • Toronto, ON</p>
+              </div>
+              <span class="px-2.5 py-1 rounded text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                Feb 2022 – Dec 2023
+              </span>
+            </div>
+
+            <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+              Designed quantitative modeling and calculation tooling for institutional traders, bridging complex numerical derivative models with responsive front-office desktop applications.
+            </p>
+
+            <div class="glass-card p-4 rounded-xl border-slate-800/80 space-y-2 text-xs text-slate-400 leading-relaxed">
+              <div class="text-slate-200 font-medium font-mono text-[11px] flex items-center gap-2">
+                <span class="text-cyan-400">⚡</span> Core Contributions & Technical Architecture:
+              </div>
+              <ul class="list-disc list-inside space-y-1.5 pl-1">
+                <li><strong class="text-slate-300">Financial Modeling:</strong> Wrote and tuned high-precision pricing modules in C# and C++ for Equity, Foreign Exchange (FX), and Commodity derivative books.</li>
+                <li><strong class="text-slate-300">Front-Office Excel Integration (VSTO):</strong> Created high-frequency VSTO add-in layers allowing traders to interact with quantitative models in real time without UI locking.</li>
+                <li><strong class="text-slate-300">P&L & Risk Surfaces:</strong> Built bespoke risk analytics dashboards and dynamic scenario simulators to evaluate instantaneous market shifts across diverse books.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- CHAPTER 2: North York General Hospital -->
+          <div class="relative space-y-3">
+            <div class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-emerald-500 flex items-center justify-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            </div>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 block font-bold">Chapter 02 • High-Stakes Public Infrastructure</span>
+                <h3 class="text-lg md:text-xl font-bold text-white">Information Services Technical Support Lead</h3>
+                <p class="text-xs md:text-sm text-cyan-400 font-mono">North York General Hospital • Toronto, ON</p>
+              </div>
+              <span class="px-2.5 py-1 rounded text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                2020 – 2021
+              </span>
+            </div>
+
+            <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+              During the peak of COVID-19 vaccination efforts, I led hands-on technical operations across clinical vaccination centers, writing rapid web automation tools so healthcare workers could focus on patients instead of manual administration.
+            </p>
+
+            <div class="glass-card p-4 rounded-xl border-slate-800/80 space-y-2 text-xs text-slate-400 leading-relaxed">
+              <div class="text-slate-200 font-medium font-mono text-[11px] flex items-center gap-2">
+                <span class="text-emerald-400">⚡</span> Core Contributions & Technical Architecture:
+              </div>
+              <ul class="list-disc list-inside space-y-1.5 pl-1">
+                <li><strong class="text-slate-300">Clinical Shift Management App:</strong> Engineered an internal web utility in Angular, Node.js, and MySQL to coordinate and schedule clinical staff across rotating emergency vaccination sites.</li>
+                <li><strong class="text-slate-300">Zero-Downtime Deployment:</strong> Oversaw hardware, secure network gateways, and terminal configurations under strict healthcare privacy standards.</li>
+                <li><strong class="text-slate-300">Script Automation:</strong> Automated repetitive municipal reporting workflows via Python, eliminating data transcription errors during heavy patient volumes.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- CHAPTER 1: Scotiabank -->
+          <div class="relative space-y-3">
+            <div class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-indigo-500 flex items-center justify-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+            </div>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-wider text-indigo-400 block font-bold">Chapter 01 • The Mathematical Foundation</span>
+                <h3 class="text-lg md:text-xl font-bold text-white">Financial Engineer Analyst</h3>
+                <p class="text-xs md:text-sm text-cyan-400 font-mono">Scotiabank Global Banking and Markets • Toronto, ON</p>
+              </div>
+              <span class="px-2.5 py-1 rounded text-xs font-mono bg-slate-800 text-slate-400 border border-slate-700">
+                Apr 2019 – Sep 2019
+              </span>
+            </div>
+
+            <p class="text-xs md:text-sm text-slate-300 leading-relaxed">
+              Embedded directly on the trading floor, connecting core quantitative C++ pricing engines to front-office interfaces for real-time risk hedging.
+            </p>
+
+            <div class="glass-card p-4 rounded-xl border-slate-800/80 space-y-2 text-xs text-slate-400 leading-relaxed">
+              <div class="text-slate-200 font-medium font-mono text-[11px] flex items-center gap-2">
+                <span class="text-indigo-400">⚡</span> Core Contributions & Technical Architecture:
+              </div>
+              <ul class="list-disc list-inside space-y-1.5 pl-1">
+                <li><strong class="text-slate-300">C++ Pricing Connectors:</strong> Maintained and tested connector layers hooking low-level Black-Scholes and Monte Carlo valuation libraries to trader spreadsheets.</li>
+                <li><strong class="text-slate-300">Real-Time Greeks Engine:</strong> Computed Delta, Gamma, Vega, and Theta sensitivities under high-volatility market-open windows to inform active desk hedging.</li>
+                <li><strong class="text-slate-300">Data Pipeline Sanitization:</strong> Built automated Python & Bash pipelines to ingest, clean, and repair tick-level exchange feeds for batch overnight risk computations.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Education & Verified Certifications -->
+      <section class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <span class="text-cyan-400 font-mono">02.</span> Formal Education & Credentials
+          </h2>
+          <span class="text-xs font-mono text-slate-500 ml-auto">Academic & Industry</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Degree Card -->
+          <div class="glass-card p-5 rounded-xl border-l-4 border-l-brand-500 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono text-brand-400 font-semibold">Undergraduate Degree</span>
+              <span class="text-[11px] font-mono text-slate-400">Graduating 2026</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Honours Bachelor of Computer Science</h3>
+            <p class="text-xs text-slate-300">Sheridan College • Oakville, ON</p>
+            <p class="text-xs text-slate-400 pt-1">
+              <strong class="text-slate-200">Specialization:</strong> Cloud Computing.<br />
+              <strong class="text-slate-200">Thesis:</strong> Sequential Dual-LoRA for Causal Reasoning Faithfulness in LLMs (Supervised by Dr. Ghassem Tofighi).
+            </p>
+          </div>
+
+          <!-- BearHacks Trophy Card -->
+          <div class="glass-card p-5 rounded-xl border-l-4 border-l-emerald-500 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono text-emerald-400 font-semibold">Hackathon Award</span>
+              <span class="text-[11px] font-mono text-slate-400">BearHacks 2026</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Best Hardware Project — Winner</h3>
+            <p class="text-xs text-slate-300">EchoBin Autonomous Edge Waste Installation</p>
+            <p class="text-xs text-slate-400 pt-1">
+              Recognized for low-latency physical edge computing, concurrency masking via asynchronous queues, and human-in-the-loop behavioral interventions.
+            </p>
+          </div>
+
+          <!-- AWS Cert -->
+          <div class="glass-card p-5 rounded-xl border-l-4 border-l-amber-500 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono text-amber-400 font-semibold">Cloud Certification</span>
+              <span class="text-[11px] font-mono text-slate-400">Issued 2025</span>
+            </div>
+            <h3 class="text-base font-bold text-white">AWS Certified Solutions Architect – Associate</h3>
+            <p class="text-xs text-slate-300">Amazon Web Services</p>
+            <p class="text-xs text-slate-400 pt-1">
+              Demonstrated mastery in resilient distributed architectures, VPC topologies, IAM governance, and cost-optimized cloud backends.
+            </p>
+          </div>
+
+          <!-- Mongo Cert -->
+          <div class="glass-card p-5 rounded-xl border-l-4 border-l-emerald-500 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-mono text-emerald-400 font-semibold">Database Certification</span>
+              <span class="text-[11px] font-mono text-slate-400">Issued 2021</span>
+            </div>
+            <h3 class="text-base font-bold text-white">MongoDB Certified Professional Developer</h3>
+            <p class="text-xs text-slate-300">MongoDB University</p>
+            <p class="text-xs text-slate-400 pt-1">
+              Proficiency in document schema modeling, aggregation pipelines, replica set failovers, and transactional consistency.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Engineering Philosophy & Toolbox -->
+      <section class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <span class="text-emerald-400 font-mono">03.</span> Core Toolbox & Engineering Philosophy
+          </h2>
+          <span class="text-xs font-mono text-slate-500 ml-auto">How I Build</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass-card p-5 rounded-xl space-y-2">
+            <span class="text-brand-400 font-mono text-xs font-bold block uppercase tracking-wider">01 • Causality Over Smoke</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Whether designing Dual-LoRA bottlenecks or verifying trading Greeks, I do not trust black boxes. Systems must produce inspectable, causally faithful reasoning traces rather than plausible-sounding hallucinations.
+            </p>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl space-y-2">
+            <span class="text-cyan-400 font-mono text-xs font-bold block uppercase tracking-wider">02 • Low-Latency Concurrency</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              User experience degrades when I/O operations block. From VSTO spreadsheets to multi-threaded Raspberry Pi vision workers, overlapping execution and masking latency is fundamental to responsive engineering.
+            </p>
+          </div>
+
+          <div class="glass-card p-5 rounded-xl space-y-2">
+            <span class="text-emerald-400 font-mono text-xs font-bold block uppercase tracking-wider">03 • Physical Pragmatism</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Software lives in the real world. Real-world systems run on messy telemetry, noisy hospital shifts, and dirty waste disposal slots. I design software resilient enough to survive messy edge conditions.
+            </p>
+          </div>
+        </div>
+
+        <!-- Grouped Tech Badges -->
+        <div class="glass-card p-6 rounded-xl border-slate-800 space-y-4">
+          <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">Technological Competencies</span>
+          
+          <div class="space-y-3 font-mono text-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-32 text-slate-500 text-[11px]">LANGUAGES:</span>
+              <div class="flex flex-wrap gap-1.5">
+                {['Python', 'C# (.NET)', 'C / C++', 'SQL', 'Bash', 'TypeScript', 'Java', 'VBA'].map(s => (
+                  <span class="px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">{s}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-32 text-slate-500 text-[11px]">AI & VISION:</span>
+              <div class="flex flex-wrap gap-1.5">
+                {['PyTorch', 'Unsloth QLoRA', 'vLLM', 'OpenCV', 'Gemma Multimodal', 'Hugging Face', 'ElevenLabs API'].map(s => (
+                  <span class="px-2.5 py-0.5 rounded bg-brand-500/10 text-brand-300 border border-brand-500/20">{s}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-32 text-slate-500 text-[11px]">CLOUD & INFRA:</span>
+              <div class="flex flex-wrap gap-1.5">
+                {['AWS (Solutions Architect)', 'Cloudflare Pages', 'Linux / POSIX', 'Docker', 'Raspberry Pi / GPIO', 'Git'].map(s => (
+                  <span class="px-2.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">{s}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Connect Action Bar -->
+      <section class="glass-card p-6 md:p-8 rounded-2xl border-brand-500/30 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-1 text-center md:text-left">
+          <h3 class="text-lg md:text-xl font-bold text-white">Let's talk research, systems, or opportunities.</h3>
+          <p class="text-xs md:text-sm text-slate-400">Open to technical research, systems engineering roles, and innovative collaborations.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a 
+            href="mailto:chen.zhao.cfz@gmail.com" 
+            class="px-5 py-2.5 text-xs font-mono font-bold rounded-lg bg-brand-600 hover:bg-brand-500 text-white transition shadow-lg shadow-brand-500/20 flex items-center gap-2"
+          >
+            <span>chen.zhao.cfz@gmail.com</span>
+          </a>
+          <a 
+            href="https://linkedin.com/in/chen-zhao-cfz/" 
+            target="_blank" 
+            class="px-4 py-2.5 text-xs font-mono rounded-lg glass-card text-slate-300 hover:text-white transition"
+          >
+            LinkedIn ↗
+          </a>
+          <a 
+            href="/" 
+            class="px-4 py-2.5 text-xs font-mono rounded-lg glass-card text-slate-300 hover:text-white transition"
+          >
+            Back to Projects
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-8 text-center text-xs font-mono text-slate-500">
+      <p>© {new Date().getFullYear()} Chen Zhao • Career Biography</p>
+    </footer>
+
+  </body>
+</html>

@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "dev:academic": "astro dev --mode academic",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "build:academic": "astro build --mode academic"
   },
   "dependencies": {
     "@emnapi/core": "^1.11.3",

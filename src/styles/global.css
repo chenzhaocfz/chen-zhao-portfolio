@@ -10,3 +10,133 @@
   --color-brand-600: #4f46e5;
   --color-brand-900: #1e1b4b;
 }
+
+body {
+  background-color: #0b0f19;
+  color: #e2e8f0;
+  overflow-anchor: none;
+}
+
+.glass-card {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+/* Disable redundant GPU blur passes on nested cards inside already-opaque expanded views */
+.card-fullpage .glass-card {
+  backdrop-filter: none;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.expandable-card {
+  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.expandable-card.is-open {
+  background: rgba(11, 15, 25, 0.96);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.9);
+}
+
+/* Compact Teaser State */
+.card-teaser {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transform-origin: top center;
+  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease,
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 0s;
+}
+
+.expandable-card.is-open .card-teaser {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.96);
+  pointer-events: none;
+  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 0.45s;
+}
+
+/* Full Page Expanded State — visibility:hidden + content-visibility skips rendering when closed */
+.card-fullpage {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.98);
+  transform-origin: top center;
+  pointer-events: none;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease 0.08s,
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 0.5s;
+}
+
+.expandable-card:not(.is-open) .card-fullpage .card-morph-inner {
+  content-visibility: hidden;
+}
+
+.expandable-card.is-open .card-fullpage {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  pointer-events: auto;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease 0.08s,
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0s linear 0s;
+}
+
+.card-morph-inner {
+  overflow: hidden;
+}
+
+/* Unified Zig-Zag Break Expander */
+.zig-break-btn {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(79, 70, 229, 0.14) 100%);
+  transition: background 0.3s ease;
+}
+
+.zig-break-btn:hover {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(99, 102, 241, 0.28) 100%);
+}
+
+.zig-line-svg {
+  width: 100%;
+  height: 14px;
+  color: rgba(99, 102, 241, 0.45);
+  transition: color 0.3s ease;
+}
+
+.zig-break-btn:hover .zig-line-svg {
+  color: rgba(56, 189, 248, 0.95);
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.zig-arrow-down {
+  animation: bounceDown 1.8s infinite ease-in-out;
+}
